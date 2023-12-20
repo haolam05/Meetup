@@ -1,7 +1,16 @@
-const router = require('express').Router();
+const router = require("express").Router();
+const { restoreUser } = require("../../utils/auth.js");
 
-router.post('/test', (req, res) => {
-  res.json({ requestBody: req.body });
+// Connect restoreUser middleware to the API router
+// If current user session is valid, set req.user to the user in the database
+// If current user session is not valid, set req.user to null
+router.use(restoreUser);
+
+// GET /csrf/restore
+router.get("/csrf/restore", (req, res) => {
+  const csrfToken = req.csrfToken();
+  res.cookie("XSRF-TOKEN", csrfToken);
+  res.status(200).json({ 'XSRF-Token': csrfToken });
 });
 
 module.exports = router;
