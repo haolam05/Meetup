@@ -9,7 +9,7 @@ const { environment } = require('./config');
 const isProduction = environment === 'production';
 const app = express();
 const routes = require('./routes');
-const { ValidationError } = require('sequelize');
+const globalErrorHandler = require('./controller/errorController');
 
 // Log information about request/response
 app.use(morgan('dev'));
@@ -55,29 +55,7 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-// Handle Sequelize errors
-app.use((err, _req, _res, next) => {
-  if (err instanceof ValidationError) {
-    let errors = {};
-    for (let error of err.errors) {
-      errors[error.path] = error.message;
-    }
-    err.title = 'Validation error';
-    err.errors = errors;
-  }
-  next(err);
-});
-
-// Error formatter
-app.use((err, _req, res, _next) => {
-  res.status(err.status || 500);
-  console.error(err);
-  res.json({
-    title: err.title || 'Server Error',
-    message: err.message,
-    errors: err.errors,
-    stack: isProduction ? null : err.stack
-  });
-});
+// Handle All Errors
+app.use(globalErrorHandler.bind(isProduction));
 
 module.exports = app;
