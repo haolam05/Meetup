@@ -12,7 +12,16 @@ module.exports = (sequelize, DataTypes) => {
           hooks: true,
           onDelete: 'cascade'
         }
-      )
+      );
+
+      User.belongsToMany(
+        models.Event,
+        {
+          through: models.Attendance,
+          foreignKey: 'userId',
+          otherKey: 'eventId'
+        }
+      );
     }
   };
 
