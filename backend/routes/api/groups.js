@@ -8,7 +8,8 @@ router.get('/:groupId', groupController.getGroup);
 
 router
   .route('/')
-  .get(groupController.getGroups);
+  .get(groupController.getGroups)
+  .post(requireAuth, groupController.createGroupValidation(), groupController.createGroup);
 
 
 module.exports = router;
