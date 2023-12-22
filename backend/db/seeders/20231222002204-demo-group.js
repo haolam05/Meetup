@@ -19,7 +19,7 @@ const userEmails = [
   'user1@user.io',
   'user1@user.io',
   'user2@user.io'
-]
+];
 
 const groups = [
   {
