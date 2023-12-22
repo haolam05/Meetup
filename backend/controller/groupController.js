@@ -1,6 +1,6 @@
 const { Group, GroupImage, Venue } = require('../db/models');
 
-async function getGroup(req, res) {
+async function getGroup(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
     include: [
       {
@@ -14,6 +14,13 @@ async function getGroup(req, res) {
       }
     ]
   });
+
+  if (!group) {
+    const err = new Error("Group couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
+
   res.json(group);
 }
 
