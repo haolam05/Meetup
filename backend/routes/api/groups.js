@@ -4,6 +4,7 @@ const groupController = require('../../controller/groupController');
 const { requireAuth } = require('../../controller/authController');
 
 router.get('/current', requireAuth, groupController.getGroupsOrganizedByCurrentUser);
+router.post('/:groupId/images', requireAuth, groupController.createGroupImage);
 router.get('/:groupId', groupController.getGroup);
 
 router
