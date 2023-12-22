@@ -1,6 +1,7 @@
 const { Group, GroupImage, Venue } = require('../db/models');
 const { check } = require('express-validator');
 const handleValidationErrors = require('../utils/validation');
+const { notFoundError, forbiddenError } = require('../utils/makeError');
 
 async function getGroup(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
@@ -18,8 +19,7 @@ async function getGroup(req, res, next) {
   });
 
   if (!group) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
+    const err = notFoundError("Group couldn't be found");
     return next(err);
   }
 
@@ -70,14 +70,12 @@ async function createGroupImage(req, res, next) {
   const group = await Group.findByPk(req.params.groupId);
 
   if (!group) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
+    const err = notFoundError("Group couldn't be found");
     return next(err);
   }
 
   if (group.organizerId !== req.user.id) {
-    const err = new Error("Forbidden");
-    err.status = 403;
+    const err = forbiddenError();
     return next(err);
   }
 
@@ -93,14 +91,12 @@ async function editGroup(req, res, next) {
   const group = await Group.findByPk(req.params.groupId);
 
   if (!group) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
+    const err = notFoundError("Group couldn't be found");
     return next(err);
   }
 
   if (group.organizerId !== req.user.id) {
-    const err = new Error("Forbidden");
-    err.status = 403;
+    const err = forbiddenError();
     return next(err);
   }
 
@@ -112,14 +108,12 @@ async function deleteGroup(req, res, next) {
   const group = await Group.findByPk(req.params.groupId);
 
   if (!group) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
+    const err = notFoundError("Group couldn't be found");
     return next(err);
   }
 
   if (group.organizerId !== req.user.id) {
-    const err = new Error("Forbidden");
-    err.status = 403;
+    const err = forbiddenError();
     return next(err);
   }
 
