@@ -23,11 +23,20 @@ const venueAddresses = [
   'Alki Beach, Seattle, WA 98116, United States of America'
 ];
 
+const eventNames = [
+  'One Piece Live Action',
+  'Anime Cosplay Festival',
+  'Monopoly',
+  'Chess Competition',
+  'League of Legends',
+  'Beach Volleyball'
+];
+
 const events = [
   {
     groupName: groupNames[0],
     venueAddress: venueAddresses[0],
-    name: 'One Piece Live Action',
+    name: eventNames[0],
     description: 'Watch One Piece Live Action series that was released by Netflix in 2023.',
     type: 'Online',
     capacity: 20,
@@ -38,7 +47,7 @@ const events = [
   {
     groupName: groupNames[0],
     venueAddress: venueAddresses[1],
-    name: 'Anime Cosplay Festival',
+    name: eventNames[1],
     description: 'Anime Cosplay includes One Piece, Naruto, Dragon Ball, Attack on Titan, etc.',
     type: 'In person',
     capacity: 20,
@@ -49,7 +58,7 @@ const events = [
   {
     groupName: groupNames[1],
     venueAddress: venueAddresses[2],
-    name: 'Monopoly',
+    name: eventNames[2],
     description: 'Playing a variety of monopoly varients. There is a gift for the winner who accumulates the most points.',
     type: 'In person',
     capacity: 50,
@@ -60,7 +69,7 @@ const events = [
   {
     groupName: groupNames[1],
     venueAddress: venueAddresses[3],
-    name: 'Chess Competition',
+    name: eventNames[3],
     description: 'Players will compete among different chess variants, including: international chess, chinese chess, and Fischer random chess.',
     type: 'In person',
     capacity: 100,
@@ -71,7 +80,7 @@ const events = [
   {
     groupName: groupNames[2],
     venueAddress: venueAddresses[4],
-    name: 'League of Legends',
+    name: eventNames[4],
     description: 'Playing League of Legends, and enjoy lots of free food. There are pizzas, ramens, and smoothies!',
     type: 'Online',
     capacity: 10,
@@ -82,7 +91,7 @@ const events = [
   {
     groupName: groupNames[3],
     venueAddress: venueAddresses[5],
-    name: 'Beach Volleyball',
+    name: eventNames[5],
     description: `Let's enjoy the sun on the beach and play professional volleyball.`,
     type: 'In person',
     capacity: 100,
@@ -111,9 +120,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    const groups = await Promise.all(groupNames.map(name => Group.findOne({ where: { name } })));
-    const groupIds = groups.map(group => group.id);
     options.tableName = 'Events';
-    await queryInterface.bulkDelete(options, { groupId: groupIds });
+    await queryInterface.bulkDelete(options, { name: eventNames });
   }
 };

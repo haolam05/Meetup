@@ -89,9 +89,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    const users = await Promise.all(userEmails.map(email => User.findOne({ where: { email } })));
-    const userIds = users.map(user => user.id);
     options.tableName = 'Memberships';
-    await queryInterface.bulkDelete(options, { userId: userIds });
+    await queryInterface.bulkDelete(options, { status: ['co-host', 'pending', 'member'] });
   }
 };
