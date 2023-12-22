@@ -41,7 +41,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       type: {
-        type: Sequelize.ENUM('Online', 'In person'),
+        type: Sequelize.STRING,
         allowNull: false
       },
       capacity: {

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasMany(
-        models.Book,
+        models.Group,
         {
           foreignKey: 'organizerId',
           hooks: true,
@@ -73,11 +73,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       }
     }, {
     sequelize,

@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     type: {
-      type: DataTypes.ENUM,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         isIn: {
