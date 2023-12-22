@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
-const { restoreUser } = require("../../controller/authController.js");
-const { restoreCSRF } = require('../../utils');
+const restoreCSRF = require('../../utils/restoreCSRF');
+const { restoreUser } = require("../../controller/authController");
 
 router.use(restoreUser);
 router.use('/session', sessionRouter);

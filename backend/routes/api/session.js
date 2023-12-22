@@ -4,7 +4,7 @@ const sessionController = require('../../controller/sessionController');
 
 router
   .route('/')
-  .post(sessionController.validateLogin, sessionController.login)
+  .post(sessionController.validateLogin(), sessionController.login)
   .delete(sessionController.logout)
   .get(sessionController.restoreSession);
 

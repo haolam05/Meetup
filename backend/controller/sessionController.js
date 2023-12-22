@@ -3,18 +3,20 @@ const { Op } = require('sequelize');
 const { setTokenCookie } = require('./authController');
 const { User } = require('../db/models');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../utils/validation');
+const handleValidationErrors = require('../utils/validation');
 
-const validateLogin = [
-  check('credential')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage('Email or username is required'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .withMessage('Password is required'),
-  handleValidationErrors
-];
+function validateLogin() {
+  return [
+    check('credential')
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage('Email or username is required'),
+    check('password')
+      .exists({ checkFalsy: true })
+      .withMessage('Password is required'),
+    handleValidationErrors
+  ];
+}
 
 async function login(req, res, next) {
   const { credential, password } = req.body;
