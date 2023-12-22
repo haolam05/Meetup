@@ -9,7 +9,8 @@ router.post('/:groupId/images', requireAuth, groupController.createGroupImage);
 router
   .route('/:groupId')
   .get(groupController.getGroup)
-  .put(requireAuth, groupController.createGroupValidation(), groupController.editGroup);
+  .put(requireAuth, groupController.createGroupValidation(), groupController.editGroup)
+  .delete(requireAuth, groupController.deleteGroup);
 
 router
   .route('/')

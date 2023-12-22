@@ -108,6 +108,25 @@ async function editGroup(req, res, next) {
   res.json(updatedGroup);
 }
 
+async function deleteGroup(req, res, next) {
+  const group = await Group.findByPk(req.params.groupId);
+
+  if (!group) {
+    const err = new Error("Group couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
+
+  if (group.organizerId !== req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    return next(err);
+  }
+
+  await group.destroy();
+  res.json({ message: 'Successfully deleted' });
+}
+
 async function _countNumMembersAndGetPreviewURL(groups) {
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
@@ -126,5 +145,6 @@ module.exports = {
   createGroupValidation,
   createGroup,
   createGroupImage,
-  editGroup
+  editGroup,
+  deleteGroup
 }
