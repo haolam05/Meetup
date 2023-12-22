@@ -8,9 +8,9 @@ if (process.env.NODE_ENV === 'production') {
 const { GroupImage, Group } = require('../models');
 
 const groupNames = [
-  'Morning Baseball on the Beach',
-  'Morning Baseball on the Beach',
-  'Morning Baseball on the Beach',
+  'Morning Volleyball on the Beach',
+  'Morning Volleyball on the Beach',
+  'Morning Volleyball on the Beach',
   'Video Games By Choice',
   'Video Games By Choice',
   'Creative Board Game',

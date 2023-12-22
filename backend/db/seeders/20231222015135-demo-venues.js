@@ -13,7 +13,7 @@ const groupNames = [
   'Creative Board Game',
   'Creative Board Game',
   'Video Games By Choice',
-  'Morning Baseball on the Beach'
+  'Morning Volleyball on the Beach'
 ];
 
 const addresses = [

@@ -11,7 +11,7 @@ const groupNames = [
   'Trending Animes',
   'Creative Board Game',
   'Video Games By Choice',
-  'Morning Baseball on the Beach'
+  'Morning Volleyball on the Beach'
 ];
 
 const userEmails = [
@@ -19,7 +19,7 @@ const userEmails = [
   'user1@user.io',
   'user2@user.io'
 ];
-// 'co-host', 'member', 'pending
+
 const memberships = [
   {
     userEmail: userEmails[0],

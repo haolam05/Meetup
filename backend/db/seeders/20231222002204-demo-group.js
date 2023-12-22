@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 const { Group, User } = require('../models');
 
 const groupNames = [
-  'Morning Baseball on the Beach',
+  'Morning Volleyball on the Beach',
   'Video Games By Choice',
   'Creative Board Game',
   'Trending Animes'
@@ -24,7 +24,7 @@ const userEmails = [
 const groups = [
   {
     name: groupNames[0],
-    about: 'Enjoy playing baseball with people with similar interest on the beautiful Alki beach',
+    about: 'Enjoy playing volleyball with people with similar interest on the beautiful Alki beach',
     type: 'In person',
     private: false,
     city: 'Seattle',
