@@ -1,6 +1,6 @@
 const { ValidationError } = require('sequelize');
 
-module.exports = (err, _req, res, _next) => {
+function globalErrorHandler(err, _req, res, _next) {
   if (err instanceof ValidationError) _handleValidationErrors(err);
 
   res.status(err.status || 500);
@@ -31,3 +31,5 @@ function _setValidationErrorMessage(err) {
     err.message = 'User already exists';
   }
 }
+
+module.exports = globalErrorHandler;
