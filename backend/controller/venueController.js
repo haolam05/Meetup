@@ -1,6 +1,7 @@
 const { Venue, Group } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
-const { Op } = require('sequelize');
+const { check } = require('express-validator');
+const handleValidationErrors = require('../utils/validation');
 
 async function getGroupVenues(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
@@ -12,22 +13,70 @@ async function getGroupVenues(req, res, next) {
     },
   });
 
-  if (!group) {
-    const err = notFoundError("Group couldn't be found");
-    return next(err);
-  }
-
-  if (group.organizerId != req.user.id) {
-    const members = await group.getMembers({ where: { id: req.user.id } });
-    if (!members.length || members[0].Membership.status != 'co-host') {
-      const err = forbiddenError();
-      return next(err);
-    }
-  }
+  const err = await _authenticate(group, req.user.id);
+  if (err) return next(err);
 
   res.json({ Venues: group.Venues });
 }
 
+function validateCreateVenue() {
+  return [
+    check('address')
+      .exists({ checkFalsy: true })
+      .withMessage('Street address is required'),
+    check('city')
+      .exists({ checkFalsy: true })
+      .withMessage('City is required'),
+    check('state')
+      .exists({ checkFalsy: true })
+      .withMessage('State is required'),
+    check('lat')
+      .isFloat({ min: -90, max: 90 })
+      .withMessage('Latitude must be within -90 and 90'),
+    check('lng')
+      .isFloat({ min: -180, max: 180 })
+      .withMessage('Longitude must be within -180 and 180'),
+    handleValidationErrors
+  ];
+}
+
+async function createGroupVenue(req, res, next) {
+  const group = await Group.findByPk(req.params.groupId);
+  const err = await _authenticate(group, req.user.id);
+
+  if (err) return next(err);
+  const newVenue = await group.createVenue(req.body);
+
+  res.json({
+    id: newVenue.id,
+    groupId: newVenue.groupId,
+    address: newVenue.address,
+    city: newVenue.city,
+    state: newVenue.state,
+    lat: newVenue.lat,
+    lng: newVenue.lng
+  });
+}
+
+async function _authenticate(group, userId) {
+  if (!group) {
+    const err = notFoundError("Group couldn't be found");
+    return err;
+  }
+
+  if (group.organizerId != userId) {
+    const members = await group.getMembers({ where: { id: userId } });
+    if (!members.length || members[0].Membership.status != 'co-host') {
+      const err = forbiddenError();
+      return err;
+    }
+  }
+
+  return null;
+}
+
 module.exports = {
-  getGroupVenues
+  getGroupVenues,
+  validateCreateVenue,
+  createGroupVenue
 }
