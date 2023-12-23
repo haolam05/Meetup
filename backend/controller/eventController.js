@@ -30,7 +30,7 @@ async function getGroupEvents(req, res, next) {
   res.json({ Events: events });
 }
 
-async function getEvents(req, res, next) {
+async function getEvents(_req, res) {
   const events = await Event.findAll({
     attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate'],
   });
@@ -48,7 +48,24 @@ async function getEvents(req, res, next) {
   res.json({ Events: events });
 }
 
+async function getEvent(req, res, next) {
+  const event = await Event.findByPk(req.params.eventId);
+
+  if (!event) {
+    const err = notFoundError("Event couldn't be found");
+    return next(err);
+  }
+
+  const numAttending = (await event.getUsers()).length;
+  const group = await Group.findByPk(event.groupId, { attributes: ['id', 'name', 'private', 'city', 'state'] });
+  const venue = await Venue.findByPk(event.venueId, { attributes: { exclude: ['groupId'] } });
+  const images = await event.getEventImages({ attributes: ['id', 'url', 'preview'] });
+
+  res.json({ ...event.toJSON(), numAttending, Group: group, Venue: venue, EventImages: images });
+}
+
 module.exports = {
   getGroupEvents,
-  getEvents
+  getEvents,
+  getEvent
 }
