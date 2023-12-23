@@ -30,6 +30,25 @@ async function getGroupEvents(req, res, next) {
   res.json({ Events: events });
 }
 
+async function getEvents(req, res, next) {
+  const events = await Event.findAll({
+    attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate'],
+  });
+
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i]
+    const numAttending = (await event.getUsers()).length;
+    const previewImages = await event.getEventImages({ where: { preview: true } });
+    const previewImage = previewImages.length ? previewImages[0].url : 'Preview Image Not Found';
+    const group = await Group.findByPk(event.groupId, { attributes: ['id', 'name', 'city', 'state'] });
+    const venue = await Venue.findByPk(event.venueId, { attributes: ['id', 'city', 'state'] });
+    events[i] = { ...event.toJSON(), numAttending, previewImage, Group: group, Venue: venue || null };
+  }
+
+  res.json({ Events: events });
+}
+
 module.exports = {
-  getGroupEvents
+  getGroupEvents,
+  getEvents
 }
