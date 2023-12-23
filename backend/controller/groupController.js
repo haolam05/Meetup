@@ -1,7 +1,7 @@
 const { Group, GroupImage, Venue } = require('../db/models');
 const { check } = require('express-validator');
-const handleValidationErrors = require('../utils/validation');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
+const handleValidationErrors = require('../utils/validation');
 
 async function getGroup(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
