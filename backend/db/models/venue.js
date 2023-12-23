@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       Venue.belongsTo(
         models.Group,
         {
-          foreignKey: 'groupId'
+          foreignKey: 'groupId',
+          as: 'GroupOwner'
         }
       );
 
@@ -22,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         {
           through: models.Event,
           foreignKey: 'venueId',
-          otherKey: 'groupId'
+          otherKey: 'groupId',
+          as: 'Events'
         }
       );
     }

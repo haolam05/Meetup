@@ -58,6 +58,22 @@ async function createGroupVenue(req, res, next) {
   });
 }
 
+async function editVenue(req, res, next) {
+  const venue = await Venue.findByPk(req.params.venueId);
+
+  if (!venue) {
+    const err = notFoundError("Venue couldn't be found");
+    return next(err);
+  }
+
+  const group = await venue.getGroupOwner();
+  const err = await _authenticate(group, req.user.id);
+  if (err) return next(err);
+
+  const updatedVenue = await venue.update(req.body, { attributes: { exclude: ['updatedAt'] } });
+  res.json(updatedVenue);
+}
+
 async function _authenticate(group, userId) {
   if (!group) {
     const err = notFoundError("Group couldn't be found");
@@ -78,5 +94,6 @@ async function _authenticate(group, userId) {
 module.exports = {
   getGroupVenues,
   validateCreateVenue,
-  createGroupVenue
+  createGroupVenue,
+  editVenue
 }

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const groupController = require('../../controller/groupController');
-const venueRouter = require('./venues');
+const venuesRouter = require('./venues');
 const { requireAuth } = require('../../controller/authController');
 
-router.use('/:groupId/venues', requireAuth, venueRouter);
+router.use('/:groupId/venues', requireAuth, venuesRouter);
 router.get('/current', requireAuth, groupController.getGroupsOrganizedByCurrentUser);
 router.post('/:groupId/images', requireAuth, groupController.createGroupImage);
 
