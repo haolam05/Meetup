@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 const eventController = require('../../controller/eventController');
 const eventImagesRouter = require('./eventImages');
+const attendeesRouter = require('./attendees');
 const { requireAuth } = require('../../controller/authController');
 
 router
@@ -16,5 +17,6 @@ router
   .delete(requireAuth, eventController.deleteEvent);
 
 router.use('/:eventId/images', eventImagesRouter);
+router.use('/:eventId/attendees', attendeesRouter);
 
 module.exports = router;
