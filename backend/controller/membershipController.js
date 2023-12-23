@@ -1,6 +1,9 @@
-const { Membership, Group } = require('../db/models');
-const { notFoundError } = require('../utils/makeError');
+const { check } = require('express-validator');
+const { Membership, Group, User } = require('../db/models');
+const { notFoundError, forbiddenError } = require('../utils/makeError');
+const { Op } = require('sequelize');
 const checkUserRole = require('../utils/userRoleAuthorization');
+const handleValidationErrors = require('../utils/validation');
 
 async function getGroupMembers(req, res, next) {
   const group = await Group.findByPk(req.params.groupId);
@@ -40,12 +43,77 @@ async function createMember(req, res, next) {
 
   const newMember = await Membership.create({ userId: req.user.id, groupId: group.id, status: 'pending' });
   res.json({
-    memberId: newMember.id,
+    memberId: newMember.userId,
     status: newMember.status
+  });
+}
+
+function updateMemberValidation() {
+  return [
+    check('status')
+      .isIn(['member', 'co-host'])
+      .withMessage('Status must be member or co-host'),
+    check('status')
+      .custom(val => {
+        if (val === 'pending') throw new Error('Cannot change a membership status to pending');
+        return true;
+      }),
+    handleValidationErrors
+  ];
+}
+
+async function updateMember(req, res, next) {
+  const user = await User.findByPk(req.body.memberId);
+  if (!user) {
+    const err = notFoundError("User couldn't be found");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(req.params.groupId);
+  if (!group) {
+    const err = notFoundError("Group couldn't be found");
+    return next(err);
+  }
+
+  const membership = await Membership.findOne({
+    where: {
+      [Op.and]: [
+        { userId: user.id },
+        { groupId: group.id }
+      ]
+    }
+  });
+
+  if (!membership) {
+    const err = notFoundError("Membership between the user and the group does not exist");
+    return next(err);
+  }
+
+  let updatedMembership;
+  if (membership.status === 'member' && req.body.status === 'co-host' && group.organizerId === req.user.id) {
+    updatedMembership = await membership.update({ status: 'co-host' });
+  }
+  if (membership.status === 'pending' && req.body.status === 'member') {
+    const notAuthorized = await checkUserRole(group, req.user.id);
+    if (notAuthorized === null) updatedMembership = await membership.update({ status: 'member' });
+  }
+
+  if (!updatedMembership) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  res.json({
+    id: updatedMembership.id,
+    groupId: updatedMembership.groupId,
+    memberId: updatedMembership.userId,
+    staus: updatedMembership.status
   });
 }
 
 module.exports = {
   getGroupMembers,
-  createMember
+  createMember,
+  updateMemberValidation,
+  updateMember
 }

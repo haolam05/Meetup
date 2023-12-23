@@ -6,6 +6,7 @@ const { requireAuth } = require('../../controller/authController');
 router
   .route('/')
   .get(membershipController.getGroupMembers)
-  .post(requireAuth, membershipController.createMember);
+  .post(requireAuth, membershipController.createMember)
+  .put(requireAuth, membershipController.updateMemberValidation(), membershipController.updateMember);
 
 module.exports = router;
