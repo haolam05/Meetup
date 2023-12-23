@@ -111,9 +111,45 @@ async function updateMember(req, res, next) {
   });
 }
 
+async function deleteMember(req, res, next) {
+  const user = await User.findByPk(req.params.memberId);
+  if (!user) {
+    const err = notFoundError("User couldn't be found");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(req.params.groupId);
+  if (!group) {
+    const err = notFoundError("Group couldn't be found");
+    return next(err);
+  }
+
+  const membership = await Membership.findOne({
+    where: {
+      [Op.and]: [
+        { userId: user.id },
+        { groupId: group.id }
+      ]
+    }
+  });
+  if (!membership) {
+    const err = notFoundError("Membership does not exist for this User");
+    return next(err);
+  }
+
+  if (group.organizerId !== req.user.id && req.user.id !== user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  await membership.destroy();
+  res.json({ message: 'Successfully deleted membership from the group' });
+}
+
 module.exports = {
   getGroupMembers,
   createMember,
   updateMemberValidation,
-  updateMember
+  updateMember,
+  deleteMember
 }

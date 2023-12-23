@@ -9,4 +9,6 @@ router
   .post(requireAuth, membershipController.createMember)
   .put(requireAuth, membershipController.updateMemberValidation(), membershipController.updateMember);
 
+router.delete('/:memberId', requireAuth, membershipController.deleteMember);
+
 module.exports = router;
