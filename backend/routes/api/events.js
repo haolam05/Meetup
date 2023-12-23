@@ -17,6 +17,6 @@ router
   .delete(requireAuth, eventController.deleteEvent);
 
 router.use('/:eventId/images', eventImagesRouter);
-router.use('/:eventId/attendees', attendeesRouter);
+router.use(['/:eventId/attendees', '/:eventId/attendance'], attendeesRouter);
 
 module.exports = router;
