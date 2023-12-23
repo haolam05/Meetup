@@ -3,6 +3,7 @@ const router = express.Router();
 const groupController = require('../../controller/groupController');
 const venuesRouter = require('./venues');
 const eventsRouter = require('./events');
+const membershipsRouter = require('./memberships');
 const eventController = require('../../controller/eventController');
 const { requireAuth } = require('../../controller/authController');
 
@@ -12,6 +13,7 @@ router.post('/:groupId/images', requireAuth, groupController.createGroupImage);
 
 router.use('/:groupId/venues', requireAuth, venuesRouter);
 router.use('/:groupId/events', requireAuth, eventsRouter);
+router.use('/:groupId/members', membershipsRouter);
 
 router
   .route('/:groupId')
