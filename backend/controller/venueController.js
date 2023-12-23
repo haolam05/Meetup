@@ -1,7 +1,8 @@
 const { Venue, Group } = require('../db/models');
-const { notFoundError, forbiddenError } = require('../utils/makeError');
+const { notFoundError } = require('../utils/makeError');
 const { check } = require('express-validator');
 const handleValidationErrors = require('../utils/validation');
+const checkUserRole = require('../utils/userRoleAuthorization');
 
 async function getGroupVenues(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
@@ -13,7 +14,7 @@ async function getGroupVenues(req, res, next) {
     },
   });
 
-  const err = await _authenticate(group, req.user.id);
+  const err = await checkUserRole(group, req.user.id);
   if (err) return next(err);
 
   res.json({ Venues: group.Venues });
@@ -42,7 +43,7 @@ function validateCreateVenue() {
 
 async function createGroupVenue(req, res, next) {
   const group = await Group.findByPk(req.params.groupId);
-  const err = await _authenticate(group, req.user.id);
+  const err = await checkUserRole(group, req.user.id);
 
   if (err) return next(err);
   const newVenue = await group.createVenue(req.body);
@@ -67,28 +68,11 @@ async function editVenue(req, res, next) {
   }
 
   const group = await venue.getGroupOwner();
-  const err = await _authenticate(group, req.user.id);
+  const err = await checkUserRole(group, req.user.id);
   if (err) return next(err);
 
   const updatedVenue = await venue.update(req.body, { attributes: { exclude: ['updatedAt'] } });
   res.json(updatedVenue);
-}
-
-async function _authenticate(group, userId) {
-  if (!group) {
-    const err = notFoundError("Group couldn't be found");
-    return err;
-  }
-
-  if (group.organizerId != userId) {
-    const members = await group.getMembers({ where: { id: userId } });
-    if (!members.length || members[0].Membership.status != 'co-host') {
-      const err = forbiddenError();
-      return err;
-    }
-  }
-
-  return null;
 }
 
 module.exports = {

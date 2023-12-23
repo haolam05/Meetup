@@ -1,5 +1,8 @@
 const { Event, Group, Venue } = require('../db/models');
 const { notFoundError } = require('../utils/makeError');
+const { check } = require('express-validator');
+const handleValidationErrors = require('../utils/validation');
+const checkUserRole = require('../utils/userRoleAuthorization');
 
 async function getGroupEvents(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
@@ -64,8 +67,74 @@ async function getEvent(req, res, next) {
   res.json({ ...event.toJSON(), numAttending, Group: group, Venue: venue, EventImages: images });
 }
 
+function createEventValidation() {
+  return [
+    check('name')
+      .isLength({ min: 5 })
+      .withMessage('Name must be at least 5 characters'),
+    check('type')
+      .isIn(['Online', 'In person'])
+      .withMessage("Type must be Online or In person"),
+    check('capacity')
+      .isInt({ min: 1 })
+      .withMessage('Capacity must be an integer'),
+    check('price')
+      .isFloat({ min: 1 })
+      .withMessage('Price is invalid'),
+    check('description')
+      .exists({ checkFalsy: true })
+      .withMessage('Description is required'),
+    check('startDate')
+      .custom(val => {
+        if (new Date(val).getTime() < Date.now()) throw new Error('Start date must be in the future')
+        return true
+      }),
+    check('endDate')
+      .custom((val, { req }) => {
+        if (new Date(val).getTime() < new Date(req.body.startDate).getTime()) throw new Error('End date is lss than start date');
+        return true
+      }),
+    handleValidationErrors
+  ];
+}
+
+async function createEvent(req, res, next) {
+  const group = await Group.findByPk(req.params.groupId);
+  const venue = await Venue.findByPk(req.body.venueId);
+
+  if (!group) {
+    const err = notFoundError("Group couldn't be found");
+    return next(err);
+  }
+
+  if (!venue) {
+    const err = notFoundError("Venue couldn't be found");
+    return next(err);
+  }
+
+  const err = await checkUserRole(group, req.user.id);
+  if (err) return next(err);
+
+  const newEvent = await Event.create({ ...req.body, groupId: req.params.groupId });
+
+  res.json({
+    id: newEvent.id,
+    groupId: newEvent.groupId,
+    venueId: newEvent.venueId,
+    name: newEvent.name,
+    type: newEvent.type,
+    capacity: newEvent.capacity,
+    price: newEvent.price,
+    description: newEvent.description,
+    startDate: newEvent.startDate,
+    endDate: newEvent.endDate
+  });
+}
+
 module.exports = {
   getGroupEvents,
   getEvents,
-  getEvent
+  getEvent,
+  createEventValidation,
+  createEvent
 }
