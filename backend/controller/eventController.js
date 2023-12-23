@@ -1,6 +1,7 @@
 const { Event, Group, Venue } = require('../db/models');
 const { notFoundError } = require('../utils/makeError');
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
+const { Op } = require('sequelize');
 const handleValidationErrors = require('../utils/validation');
 const checkUserRole = require('../utils/userRoleAuthorization');
 
@@ -33,10 +34,48 @@ async function getGroupEvents(req, res, next) {
   res.json({ Events: events });
 }
 
-async function getEvents(_req, res) {
-  const events = await Event.findAll({
+function getEventsQueryValidation() {
+  return [
+    query('page')
+      .optional({ checkFalsy: true })
+      .isInt({ min: 1 })
+      .withMessage('Page must be greater than or equal to 1'),
+    query('size')
+      .optional({ checkFalsy: true })
+      .isInt({ min: 1 })
+      .withMessage('Size must be greater than or equal to 1'),
+    query('name')
+      .optional({ checkFalsy: true })
+      .custom(val => val.split('').every(ch => ' abcdefghijklmnopqrstuvwxyz'.includes(ch.toLowerCase())))
+      .withMessage('Name must be a string'),
+    query('type')
+      .optional({ checkFalsy: true })
+      .isIn(['Online', 'In person'])
+      .withMessage("Type must be 'Online' or 'In person'"),
+    query('startDate')
+      .optional({ checkFalsy: true })
+      .isISO8601()
+      .toDate()
+      .withMessage('Start date must be a valid datetime'),
+    handleValidationErrors
+  ];
+}
+
+async function getEvents(req, res) {
+  const page = req.query.page === undefined ? 1 : +req.query.page;
+  const size = req.query.size === undefined ? 20 : +req.query.size;
+  const query = {
     attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate'],
-  });
+    limit: size,
+    offset: (page - 1) * size,
+    where: {}
+  };
+
+  if (req.query.name) query.where.name = { [Op.like]: `%${req.query.name}%` };
+  if (req.query.type) query.where.type = req.query.type;
+  if (req.query.startDate) query.where.startDate = req.query.startDate;
+
+  const events = await Event.findAll(query);
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
@@ -91,7 +130,7 @@ function createEventValidation() {
       }),
     check('endDate')
       .custom((val, { req }) => {
-        if (new Date(val).getTime() < new Date(req.body.startDate).getTime()) throw new Error('End date is lss than start date');
+        if (new Date(val).getTime() < new Date(req.body.startDate).getTime()) throw new Error('End date is less than start date');
         return true
       }),
     handleValidationErrors
@@ -176,5 +215,6 @@ module.exports = {
   createEventValidation,
   createEvent,
   editEvent,
-  deleteEvent
+  deleteEvent,
+  getEventsQueryValidation
 }

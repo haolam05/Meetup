@@ -7,7 +7,7 @@ const { requireAuth } = require('../../controller/authController');
 
 router
   .route('/')
-  .get(eventController.getEvents)
+  .get(eventController.getEventsQueryValidation(), eventController.getEvents)
   .post(eventController.createEventValidation(), eventController.createEvent);
 
 router
