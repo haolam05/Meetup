@@ -40,7 +40,7 @@ const events = [
     description: 'Watch One Piece Live Action series that was released by Netflix in 2023.',
     type: 'Online',
     capacity: 20,
-    price: 555,
+    price: 55.5,
     startDate: '2023-12-24',
     endDate: '2023-12-28'
   },
@@ -51,7 +51,7 @@ const events = [
     description: 'Anime Cosplay includes One Piece, Naruto, Dragon Ball, Attack on Titan, etc.',
     type: 'In person',
     capacity: 20,
-    price: 666,
+    price: 66.6,
     startDate: '2023-12-29',
     endDate: '2024-01-01'
   },
@@ -62,7 +62,7 @@ const events = [
     description: 'Playing a variety of monopoly varients. There is a gift for the winner who accumulates the most points.',
     type: 'In person',
     capacity: 50,
-    price: 777,
+    price: 77.7,
     startDate: '2024-06-06',
     endDate: '2024-06-09'
   },
@@ -73,7 +73,7 @@ const events = [
     description: 'Players will compete among different chess variants, including: international chess, chinese chess, and Fischer random chess.',
     type: 'In person',
     capacity: 100,
-    price: 999,
+    price: 99.9,
     startDate: '2023-12-01',
     endDate: '2024-03-01'
   },
@@ -84,7 +84,7 @@ const events = [
     description: 'Playing League of Legends, and enjoy lots of free food. There are pizzas, ramens, and smoothies!',
     type: 'Online',
     capacity: 10,
-    price: 222,
+    price: 22.2,
     startDate: '2024-02-03',
     endDate: '2024-02-04'
   },
@@ -95,7 +95,7 @@ const events = [
     description: `Let's enjoy the sun on the beach and play professional volleyball.`,
     type: 'In person',
     capacity: 100,
-    price: 333,
+    price: 33.3,
     startDate: '2023-12-01',
     endDate: '2023-12-02'
   },

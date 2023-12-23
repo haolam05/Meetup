@@ -50,7 +50,7 @@ const attendances = [
   },
   {
     eventName: eventNames[2],
-    userEmail: userEmails[1],
+    userEmail: userEmails[2],
     status: 'waitlist'
   },
   {
@@ -65,7 +65,7 @@ const attendances = [
   },
   {
     eventName: eventNames[4],
-    userEmail: userEmails[1],
+    userEmail: userEmails[2],
     status: 'attending'
   },
   {

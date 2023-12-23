@@ -1,7 +1,9 @@
-const { Attendance, Event, Group } = require('../db/models');
+const { Attendance, Event, Group, User } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const { Op } = require('sequelize');
+const { check } = require('express-validator');
 const checkUserRole = require('../utils/userRoleAuthorization');
+const handleValidationErrors = require('../utils/validation');
 
 async function getEventAttendees(req, res, next) {
   const event = await Event.findByPk(req.params.eventId);
@@ -61,7 +63,57 @@ async function createEventAttendance(req, res, next) {
   });
 }
 
+function updateAttendanceValidation() {
+  return [
+    check('status')
+      .isIn(['attending', 'waitlist'])
+      .withMessage('Status must be attending or waitlist'),
+    check('status')
+      .custom(val => {
+        if (val === 'pending') throw new Error('Cannot change an attendance status to pending');
+        return true;
+      }),
+    handleValidationErrors
+  ];
+}
+
+async function updateEventAttendance(req, res, next) {
+  const user = await User.findByPk(req.body.userId);
+  if (!user) {
+    const err = notFoundError("User couldn't be found");
+    return next(err);
+  }
+
+  const event = await Event.findByPk(req.params.eventId);
+  if (!event) {
+    const err = notFoundError("Event couldn't be found");
+    return next(err);
+  }
+
+  const attendance = await Attendance.findOne({
+    where: {
+      [Op.and]: [
+        { userId: user.id },
+        { eventId: event.id }
+      ]
+    }
+  })
+  if (!attendance) {
+    const err = notFoundError("Attendance between the user and the event does not exist");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(event.groupId);
+  const err = await checkUserRole(group, req.user.id);
+  if (err) return next(err);
+
+  const updatedAttendance = await attendance.update({ status: req.body.status });
+  res.json(updatedAttendance);
+}
+
 module.exports = {
   getEventAttendees,
-  createEventAttendance
+  createEventAttendance,
+  updateAttendanceValidation,
+  updateEventAttendance
 }

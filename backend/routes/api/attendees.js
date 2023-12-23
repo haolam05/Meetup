@@ -6,6 +6,7 @@ const { requireAuth } = require('../../controller/authController');
 router
   .route('/')
   .get(attendeeController.getEventAttendees)
-  .post(requireAuth, attendeeController.createEventAttendance);
+  .post(requireAuth, attendeeController.createEventAttendance)
+  .put(requireAuth, attendeeController.updateAttendanceValidation(), attendeeController.updateEventAttendance);
 
 module.exports = router;
