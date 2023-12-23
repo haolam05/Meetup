@@ -153,11 +153,28 @@ async function editEvent(req, res, next) {
   res.json(updatedEvent);
 }
 
+async function deleteEvent(req, res, next) {
+  const event = await Event.findByPk(req.params.eventId);
+
+  if (!event) {
+    const err = notFoundError("Event couldn't be found");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(event.groupId);
+  const err = await checkUserRole(group, req.user.id);
+  if (err) return next(err);
+
+  await event.destroy();
+  res.json({ message: 'Sucessfully deleted' });
+}
+
 module.exports = {
   getGroupEvents,
   getEvents,
   getEvent,
   createEventValidation,
   createEvent,
-  editEvent
+  editEvent,
+  deleteEvent
 }

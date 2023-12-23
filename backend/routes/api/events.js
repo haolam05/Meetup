@@ -12,7 +12,8 @@ router
 router
   .route('/:eventId')
   .get(eventController.getEvent)
-  .put(requireAuth, eventController.createEventValidation(), eventController.editEvent);
+  .put(requireAuth, eventController.createEventValidation(), eventController.editEvent)
+  .delete(requireAuth, eventController.deleteEvent);
 
 router.use('/:eventId/images', eventImagesRouter);
 
