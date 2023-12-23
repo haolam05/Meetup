@@ -131,10 +131,33 @@ async function createEvent(req, res, next) {
   });
 }
 
+async function editEvent(req, res, next) {
+  const event = await Event.findByPk(req.params.eventId);
+  const venue = await Venue.findByPk(req.body.venueId);
+
+  if (!venue) {
+    const err = notFoundError("Venue couldn't be found");
+    return next(err);
+  }
+
+  if (!event) {
+    const err = notFoundError("Event couldn't be found");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(event.groupId);
+  const err = await checkUserRole(group, req.user.id);
+  if (err) return next(err);
+
+  const updatedEvent = await event.update(req.body, { attributes: { exclude: ['updatedAt'] } });
+  res.json(updatedEvent);
+}
+
 module.exports = {
   getGroupEvents,
   getEvents,
   getEvent,
   createEventValidation,
-  createEvent
+  createEvent,
+  editEvent
 }

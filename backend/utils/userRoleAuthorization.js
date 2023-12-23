@@ -1,4 +1,4 @@
-const { forbiddenError } = require('./makeError');
+const { notFoundError, forbiddenError } = require('./makeError');
 
 async function checkUserRole(group, userId) {
   if (!group) {
