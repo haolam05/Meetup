@@ -13,7 +13,7 @@ router.post('/:groupId/images', requireAuth, groupController.createGroupImage);
 
 router.use('/:groupId/venues', requireAuth, venuesRouter);
 router.use('/:groupId/events', requireAuth, eventsRouter);
-router.use('/:groupId/members', membershipsRouter);
+router.use(['/:groupId/members', '/:groupId/membership'], membershipsRouter);
 
 router
   .route('/:groupId')
