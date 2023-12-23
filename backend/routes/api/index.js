@@ -4,6 +4,7 @@ const usersRouter = require('./users');
 const groupsRouter = require('./groups');
 const venuesRouter = require('./venues');
 const eventsRouter = require('./events');
+const eventImagesRouter = require('./eventImages');
 const restoreCSRF = require('../../utils/restoreCSRF');
 const { restoreUser } = require("../../controller/authController");
 
@@ -13,6 +14,7 @@ router.use('/users', usersRouter);
 router.use('/groups', groupsRouter);
 router.use('/venues', venuesRouter);
 router.use('/events', eventsRouter);
+router.use('/event-images', eventImagesRouter);
 router.get("/csrf/restore", restoreCSRF);
 
 module.exports = router;
