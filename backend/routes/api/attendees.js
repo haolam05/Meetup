@@ -9,4 +9,6 @@ router
   .post(requireAuth, attendeeController.createEventAttendance)
   .put(requireAuth, attendeeController.updateAttendanceValidation(), attendeeController.updateEventAttendance);
 
+router.delete('/:userId', requireAuth, attendeeController.deleteAttendance);
+
 module.exports = router;

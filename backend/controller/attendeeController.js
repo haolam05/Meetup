@@ -97,7 +97,7 @@ async function updateEventAttendance(req, res, next) {
         { eventId: event.id }
       ]
     }
-  })
+  });
   if (!attendance) {
     const err = notFoundError("Attendance between the user and the event does not exist");
     return next(err);
@@ -111,9 +111,46 @@ async function updateEventAttendance(req, res, next) {
   res.json(updatedAttendance);
 }
 
+async function deleteAttendance(req, res, next) {
+  const user = await User.findByPk(req.params.userId);
+  if (!user) {
+    const err = notFoundError("User couldn't be found");
+    return next(err);
+  }
+
+  const event = await Event.findByPk(req.params.eventId);
+  if (!event) {
+    const err = notFoundError("Event couldn't be found");
+    return next(err);
+  }
+
+  const attendance = await Attendance.findOne({
+    where: {
+      [Op.and]: [
+        { userId: user.id },
+        { eventId: event.id }
+      ]
+    }
+  });
+  if (!attendance) {
+    const err = notFoundError("Attendance does not exist for this User");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(event.groupId);
+  if (group.organizerId !== req.user.id && req.user.id !== user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  await attendance.destroy();
+  res.json({ message: 'Successfully deleted attendance from event' });
+}
+
 module.exports = {
   getEventAttendees,
   createEventAttendance,
   updateAttendanceValidation,
-  updateEventAttendance
+  updateEventAttendance,
+  deleteAttendance
 }
