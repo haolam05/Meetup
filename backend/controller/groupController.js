@@ -48,9 +48,11 @@ async function getGroupsOrganizedByCurrentUser(req, res) {
 function createGroupValidation() {
   return [
     check('name')
+      .exists({ checkFalsy: true })
       .isLength({ max: 60 })
       .withMessage('Name must be 60 characters or less'),
     check('about')
+      .exists({ checkFalsy: true })
       .isLength({ min: 50 })
       .withMessage('About must be 50 characters or more'),
     check('type')
