@@ -107,7 +107,7 @@ async function updateEventAttendance(req, res, next) {
   const err = await checkUserRole(group, req.user.id);
   if (err) return next(err);
 
-  const updatedAttendance = await attendance.update({ status: req.body.status });
+  const updatedAttendance = await attendance.update({ status: req.body.status, attributes: { exclude: ['updatedAt'] } });
   res.json(updatedAttendance);
 }
 
