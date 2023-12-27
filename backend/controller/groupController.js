@@ -23,13 +23,14 @@ async function getGroup(req, res, next) {
     ]
   });
 
-  const numMembers = (await group.getMembers()).length;
-  group = { ...group.toJSON(), numMembers };
 
   if (!group) {
     const err = notFoundError("Group couldn't be found");
     return next(err);
   }
+
+  const numMembers = (await group.getMembers()).length;
+  group = { ...group.toJSON(), numMembers };
 
   res.json(group);
 }
