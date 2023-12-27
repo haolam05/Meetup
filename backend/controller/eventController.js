@@ -124,11 +124,15 @@ function createEventValidation() {
       .exists({ checkFalsy: true })
       .withMessage('Description is required'),
     check('startDate')
+      .exists({ checkFalsy: true })
+      .withMessage('startDate is required')
       .custom(val => {
         if (new Date(val).getTime() < Date.now()) throw new Error('Start date must be in the future')
         return true
       }),
     check('endDate')
+      .exists({ checkFalsy: true })
+      .withMessage('endDate is required')
       .custom((val, { req }) => {
         if (new Date(val).getTime() < new Date(req.body.startDate).getTime()) throw new Error('End date is less than start date');
         return true

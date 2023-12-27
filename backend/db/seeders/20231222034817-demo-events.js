@@ -15,11 +15,11 @@ const groupNames = [
 ];
 
 const venueAddresses = [
-  'Tennessee Performing Arts Center (TPAC), 505 Deaderick Street, Nashville-Davidson, TN 37219, United States of America',
+  null, // 'Tennessee Performing Arts Center (TPAC), 505 Deaderick Street, Nashville-Davidson, TN 37219, United States of America',
   'Grand Ole Opry House, 2804 Opryland Drive, Nashville-Davidson, TN 37214, United States of America',
   '234 George Street',
   '345 Bob Street',
-  '456 Sara Street',
+  null, // '456 Sara Street',
   'Alki Beach, Seattle, WA 98116, United States of America'
 ];
 
@@ -112,7 +112,7 @@ module.exports = {
       const group = await Group.findOne({ where: { name: groupName } });
       const venue = await Venue.findOne({ where: { address: venueAddress } });
       event.groupId = group.id;
-      event.venueId = venue.id;
+      event.venueId = venue ? venue.id : null;
       event.startDate = new Date(event.startDate);
       event.endDate = new Date(event.endDate);
     }

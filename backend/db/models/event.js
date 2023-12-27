@@ -38,7 +38,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     venueId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      valid(val) {
+        if (val === null && this.type !== 'Online') throw new Error('Venue must be null for online events');
+        if (val !== null && type === 'Online') throw new Error("Venue couldn't be null for in person events");
+      }
     },
     groupId: {
       type: DataTypes.INTEGER,
