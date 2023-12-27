@@ -20,7 +20,7 @@ const urls = [
   'https://wallpapers.com/images/featured-full/one-piece-pictures-bjm9tdff9yzguoup.jpg',
   'https://wallpapers.com/images/high/one-piece-pictures-0ubzj7u8rx805ydb.webp',
   'https://wallpapers.com/images/high/one-piece-pictures-22cqxo2cws8nh3hk.webp',
-  'https://scontent-sea1-1.xx.fbcdn.net/v/t39.30808-6/218065279_368847947941314_2725135943782805192_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=P_MRm1FuCxsAX8kGTyP&_nc_ht=scontent-sea1-1.xx&oh=00_AfD1tylWJH0jF3fgb_hrdBYSDPKUNJY7lqdkOE0slcvGaw&oe=658A9805',
+  'https://scontent-sea1-1.xx.fbcdn.net/v/t39.30808-6/218065279_368847947941314_2725135943782805192_n.jpg',
   'https://wallpapers.com/images/high/monopoly-it-edition-hzkwq66wg7mwp9x5.webp',
   'https://wallpapers.com/images/high/plastic-chess-black-white-nwjq6u60qsrp6dw1.webp',
   'https://wallpapers.com/images/high/league-of-legends-dual-screen-3wyyss0c0w9f74ri.webp',
