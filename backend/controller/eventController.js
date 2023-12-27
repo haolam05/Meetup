@@ -28,7 +28,7 @@ async function getGroupEvents(req, res, next) {
     const numAttending = (await event.getUsers()).length;
     const previewImages = await event.getEventImages({ where: { preview: true } });
     const previewImage = previewImages.length ? previewImages[0].url : 'Preview Image Not Found';
-    events[i] = { ...event.toJSON(), numAttending, previewImage, Group: group, Venue: venue || null };
+    events[i] = { ...event.toJSON(), numAttending, previewImage, Group: group, Venue: venue };
   };
 
   res.json({ Events: events });
@@ -84,7 +84,7 @@ async function getEvents(req, res) {
     const previewImage = previewImages.length ? previewImages[0].url : 'Preview Image Not Found';
     const group = await Group.findByPk(event.groupId, { attributes: ['id', 'name', 'city', 'state'] });
     const venue = await Venue.findByPk(event.venueId, { attributes: ['id', 'city', 'state'] });
-    events[i] = { ...event.toJSON(), numAttending, previewImage, Group: group, Venue: venue || null };
+    events[i] = { ...event.toJSON(), numAttending, previewImage, Group: group, Venue: venue };
   }
 
   res.json({ Events: events });
