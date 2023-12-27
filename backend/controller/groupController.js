@@ -1,13 +1,18 @@
-const { Group, GroupImage, Venue } = require('../db/models');
+const { Group, GroupImage, Venue, User, Membership } = require('../db/models');
 const { check } = require('express-validator');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const handleValidationErrors = require('../utils/validation');
 
 async function getGroup(req, res, next) {
-  const group = await Group.findByPk(req.params.groupId, {
+  let group = await Group.findByPk(req.params.groupId, {
     include: [
       {
         model: GroupImage
+      },
+      {
+        model: User,
+        as: 'Organizer',
+        attributes: ['id', 'firstName', 'lastName']
       },
       {
         model: Venue,
@@ -17,6 +22,9 @@ async function getGroup(req, res, next) {
       }
     ]
   });
+
+  const numMembers = (await group.getMembers()).length;
+  group = { ...group.toJSON(), numMembers };
 
   if (!group) {
     const err = notFoundError("Group couldn't be found");
