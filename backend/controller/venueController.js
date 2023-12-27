@@ -71,8 +71,17 @@ async function editVenue(req, res, next) {
   const err = await checkUserRole(group, req.user.id);
   if (err) return next(err);
 
-  const updatedVenue = await venue.update(req.body, { attributes: { exclude: ['updatedAt'] } });
-  res.json(updatedVenue);
+  const updatedVenue = await venue.update(req.body);
+
+  res.json({
+    id: updatedVenue.id,
+    groupId: updatedVenue.groupId,
+    address: updatedVenue.address,
+    city: updatedVenue.city,
+    state: updatedVenue.state,
+    lat: updatedVenue.lat,
+    lng: updatedVenue.lng
+  });
 }
 
 module.exports = {
