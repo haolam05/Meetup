@@ -90,7 +90,7 @@ async function updateMember(req, res, next) {
   }
 
   let updatedMembership;
-  if (membership.status === 'member' && req.body.status === 'co-host' && group.organizerId === req.user.id) {
+  if (req.body.status === 'co-host' && group.organizerId === req.user.id) {
     updatedMembership = await membership.update({ status: 'co-host' });
   }
   if (membership.status === 'pending' && req.body.status === 'member') {
