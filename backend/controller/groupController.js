@@ -15,10 +15,7 @@ async function getGroup(req, res, next) {
         attributes: ['id', 'firstName', 'lastName']
       },
       {
-        model: Venue,
-        through: {
-          attributes: []
-        }
+        model: Venue
       }
     ]
   });

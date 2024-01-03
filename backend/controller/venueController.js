@@ -7,10 +7,7 @@ const checkUserRole = require('../utils/userRoleAuthorization');
 async function getGroupVenues(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
     include: {
-      model: Venue,
-      through: {
-        attributes: []
-      }
+      model: Venue
     },
   });
 

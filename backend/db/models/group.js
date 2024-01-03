@@ -41,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
         {
           through: models.Event,
           foreignKey: 'groupId',
-          otherKey: 'venueId'
+          otherKey: 'venueId',
+          as: 'GroupVenues'
         }
       );
 
