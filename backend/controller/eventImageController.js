@@ -1,4 +1,5 @@
-const { Event, Group, EventImage } = require('../db/models');
+const { Op } = require('sequelize');
+const { Event, Group, EventImage, Attendance } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const checkUserRole = require('../utils/userRoleAuthorization');
 
@@ -11,9 +12,17 @@ async function createEventImage(req, res, next) {
   }
 
   const group = await Group.findByPk(event.groupId);
-  const err = await checkUserRole(group, req.user.id);                      // organizer(host), co-host
-  const attendees = await event.getUsers({ where: { id: req.user.id } });   // attendee
-  if (!attendees.length && err) {
+  const err = await checkUserRole(group, req.user.id);
+  const attendee = await Attendance.findOne({
+    where: {
+      [Op.and]: [
+        { eventId: event.id },
+        { userId: req.user.id },
+        { status: 'attending' }
+      ]
+    }
+  });
+  if (!attendee && err) {
     const err = forbiddenError();
     return next(err);
   }

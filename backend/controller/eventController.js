@@ -192,8 +192,20 @@ async function editEvent(req, res, next) {
   const err = await checkUserRole(group, req.user.id);
   if (err) return next(err);
 
-  const updatedEvent = await event.update(req.body, { attributes: { exclude: ['updatedAt'] } });
-  res.json(updatedEvent);
+  const updatedEvent = await event.update(req.body);
+
+  res.json({
+    id: updatedEvent.id,
+    groupId: updatedEvent.groupId,
+    venueId: updatedEvent.venueId,
+    name: updatedEvent.name,
+    type: updatedEvent.type,
+    capacity: updatedEvent.capacity,
+    price: updatedEvent.price,
+    description: updatedEvent.description,
+    startDate: updatedEvent.startDate,
+    endDate: updatedEvent.endDate
+  });
 }
 
 async function deleteEvent(req, res, next) {
