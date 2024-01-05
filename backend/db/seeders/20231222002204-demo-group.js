@@ -65,7 +65,7 @@ const groups = [
   {
     name: groupNames[3],
     about: 'Enjoy watching the most trending animes every week with your fellow anime fans',
-    type: 'In person',
+    type: 'Online',
     private: false,
     city: 'Nashville',
     state: 'Tennessee',

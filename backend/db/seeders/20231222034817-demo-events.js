@@ -11,16 +11,32 @@ const groupNames = [
   'Trending Animes',
   'Creative Board Game',
   'Video Games By Choice',
-  'Morning Volleyball on the Beach'
+  'Morning Volleyball on the Beach',
+  'Basketball',
+  'Soccer',
+  'Golf',
+  'Poker',
+  'Karaoke',
+  'Cooking',
+  'Badminton',
+  'Swimming'
 ];
 
 const venueAddresses = [
-  null, // 'Tennessee Performing Arts Center (TPAC), 505 Deaderick Street, Nashville-Davidson, TN 37219, United States of America',
+  null,   // Online
   'Grand Ole Opry House, 2804 Opryland Drive, Nashville-Davidson, TN 37214, United States of America',
   '234 George Street',
   '345 Bob Street',
-  null, // '456 Sara Street',
-  'Alki Beach, Seattle, WA 98116, United States of America'
+  null,   // Online
+  'Alki Beach, Seattle, WA 98116, United States of America',
+  '13244 AURORA AVE NORTH',
+  '567 Sara Street',
+  '678 Frank Street',
+  null,   // Online
+  '450 E Fremont St UNIT 201, Las Vegas, NV 89101',
+  '225 Crummer Ln, Reno, NV 89502',
+  '2100 Olympic Ave., Henderson NV 89014',
+  '987 Franklin Street'
 ];
 
 const eventNames = [
@@ -29,7 +45,15 @@ const eventNames = [
   'Monopoly',
   'Chess Competition',
   'League of Legends',
-  'Beach Volleyball'
+  'Beach Volleyball',
+  'All Stars Basketball Game',
+  'Legendary Soccer Match',
+  'Who is the best golfer?',
+  'Cash Game',
+  'Who wants to sing?',
+  'Baking & Desert',
+  'Badminton Competition Season #2',
+  'Swimming Competetion Season #21'
 ];
 
 const events = [
@@ -98,6 +122,94 @@ const events = [
     price: 33.3,
     startDate: '2023-12-01',
     endDate: '2023-12-02'
+  },
+  {
+    groupName: groupNames[4],
+    venueAddress: venueAddresses[6],
+    name: eventNames[6],
+    description: `Let's show off your skills by competing in a basketball game amongst all-star players this season.`,
+    type: 'In person',
+    capacity: 100,
+    price: 333.67,
+    startDate: '2024-02-02',
+    endDate: '2024-02-03'
+  },
+  {
+    groupName: groupNames[5],
+    venueAddress: venueAddresses[7],
+    name: eventNames[7],
+    description: `Let's show off your soccer skills and your strategy in a friendly soccer match with our members.`,
+    type: 'In person',
+    capacity: 250,
+    price: 678.89,
+    startDate: '2024-02-10',
+    endDate: '2024-02-11'
+  },
+  {
+    groupName: groupNames[6],
+    venueAddress: venueAddresses[8],
+    name: eventNames[8],
+    description: `Let's play some golf while enjoying the beautiful weather here. There are free snacks!`,
+    type: 'In person',
+    capacity: 100,
+    price: 123.45,
+    startDate: '2024-03-01',
+    endDate: '2024-04-01'
+  },
+  {
+    groupName: groupNames[7],
+    venueAddress: venueAddresses[9],
+    name: eventNames[9],
+    description: `Let's gamble! Participate in a cash game with no buy-in limit.`,
+    type: 'Onilne',
+    capacity: 500,
+    price: 444.44,
+    startDate: '2024-06-05',
+    endDate: '2024-06-06'
+  },
+  {
+    groupName: groupNames[8],
+    venueAddress: venueAddresses[10],
+    name: eventNames[10],
+    description: `Do you like to sing? Let's sing together! Our system has a variety of songs for you to choose from.`,
+    type: 'In person',
+    capacity: 150,
+    price: 222.33,
+    startDate: '2024-07-07',
+    endDate: '2024-07-10'
+  },
+  {
+    groupName: groupNames[9],
+    venueAddress: venueAddresses[11],
+    name: eventNames[11],
+    description: `Let's bake some bread and make some desserts for your loved ones.`,
+    type: 'In person',
+    capacity: 100,
+    price: 55.55,
+    startDate: '2024-08-08',
+    endDate: '2024-08-09'
+  },
+  {
+    groupName: groupNames[10],
+    venueAddress: venueAddresses[12],
+    name: eventNames[12],
+    description: `Let's compete in a badminton game to find out who's the best!`,
+    type: 'In person',
+    capacity: 100,
+    price: 400.21,
+    startDate: '2024-11-11',
+    endDate: '2024-12-11'
+  },
+  {
+    groupName: groupNames[11],
+    venueAddress: venueAddresses[13],
+    name: eventNames[13],
+    description: `Let's swim! Don't hesitate to join because swimming has several health benefits!`,
+    type: 'In person',
+    capacity: 50,
+    price: 49.99,
+    startDate: '2024-12-30',
+    endDate: '2024-12-31'
   },
 ];
 
