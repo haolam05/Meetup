@@ -13,7 +13,15 @@ const groupNames = [
   'Creative Board Game',
   'Creative Board Game',
   'Video Games By Choice',
-  'Morning Volleyball on the Beach'
+  'Morning Volleyball on the Beach',
+  'Basketball',
+  'Soccer',
+  'Golf',
+  'Poker',
+  'Karaoke',
+  'Cooking',
+  'Badminton',
+  'Swimming'
 ];
 
 const addresses = [
@@ -22,7 +30,15 @@ const addresses = [
   '234 George Street',  // private address for private group
   '345 Bob Street',     // private address for private group
   '456 Sara Street',    // private address for private group
-  'Alki Beach, Seattle, WA 98116, United States of America'
+  'Alki Beach, Seattle, WA 98116, United States of America',
+  '13244 AURORA AVE NORTH',
+  '567 Sara Street',    // private address for private group
+  '678 Frank Street',   // private address for private group
+  '789 John Street',    // private address for private group
+  '450 E Fremont St UNIT 201, Las Vegas, NV 89101',
+  '225 Crummer Ln, Reno, NV 89502',
+  '2100 Olympic Ave., Henderson NV 89014',
+  '987 Franklin Street' // private address for private group
 ];
 
 const venues = [
@@ -62,6 +78,54 @@ const venues = [
     lat: '47.5816765',
     lng: '-122.4052299'
   },
+  {
+    city: 'Seattle',
+    state: 'Washington',
+    lat: '47.726342',
+    lng: '-122.343395'
+  },
+  {
+    city: 'Bellevue',
+    state: 'Washington',
+    lat: '47.610149',
+    lng: '-122.201515'
+  },
+  {
+    city: 'San Jose',
+    state: 'California',
+    lat: '37.338207',
+    lng: '-121.886330'
+  },
+  {
+    city: 'Seattle',
+    state: 'Washington',
+    lat: '47.606209',
+    lng: '-122.332069'
+  },
+  {
+    city: 'Las Vegas',
+    state: 'Nevada',
+    lat: '36.1701879',
+    lng: '-115.1409573'
+  },
+  {
+    city: 'Reno',
+    state: 'Nevada',
+    lat: '39.4724559',
+    lng: '-119.7893874'
+  },
+  {
+    city: 'Henderson',
+    state: 'Nevada',
+    lat: '36.0737235',
+    lng: '-115.0778014'
+  },
+  {
+    city: 'Edmonds',
+    state: 'Washington',
+    lat: '47.811619',
+    lng: '-122.376640'
+  }
 ];
 
 /** @type {import('sequelize-cli').Migration} */
