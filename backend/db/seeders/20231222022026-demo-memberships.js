@@ -11,66 +11,114 @@ const groupNames = [
   'Trending Animes',
   'Creative Board Game',
   'Video Games By Choice',
-  'Morning Volleyball on the Beach'
+  'Morning Volleyball on the Beach',
+  'Basketball',
+  'Soccer',
+  'Golf',
+  'Poker',
+  'Karaoke',
+  'Cooking',
+  'Badminton',
+  'Swimming'
 ];
 
 const userEmails = [
   'demo@user.io',
   'user1@user.io',
-  'user2@user.io'
+  'user2@user.io',
+  'user3@user.io',
+  'user4@user.io',
+  'user5@user.io',
+  'user6@user.io'
 ];
+
+const status = [
+  'pending',
+  'member',
+  'co-host'
+]
 
 const memberships = [
   {
     userEmail: userEmails[0],
     groupName: groupNames[0],
-    status: 'co-host'
+    status: status[2]
   },
   {
     userEmail: userEmails[0],
     groupName: groupNames[1],
-    status: 'co-host'
+    status: status[2]
   },
   {
     userEmail: userEmails[0],
     groupName: groupNames[2],
-    status: 'member'
-  },
-  {
-    userEmail: userEmails[0],
-    groupName: groupNames[3],
-    status: 'pending'
+    status: status[1]
   },
   {
     userEmail: userEmails[1],
     groupName: groupNames[0],
-    status: 'member'
+    status: status[1]
   },
   {
     userEmail: userEmails[1],
     groupName: groupNames[3],
-    status: 'member'
+    status: status[1]
   },
   {
     userEmail: userEmails[2],
     groupName: groupNames[2],
-    status: 'co-host'
+    status: status[2]
   },
   {
     userEmail: userEmails[2],
     groupName: groupNames[3],
-    status: 'co-host'
+    status: status[2]
   },
   {
     userEmail: userEmails[2],
     groupName: groupNames[1],
-    status: 'pending'
+    status: status[0]
   },
   {
-    userEmail: userEmails[2],
-    groupName: groupNames[0],
-    status: 'member'
+    userEmail: userEmails[3],
+    groupName: groupNames[10],
+    status: status[1]
   },
+  {
+    userEmail: userEmails[3],
+    groupName: groupNames[11],
+    status: status[0]
+  },
+  {
+    userEmail: userEmails[4],
+    groupName: groupNames[5],
+    status: status[1]
+  },
+  {
+    userEmail: userEmails[4],
+    groupName: groupNames[6],
+    status: status[1]
+  },
+  {
+    userEmail: userEmails[5],
+    groupName: groupNames[4],
+    status: status[0]
+  },
+  {
+    userEmail: userEmails[5],
+    groupName: groupNames[5],
+    status: status[2]
+  },
+  {
+    userEmail: userEmails[5],
+    groupName: groupNames[6],
+    status: status[0]
+  },
+  {
+    userEmail: userEmails[6],
+    groupName: groupNames[1],
+    status: status[0]
+  }
 ];
 
 /** @type {import('sequelize-cli').Migration} */
@@ -90,6 +138,6 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     options.tableName = 'Memberships';
-    await queryInterface.bulkDelete(options, { status: ['co-host', 'pending', 'member'] });
+    await queryInterface.bulkDelete(options, { status });
   }
 };
