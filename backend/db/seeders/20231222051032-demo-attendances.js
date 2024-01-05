@@ -13,65 +13,133 @@ const eventNames = [
   'Monopoly',
   'Chess Competition',
   'League of Legends',
-  'Beach Volleyball'
+  'Beach Volleyball',
+  'All Stars Basketball Game',
+  'Legendary Soccer Match',
+  'Who is the best golfer?',
+  'Cash Game',
+  'Who wants to sing?',
+  'Baking & Desert',
+  'Badminton Competition Season #2',
+  'Swimming Competetion Season #21'
 ];
 
 const userEmails = [
   'demo@user.io',
   'user1@user.io',
-  'user2@user.io'
+  'user2@user.io',
+  'user3@user.io',
+  'user4@user.io',
+  'user5@user.io',
+  'user6@user.io'
+];
+
+const status = [
+  'pending',
+  'waitlist',
+  'attending'
 ];
 
 const attendances = [
   {
     eventName: eventNames[0],
     userEmail: userEmails[0],
-    status: 'attending'
+    status: status[2]
   },
   {
     eventName: eventNames[0],
     userEmail: userEmails[1],
-    status: 'pending'
+    status: status[0]
   },
   {
     eventName: eventNames[0],
     userEmail: userEmails[2],
-    status: 'waitlist'
+    status: status[1]
   },
   {
     eventName: eventNames[1],
     userEmail: userEmails[1],
-    status: 'attending'
+    status: status[2]
   },
   {
     eventName: eventNames[1],
     userEmail: userEmails[2],
-    status: 'attending'
+    status: status[2]
   },
   {
     eventName: eventNames[2],
     userEmail: userEmails[2],
-    status: 'waitlist'
+    status: status[1]
   },
   {
     eventName: eventNames[2],
     userEmail: userEmails[0],
-    status: 'pending'
+    status: status[0]
   },
   {
     eventName: eventNames[3],
     userEmail: userEmails[0],
-    status: 'attending'
+    status: status[2]
   },
   {
     eventName: eventNames[4],
     userEmail: userEmails[2],
-    status: 'attending'
+    status: status[2]
   },
   {
     eventName: eventNames[5],
     userEmail: userEmails[2],
-    status: 'attending'
+    status: status[2]
+  },
+  {
+    eventName: eventNames[6],
+    userEmail: userEmails[3],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[6],
+    userEmail: userEmails[4],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[7],
+    userEmail: userEmails[5],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[7],
+    userEmail: userEmails[6],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[8],
+    userEmail: userEmails[6],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[9],
+    userEmail: userEmails[5],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[10],
+    userEmail: userEmails[4],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[11],
+    userEmail: userEmails[4],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[12],
+    userEmail: userEmails[5],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[13],
+    userEmail: userEmails[6],
+    status: status[2]
   },
 ];
 
@@ -92,6 +160,6 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     options.tableName = 'Attendances';
-    await queryInterface.bulkDelete(options, { status: ['attending', 'waitlist', 'pending'] });
+    await queryInterface.bulkDelete(options, { status });
   }
 };

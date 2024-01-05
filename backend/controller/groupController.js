@@ -20,7 +20,6 @@ async function getGroup(req, res, next) {
     ]
   });
 
-
   if (!group) {
     const err = notFoundError("Group couldn't be found");
     return next(err);
