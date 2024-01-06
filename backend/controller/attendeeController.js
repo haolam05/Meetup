@@ -1,4 +1,4 @@
-const { Attendance, Event, Group, User } = require('../db/models');
+const { Attendance, Event, Group, User, Membership } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const { Op } = require('sequelize');
 const { check } = require('express-validator');
@@ -33,9 +33,16 @@ async function createEventAttendance(req, res, next) {
     return next(err);
   }
 
-  const group = await Group.findByPk(event.groupId);
-  const isMember = await group.getMembers({ where: { id: req.user.id } });
-  if (!isMember.length) {
+  const isMember = await Membership.findOne({
+    where: {
+      [Op.and]: [
+        { groupId: event.groupId },
+        { userId: req.user.id },
+        { status: ['co-host', 'member'] }
+      ]
+    }
+  });
+  if (!isMember) {
     const err = forbiddenError();
     return next(err);
   }
