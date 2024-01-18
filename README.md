@@ -1,5 +1,8 @@
 # Meetup
 
+## Hosted On
+https://meetup-tzx9.onrender.com
+
 ## Database Schema Design
 
 ![meetup-database-schema]
