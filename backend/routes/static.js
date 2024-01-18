@@ -5,7 +5,7 @@ const staticController = require('../controller/staticController');
 // Static routes - Serve React build files in production
 // Serve the frontend's index.html file at all other routes NOT starting with /api, including the root route /
 // Serve the static assets in the frontend's build folder
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   const path = require('path');
 
   router.get('/', staticController.getHomePageFromDist);
