@@ -1,17 +1,10 @@
-function getHomePageFromDist(req, res) {
-  return _getHomePage(req, res, 'dist');
-}
+const path = require('path');
 
-function getHomePageFromBuild(req, res) {
-  return _getHomePage(req, res, 'build');
-}
-
-function _getHomePage(req, res, folder) {
+function getHomePage(req, res) {
   res.cookie('XSRF-TOKEN', req.csrfToken());
-  return res.sendFile(path.resolve(__dirname, '../../frontend', folder, 'index.html'));
+  return res.sendFile(path.resolve(__dirname, '../../frontend', this.folder, 'index.html'));
 }
 
 module.exports = {
-  getHomePageFromDist,
-  getHomePageFromBuild
+  getHomePage
 }
