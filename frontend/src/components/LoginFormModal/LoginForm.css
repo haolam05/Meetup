@@ -1,0 +1,35 @@
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+#login-form input {
+  padding: 10px;
+}
+
+#login-form .btn-primary {
+  border: none;
+  margin-top: 20px;
+}
+
+#login-form .btn-primary.enabled:hover {
+  background-color: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+#login-form a {
+  text-align: center;
+  color: var(--teal);
+}
+
+#login-form a:hover {
+  text-decoration: underline;
+  font-size: 20px;
+}
+
+.error-message {
+  color: var(--red);
+}

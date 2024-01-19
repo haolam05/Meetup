@@ -22,36 +22,47 @@ function LoginFormPage() {
     );
 
     if (data?.errors) {
-      setErrors({ credential: data.errors.message });
+      setErrors({ credential: "The provided credentials were invalid" });
     } else {
       closeModal();
     }
   };
 
+  const inputIsValid = () => credential.length < 4 || password.length < 6;
+
+  const signInAsDemoUser = e => {
+    setCredential("demo@user.io");
+    setPassword("password");
+    handleSubmit(e);
+  }
+
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={e => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
+      <h1 className="subheading">Log in</h1>
+      <form id="login-form" onSubmit={handleSubmit}>
+        <label>Username or Email</label>
+        <input
+          type="text"
+          value={credential}
+          onChange={e => setCredential(e.target.value)}
+          required
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        {errors.credential && <p className="error-message">{errors.credential}</p>}
+        <button
+          className={`btn-primary ${inputIsValid() ? '' : 'enabled'}`}
+          type="submit"
+          disabled={inputIsValid()}
+        >
+          Log in
+        </button>
+        <a type="submit" onClick={signInAsDemoUser}>Login in as Demo User</a>
       </form>
     </>
   );
