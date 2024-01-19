@@ -23,16 +23,30 @@
   gap: 7px;
 }
 
+#user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+  margin: 0 20px;
+}
+
+#user-info li {
+  color: var(--red);
+}
+
 .profile-dropdown {
   display: flex;
   gap: 5px;
 }
 
-.profile-dropdown>li>button {
+.profile-dropdown>li>button,
+#user-info li>button {
   border: none;
 }
 
-.profile-dropdown>li>button:hover {
+.profile-dropdown>li>button:hover,
+#user-info li>button:hover {
   background-color: transparent;
   color: var(--dark-gray);
   border: 1px solid var(--dark-gray);
