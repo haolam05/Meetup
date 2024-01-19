@@ -1,4 +1,3 @@
-import React from 'react';
 import { useModal } from '../../context/Modal';
 
 // modalComponent : component to render inside the modal
