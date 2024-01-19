@@ -13,7 +13,7 @@ module.exports = {
   ignorePatterns: ['dist', 'node_modules'],
   rules: {
     'react-refresh/only-export-components': [
-      'warn',
+      'off',
       { allowConstantExport: true },
     ],
     'react/prop-types': 'off'
