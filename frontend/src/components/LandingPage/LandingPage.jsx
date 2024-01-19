@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
+import * as sessionActions from '../../store/session';
 import './LandingPage.css';
 
 function LandingPage() {
+  const user = useSelector(sessionActions.sessionUser);
+
   return (
     <div id="landing-page">
       <section id="section-1">
@@ -25,17 +29,17 @@ function LandingPage() {
       <section id="section-3">
         <div id="see-all-groups">
           <img src="./images/hands.png" alt="hands" />
-          <a>See all groups</a>
+          <a className="enabled">See all groups</a>
           <p>Join a group and make new friends!</p>
         </div>
         <div id="find-an-event">
           <img src="./images/events.png" alt="events" />
-          <a>Find an event</a>
+          <a className="enabled">Find an event</a>
           <p>Enjoy doing something fun with your friends!</p>
         </div>
         <div id="start-a-group">
           <img src="./images/friends.png" alt="friends" />
-          <a>Start a new group</a>
+          <a className={user ? "enabled" : "disabled"}>Start a group</a>
           <p>Create your own group and invite your friends to join!</p>
         </div>
       </section>

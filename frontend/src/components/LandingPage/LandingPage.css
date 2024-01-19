@@ -51,8 +51,9 @@
   height: 150px;
 }
 
-#section-3 div a:hover {
+#section-3 div a.enabled:hover {
   font-size: 20px;
+  text-decoration: underline;
 }
 
 #section-4>button {
@@ -82,4 +83,8 @@
 
 #intro-text {
   text-shadow: var(--light-yellow) 1px 0 10px;
+}
+
+#section-3 div a.disabled {
+  color: var(--light-gray);
 }
