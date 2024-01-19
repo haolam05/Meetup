@@ -7,13 +7,13 @@ if (process.env.NODE_ENV === 'production') {
   const path = require('path');
 
   // Serve the frontend's index.html file at the root route
-  router.get('/', staticController.getHomePage.bind({ folder: 'dist' }));
+  router.get('/', staticController.getHomePage);
 
   // Serve the static assets in the frontend's build folder
   router.use(express.static(path.resolve("../frontend/build")));
 
   // Serve the frontend's index.html file at all other routes NOT starting with /api
-  router.get(/^(?!\/?api).*/, staticController.getHomePage.bind({ folder: 'build' }));
+  router.get(/^(?!\/?api).*/, staticController.getHomePage);
 }
 
 module.exports = router;
