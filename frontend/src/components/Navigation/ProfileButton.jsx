@@ -20,6 +20,8 @@ function ProfileButton({ user }) {
     setShowMenu(!showMenu);
   }
 
+  const closeMenu = () => setShowMenu(false);
+
   useEffect(() => {
     if (showMenu) {
       const closeMenu = e => {
@@ -56,12 +58,14 @@ function ProfileButton({ user }) {
               <li>
                 <OpenModalButton
                   buttonText="Log In"
+                  onButtonClick={closeMenu}
                   modalComponent={<LoginFormModal />}
                 />
               </li>
               <li>
                 <OpenModalButton
                   buttonText="Sign Up"
+                  onButtonClick={closeMenu}
                   modalComponent={<SignupFormModal />}
                 />
               </li>
