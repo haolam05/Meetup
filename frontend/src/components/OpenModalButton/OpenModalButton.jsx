@@ -13,7 +13,7 @@ function OpenModalButton({ modalComponent, buttonText, onButtonClick, onModalClo
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button onClick={onClick}>{buttonText}</button>;
+  return <button className="btn-accent" onClick={onClick}>{buttonText}</button>;
 }
 
 export default OpenModalButton;

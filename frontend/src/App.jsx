@@ -32,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <LandingPage />
+      },
+      {
+        path: '*',
+        element: <h2>Page Not Found</h2>
       }
     ]
   }

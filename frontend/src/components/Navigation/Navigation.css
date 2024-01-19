@@ -1,3 +1,39 @@
-.hidden {
-  display: none;
+#header {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px;
+  border-bottom: 3px solid var(--dark-gray);
+}
+
+#userMenu {
+  color: var(--white);
+  border: none;
+  background-color: var(--red);
+}
+
+#userMenu:hover {
+  color: var(--red);
+  border: 1px solid var(--red);
+  background-color: transparent;
+}
+
+#profile-btns {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.profile-dropdown {
+  display: flex;
+  gap: 5px;
+}
+
+.profile-dropdown>li>button {
+  border: none;
+}
+
+.profile-dropdown>li>button:hover {
+  background-color: transparent;
+  color: var(--dark-gray);
+  border: 1px solid var(--dark-gray);
 }

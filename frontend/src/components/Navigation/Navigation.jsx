@@ -9,17 +9,11 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(sessionActions.sessionUser);
 
   return (
-    <ul>
+    <ul id="header">
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/"><img src="./images/logo.png" alt="logo" /></NavLink>
       </li>
-      {
-        isLoaded && (
-          <li>
-            <ProfileButton user={sessionUser} />
-          </li>
-        )
-      }
+      {isLoaded && <ProfileButton user={sessionUser} />}
     </ul>
   );
 }
