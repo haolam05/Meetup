@@ -10,17 +10,18 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const logout = e => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-  }
-
   const toggleMenu = e => {
     e.stopPropagation();
     setShowMenu(!showMenu);
   }
 
   const closeMenu = () => setShowMenu(false);
+
+  const logout = e => {
+    e.preventDefault();
+    dispatch(sessionActions.logout());
+    closeMenu();
+  }
 
   useEffect(() => {
     if (showMenu) {
