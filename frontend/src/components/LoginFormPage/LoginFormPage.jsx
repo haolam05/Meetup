@@ -15,7 +15,14 @@ function LoginFormPage() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const data = await dispatch(sessionActions.login({ credential, password }));
+
+    const data = await dispatch(
+      sessionActions.login({
+        credential,
+        password
+      })
+    );
+
     if (data?.errors) setErrors({ credential: data.errors.message });
   };
 

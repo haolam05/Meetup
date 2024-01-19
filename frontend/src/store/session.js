@@ -17,7 +17,7 @@ export const login = credential => async dispatch => {
   });
 
   const data = await response.json();
-  if (!response.ok) return { errors: data };
+  if (!response.ok) return data.errors ? data : { errors: data };
   dispatch(createSession(data));
 };
 
@@ -28,9 +28,10 @@ export const signup = user => async dispatch => {
       ...user
     })
   });
+
   const data = await response.json();
+  if (!response.ok) return data.errors ? data : { errors: data };
   dispatch(createSession(data));
-  return response;
 };
 
 export const restoreSession = () => async dispatch => {
