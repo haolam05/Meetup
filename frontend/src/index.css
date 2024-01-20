@@ -85,3 +85,13 @@ form .btn-primary.enabled:hover {
 .error-message {
   color: var(--red);
 }
+
+a {
+  text-align: center;
+  color: var(--teal);
+}
+
+a:hover {
+  text-decoration: underline;
+  font-size: 20px;
+}

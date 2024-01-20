@@ -1,9 +1,0 @@
-#login-form a {
-  text-align: center;
-  color: var(--teal);
-}
-
-#login-form a:hover {
-  text-decoration: underline;
-  font-size: 20px;
-}
