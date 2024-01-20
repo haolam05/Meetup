@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import './LandingPage.css';
@@ -29,17 +30,17 @@ function LandingPage() {
       <section id="section-3">
         <div id="see-all-groups">
           <img src="./images/hands.png" alt="hands" />
-          <a className="enabled">See all groups</a>
+          <Link to="groups" className="enabled">See all groups</Link>
           <p>Join a group and make new friends!</p>
         </div>
         <div id="find-an-event">
           <img src="./images/events.png" alt="events" />
-          <a className="enabled">Find an event</a>
+          <Link to="#" className="enabled">Find an event</Link>
           <p>Enjoy doing something fun with your friends!</p>
         </div>
         <div id="start-a-group">
           <img src="./images/friends.png" alt="friends" />
-          <a className={user ? "enabled" : "disabled"}>Start a group</a>
+          <Link to="#" className={user ? "enabled" : "disabled"}>Start a group</Link>
           <p>Create your own group and invite your friends to join!</p>
         </div>
       </section>

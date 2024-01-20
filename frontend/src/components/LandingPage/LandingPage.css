@@ -9,7 +9,7 @@
 
 #section-1 {
   display: flex;
-  width: 1000px;
+  width: 900px;
   justify-content: space-between;
   gap: 50px;
 }

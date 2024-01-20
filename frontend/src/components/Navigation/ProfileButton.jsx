@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useState, useEffect, useRef } from 'react';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import { useNavigate } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const navigate = useNavigate();
@@ -47,6 +47,9 @@ function ProfileButton({ user }) {
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
+        <li>
+          <button className="btn-accent" onClick={() => navigate("groups", { replace: true })}>View groups</button>
+        </li>
         {
           user ? (
             <li>
