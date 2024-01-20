@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import * as groupActions from '../../store/group';
 import "./Groups.css";
 
 function Groups() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const groups = useSelector(groupActions.getGroups);
 
   useEffect(() => {
