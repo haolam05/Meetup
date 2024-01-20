@@ -11,13 +11,13 @@ function LoginFormPage() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e, loginAsDemoUser) => {
     e.preventDefault();
 
     const data = await dispatch(
       sessionActions.login({
-        credential,
-        password
+        credential: loginAsDemoUser ? "demo@user.io" : credential,
+        password: loginAsDemoUser ? "password" : password
       })
     );
 
@@ -29,12 +29,6 @@ function LoginFormPage() {
   };
 
   const inputIsValid = () => credential.length < 4 || password.length < 6;
-
-  const signInAsDemoUser = e => {
-    setCredential("demo@user.io");
-    setPassword("password");
-    handleSubmit(e);
-  }
 
   return (
     <>
@@ -62,7 +56,9 @@ function LoginFormPage() {
         >
           Log in
         </button>
-        <a type="submit" onClick={signInAsDemoUser}>Login in as Demo User</a>
+        <a type="submit" onClick={e => handleSubmit(e, true)}>
+          Login in as Demo User
+        </a>
       </form>
     </>
   );
