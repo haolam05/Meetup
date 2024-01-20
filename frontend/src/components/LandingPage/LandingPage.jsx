@@ -25,7 +25,7 @@ function LandingPage() {
         <h2 id="sub-title" className="subheading">
           How Meetup works
         </h2>
-        <p id="caption">See all groups | Find an event | Start a new group</p>
+        <p id="caption">See all groups | Find an event | Start a group</p>
       </section>
       <section id="section-3">
         <div id="see-all-groups">

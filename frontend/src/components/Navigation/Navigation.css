@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   margin: 25px;
-  border-bottom: 3px solid var(--dark-gray);
+  border-bottom: 3px solid var(--light-gray);
 }
 
 #userMenu {

@@ -4,8 +4,14 @@ const CREATE_SESSION = '/session/CREATE_SESSION';
 const DELETE_SESSION = '/session/DELETE_SESSION';
 
 // POJO action creators
-const createSession = payload => ({ type: CREATE_SESSION, payload });
-const deleteSession = () => ({ type: DELETE_SESSION });
+const createSession = payload => ({
+  type: CREATE_SESSION,
+  payload
+});
+
+const deleteSession = () => ({
+  type: DELETE_SESSION
+});
 
 // Thunk action creators
 export const login = credential => async dispatch => {
