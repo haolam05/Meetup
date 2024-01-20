@@ -1,0 +1,14 @@
+#page-not-found {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: var(--black)
+}
+
+
+#error-icon {
+  /* color: var(--light-yellow); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

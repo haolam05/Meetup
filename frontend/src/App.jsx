@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
 import * as sessionActions from './store/session';
-import Groups from './components/Groups/Groups';
+import Groups from './components/Groups';
+import PageNotFound from './components/PageNotFound';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <h2>Page Not Found</h2>
+        element: <PageNotFound />
       }
     ]
   }
