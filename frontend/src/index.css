@@ -59,3 +59,29 @@ ul {
 .hidden {
   display: none;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+form input {
+  padding: 10px;
+}
+
+form .btn-primary {
+  border: none;
+  margin-top: 20px;
+}
+
+form .btn-primary.enabled:hover {
+  background-color: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+.error-message {
+  color: var(--red);
+}

@@ -28,7 +28,7 @@ function LoginFormPage() {
     }
   };
 
-  const inputIsValid = () => credential.length < 4 || password.length < 6;
+  const inputIsInValid = () => credential.length < 4 || password.length < 6;
 
   return (
     <>
@@ -50,9 +50,9 @@ function LoginFormPage() {
         />
         {errors.credential && <p className="error-message">{errors.credential}</p>}
         <button
-          className={`btn-primary ${inputIsValid() ? '' : 'enabled'}`}
+          className={`btn-primary ${inputIsInValid() ? '' : 'enabled'}`}
           type="submit"
-          disabled={inputIsValid()}
+          disabled={inputIsInValid()}
         >
           Log in
         </button>
