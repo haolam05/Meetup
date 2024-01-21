@@ -1,5 +1,7 @@
 import Groups from "../Groups";
+import Events from "../Events";
 import "./List.css";
+import { Link } from "react-router-dom";
 
 function List({ list }) {
   return (
@@ -7,12 +9,13 @@ function List({ list }) {
       <ul id="lists">
         <li id="list-headers">
           <h1 className="heading">
-            <a id={`${list === "Events" ? "selected" : "unselected"}`}>Events</a>
-            <a id={`${list === "Groups" ? "selected" : "unselected"}`}>Groups</a>
+            <Link to="/events" id={`${list === "Events" ? "selected" : "unselected"}`}>Events</Link>
+            <Link to="/groups" id={`${list === "Groups" ? "selected" : "unselected"}`}>Groups</Link>
           </h1>
         </li>
         <li id="caption">{list} in Meetup</li>
         {list === "Groups" && <Groups />}
+        {list === "Events" && <Events />}
       </ul>
     </div >
   );

@@ -21,12 +21,14 @@
 #list-headers h1 a#unselected {
   color: var(--gray);
   cursor: auto;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 #list-headers h1 a#selected {
   color: var(--teal);
   text-decoration: underline;
-  cursor: auto;
+  cursor: pointer;
 }
 
 #list-headers h1 a#unselected:hover {

@@ -2,15 +2,15 @@ import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
 
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
-const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
+const LOAD_GROUP_DETAILS = '/groups/LOAD_GROUP_DETAILS';
 
 // POJO action creators
 const getAllGroups = groups => ({
   type: LOAD_GROUPS, groups
 });
 
-const addGroupDetails = group => ({
-  type: ADD_GROUP_DETAILS,
+const getAllGroupDetails = group => ({
+  type: LOAD_GROUP_DETAILS,
   group
 });
 
@@ -51,12 +51,26 @@ export const loadGroupDetails = groupId => async dispatch => {
     const response2 = await csrfFetch(`/api/groups/${group.id}/events`);
     if (response2.ok) {
       const events = await response2.json();
-      group.numEvents = events.Events.length;
-      group.upcomingEvents = sortAsc(futureDates(events.Events));
-      group.pastEvents = sortDesc(pastDates(events.Events));
+
+      const eventDetails = [];
+      for (let i = 0; i < events.Events.length; i++) {
+        const event = events.Events[i];
+        const response3 = await csrfFetch(`/api/events/${event.id}`);
+
+        if (response3.ok) {
+          const eventDetail = await response3.json();
+          eventDetail.previewImage = event.previewImage;
+          eventDetails.push(eventDetail);
+        }
+      }
+
+      group.numEvents = eventDetails.length;
+      group.upcomingEvents = sortAsc(futureDates(eventDetails));
+      group.pastEvents = sortDesc(pastDates(eventDetails));
+      console.log(group);
     }
 
-    dispatch(addGroupDetails(group));
+    dispatch(getAllGroupDetails(group));
   }
 }
 
@@ -78,7 +92,7 @@ function groupReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_GROUPS:
       return { groups: { ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {}) } };
-    case ADD_GROUP_DETAILS:
+    case LOAD_GROUP_DETAILS:
       return { ...state, groupDetails: { ...state.groupDetails, [action.group.id]: action.group } };
     default:
       return state;
