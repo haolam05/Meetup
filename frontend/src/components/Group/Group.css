@@ -1,3 +1,38 @@
+#group-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#group-organizer {
+  color: var(--gray);
+}
+
+#event-btns {
+  display: flex;
+  gap: 5px;
+}
+
+#event-btns button {
+  border: none;
+}
+
+#event-btns button:hover {
+  border: 1px solid var(--dark-gray);
+  color: var(--dark-gray);
+  background-color: transparent;
+}
+
+#group-join-btn {
+  border: none;
+}
+
+#group-join-btn:hover {
+  border: 1px solid var(--red);
+  color: var(--red);
+  background-color: transparent;
+}
+
 .group-image img {
   width: 100%;
   height: 100%;

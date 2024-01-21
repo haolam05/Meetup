@@ -1,11 +1,6 @@
-#group-text-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#group-organizer {
-  color: var(--gray);
+#lists {
+  gap: 5px;
+  margin-top: 20px;
 }
 
 #back-to-group {
@@ -24,26 +19,6 @@
   border: 1px solid var(--dark-gray);
   background-color: transparent;
   color: var(--dark-gray);
-}
-
-#groups {
-  gap: 5px;
-  margin-top: 20px;
-}
-
-#event-btns {
-  display: flex;
-  gap: 5px;
-}
-
-#event-btns button {
-  border: none;
-}
-
-#event-btns button:hover {
-  border: 1px solid var(--dark-gray);
-  color: var(--dark-gray);
-  background-color: transparent;
 }
 
 #group-details {
@@ -74,17 +49,6 @@
   text-shadow: var(--light-yellow) 1px 0 10px;
 }
 
-.group {
+.group.details {
   grid-template-columns: 1fr 1fr;
-}
-
-.group-join-btn {
-  width: fit-content;
-  border: none;
-}
-
-.group-join-btn:hover {
-  border: 1px solid var(--red);
-  color: var(--red);
-  background-color: transparent;
 }

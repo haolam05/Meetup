@@ -5,7 +5,10 @@ function Group({ group, user = false, description = true, organizer = false }) {
   const navigate = useNavigate();
 
   return (
-    <div key={group.id} className="group" onClick={() => navigate(`/groups/${group.id}`)}>
+    <div
+      className={`group ${organizer ? 'details' : ''}`}
+      onClick={() => navigate(`/groups/${group.id}`)}
+    >
       <div className="group-image">
         <img
           className="group-thumbnail"
@@ -34,7 +37,8 @@ function Group({ group, user = false, description = true, organizer = false }) {
         {user && (
           user.id !== group.organizerId ? (
             <button
-              className="group-join-btn btn-primary"
+              id="group-join-btn"
+              className="btn-primary"
               onClick={() => alert("Feature coming soon")}
             >
               Join this group

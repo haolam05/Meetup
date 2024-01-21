@@ -37,8 +37,8 @@ function GroupDetails() {
   if (!isLoaded) return <Loading />;
 
   return (
-    <div id="groups-container">
-      <div id="groups">
+    <div id="lists-container">
+      <div id="lists">
         <button
           id="back-to-group"
           onMouseOver={addBackBtnText}
