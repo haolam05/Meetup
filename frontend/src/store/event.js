@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
+import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const LOAD_EVENT_DETAILS = '/events/LOAD_EVENT_DETAILS';
@@ -35,13 +36,8 @@ export const loadEvents = () => async dispatch => {
       }
     }
 
-    const sortAsc = dates => dates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-    const sortDesc = dates => dates.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-    const pastDates = dates => dates.filter(event => new Date(event.startDate).getTime() <= Date.now());
-    const futureDates = dates => dates.filter(event => new Date(event.startDate).getTime() > Date.now());
-
-    const upcomingEvents = sortAsc(futureDates(Object.values(eventDetails)));
-    const pastEvents = sortDesc(pastDates(Object.values(eventDetails)));
+    const upcomingEvents = sortAscFuture(Object.values(eventDetails));
+    const pastEvents = sortDescPast(Object.values(eventDetails));
     dispatch(getAllEvents(eventDetails, upcomingEvents, pastEvents));
   }
 };

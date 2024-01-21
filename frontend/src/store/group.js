@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
+import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const LOAD_GROUP_DETAILS = '/groups/LOAD_GROUP_DETAILS';
@@ -43,11 +44,6 @@ export const loadGroupDetails = groupId => async dispatch => {
     const image = group.GroupImages.find(image => image.preview);
     group.previewImage = image ? image.url : "Preview Image Not Found";
 
-    const sortAsc = dates => dates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-    const sortDesc = dates => dates.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-    const pastDates = dates => dates.filter(event => new Date(event.startDate).getTime() <= Date.now());
-    const futureDates = dates => dates.filter(event => new Date(event.startDate).getTime() > Date.now());
-
     const response2 = await csrfFetch(`/api/groups/${group.id}/events`);
     if (response2.ok) {
       const events = await response2.json();
@@ -65,9 +61,8 @@ export const loadGroupDetails = groupId => async dispatch => {
       }
 
       group.numEvents = eventDetails.length;
-      group.upcomingEvents = sortAsc(futureDates(eventDetails));
-      group.pastEvents = sortDesc(pastDates(eventDetails));
-      console.log(group);
+      group.upcomingEvents = sortAscFuture(eventDetails);
+      group.pastEvents = sortDescPast(eventDetails);
     }
 
     dispatch(getAllGroupDetails(group));
