@@ -56,6 +56,10 @@
   text-decoration: underline;
 }
 
+#section-3 div a.disabled:hover {
+  font-size: 12pt;
+}
+
 #section-4>button {
   background-color: var(--teal);
   color: var(--white);
@@ -87,4 +91,5 @@
 
 #section-3 div a.disabled {
   color: var(--light-gray);
+  text-decoration: none;
 }
