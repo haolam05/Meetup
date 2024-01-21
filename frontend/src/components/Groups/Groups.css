@@ -7,6 +7,9 @@
 
 #group-headers {
   align-self: start;
+}
+
+#group-headers h1 {
   display: flex;
   gap: 20px;
 }
@@ -65,7 +68,7 @@
 .group-text {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 20px;
 }
 
 .group-location {

@@ -5,7 +5,8 @@ import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
 import * as sessionActions from './store/session';
 import Groups from './components/Groups';
-import PageNotFound from './components/PageNotFound';
+import Error from './components/Error';
+import GroupDetails from './components/GroupDetails';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ function Layout() {
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <>
+      <Layout />
+      <Error title="Something went wrong" message="Please do not abuse the system or use the url to navigate the application!" />
+    </>,
     children: [
       {
         path: '/',
@@ -40,8 +45,12 @@ const router = createBrowserRouter([
         element: <Groups />
       },
       {
+        path: 'groups/:groupId',
+        element: <GroupDetails />
+      },
+      {
         path: '*',
-        element: <PageNotFound />
+        element: <Error title="Page not found" />
       }
     ]
   }

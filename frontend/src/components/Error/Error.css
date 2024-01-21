@@ -1,0 +1,23 @@
+#error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#error-header {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: var(--teal);
+}
+
+#error-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#error-message {
+  color: var(--red);
+}

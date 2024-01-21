@@ -11,7 +11,7 @@ function Navigation({ isLoaded }) {
   return (
     <ul id="header">
       <li>
-        <NavLink to="/"><img src="./images/logo.png" alt="logo" /></NavLink>
+        <NavLink to="/"><img src="/images/logo.png" alt="logo" /></NavLink>
       </li>
       {isLoaded && <ProfileButton user={sessionUser} />}
     </ul>
