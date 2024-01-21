@@ -3,24 +3,6 @@
   margin-top: 20px;
 }
 
-#back-to-group {
-  align-self: flex-start;
-  text-decoration: none;
-  border: none;
-  background-color: var(--dark-gray);
-  color: var(--white);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-#back-to-group:hover {
-  border: 1px solid var(--dark-gray);
-  background-color: transparent;
-  color: var(--dark-gray);
-}
-
 #group-details {
   align-self: flex-start;
   display: flex;

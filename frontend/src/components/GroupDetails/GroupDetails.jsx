@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import Group from '../Group';
 import Event from '../Event';
+import BackButton from '../BackButton';
 import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
 import './GroupDetails.css';
@@ -25,29 +26,12 @@ function GroupDetails() {
     loadGroupDetails();
   }, [dispatch, groupId]);
 
-  const addBackBtnText = () => {
-    const span = document.createElement('span');
-    span.innerText = 'Groups';
-    document.querySelector('#back-to-group').appendChild(span);
-  }
-
-  const removeBackBtnText = () => {
-    document.querySelector('#back-to-group>span').remove();
-  }
-
   if (!isLoaded) return <Loading />;
 
   return (
     <div id="lists-container">
       <div id="lists">
-        <button
-          id="back-to-group"
-          onMouseOver={addBackBtnText}
-          onMouseOut={removeBackBtnText}
-          onClick={() => navigate("/groups", { replace: true })}
-        >
-          <i className="fa-sharp fa-solid fa-arrow-left"></i>
-        </button>
+        <BackButton url={"/groups"} />
         <Group
           group={group}
           user={user}

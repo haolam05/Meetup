@@ -1,14 +1,14 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import Event from '../Event';
+import BackButton from '../BackButton';
 import * as sessionActions from '../../store/session';
 import * as eventActions from '../../store/event';
 import './EventDetails.css';
 
 function EventDetails() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { eventId } = useParams();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,29 +24,12 @@ function EventDetails() {
     loadEventDetails();
   }, [dispatch, eventId]);
 
-  const addBackBtnText = () => {
-    const span = document.createElement('span');
-    span.innerText = 'Events';
-    document.querySelector('#back-to-group').appendChild(span);
-  }
-
-  const removeBackBtnText = () => {
-    document.querySelector('#back-to-group>span').remove();
-  }
-
   if (!isLoaded) return <Loading />;
 
   return (
     <div id="lists-container">
       <div id="lists">
-        <button
-          id="back-to-group"
-          onMouseOver={addBackBtnText}
-          onMouseOut={removeBackBtnText}
-          onClick={() => navigate("/events", { replace: true })}
-        >
-          <i className="fa-sharp fa-solid fa-arrow-left"></i>
-        </button>
+        <BackButton url="/events" />
         <div id="event-header">
           <h1 className="heading">{event.name}</h1>
           <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
@@ -57,7 +40,7 @@ function EventDetails() {
           <p>{event.description}</p>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
