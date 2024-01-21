@@ -57,6 +57,10 @@
 
 }
 
+#group-num-events {
+  color: var(--dark-gray);
+}
+
 .group.details {
   grid-template-columns: 1fr 1fr;
 }

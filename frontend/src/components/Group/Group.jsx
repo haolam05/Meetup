@@ -18,7 +18,10 @@ function Group({ group, user = false, description = true, organizer = false }) {
       </div>
       <div id="group-text-wrapper">
         <div className="group-text">
-          <h2 className="group-name subheading">{group.name}</h2>
+          {organizer ?
+            <h1 className="group-name heading">{group.name}</h1> :
+            <h2 className="group-name subheading">{group.name}</h2>
+          }
           <div className="group-location">{group.city}, {group.state}</div>
           {description && (
             <div className="group-description">{group.about}</div>
