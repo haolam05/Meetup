@@ -1,5 +1,6 @@
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import { getPreviewImageUrl } from "../../utils/images";
+import { formatPrice } from "../../utils/priceFormatter";
 import "./Event.css";
 
 function Event({ event, user = false, details = false }) {
@@ -65,7 +66,7 @@ function Event({ event, user = false, details = false }) {
           </div>
           <div id="event-price">
             <div><i className="fa-brands fa-bitcoin"></i></div>
-            <div>{event.price <= 0 ? 'FREE' : `$${event.price}`}</div>
+            <div>{formatPrice(event.price)}</div>
           </div>
           <div id="event-type">
             <div><i className="fa-solid fa-location-dot"></i></div>
