@@ -8,6 +8,44 @@
   color: var(--gray);
 }
 
+#back-to-group {
+  align-self: flex-start;
+  text-decoration: none;
+  border: none;
+  background-color: var(--dark-gray);
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#back-to-group:hover {
+  border: 1px solid var(--dark-gray);
+  background-color: transparent;
+  color: var(--dark-gray);
+}
+
+#groups {
+  gap: 5px;
+  margin-top: 20px;
+}
+
+#event-btns {
+  display: flex;
+  gap: 5px;
+}
+
+#event-btns button {
+  border: none;
+}
+
+#event-btns button:hover {
+  border: 1px solid var(--dark-gray);
+  color: var(--dark-gray);
+  background-color: transparent;
+}
+
 .group {
   grid-template-columns: 1fr 1fr;
 }
