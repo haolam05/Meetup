@@ -31,7 +31,7 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1 className="subheading">Log in</h1>
+      <h2 className="subheading">Log in</h2>
       <form id="login-form" onSubmit={handleSubmit}>
         <label>Username or Email</label>
         <input

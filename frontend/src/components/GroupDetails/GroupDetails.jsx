@@ -56,7 +56,7 @@ function GroupDetails() {
           </div>
           <div id="group-text-wrapper">
             <div className="group-text">
-              <h2 className="group-name">{group.name}</h2>
+              <h1 className="group-name heading">{group.name}</h1>
               <div className="group-location">{group.city}, {group.state}</div>
               <div className="group-info">
                 <span className="group-num-events">{group.numEvents} event{group.numEvents > 1 ? 's' : ''}</span>
@@ -84,8 +84,20 @@ function GroupDetails() {
               )
             )
             }
-
           </div>
+        </div>
+        <div id="group-details">
+          <div id="group-details-header">
+            <h2 className="subheading">Organizer</h2>
+            <span>{group.Organizer.firstName}, {group.Organizer.lastName}</span>
+          </div>
+          <div id="group-details-about">
+            <h2 className="subheading">What we&apos;re about</h2>
+            <p>{group.about}</p>
+          </div>
+          {/* <Events /> */}
+          <h2 className="subheading">Upcoming Events ({ })</h2>
+          <h2 className="subheading">Past Events ({ })</h2>
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ function Groups() {
               />
             </div>
             <div className="group-text">
-              <h2 className="group-name">{group.name}</h2>
+              <h2 className="group- subheading">{group.name}</h2>
               <div className="group-location">{group.city}, {group.state}</div>
               <div className="group-description">{group.about}</div>
               <div className="group-info">

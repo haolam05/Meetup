@@ -46,6 +46,34 @@
   background-color: transparent;
 }
 
+#group-details {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+#group-details-header {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#group-details-header span {
+  color: var(--dark-gray);
+}
+
+#group-details-about {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#group-details-about p {
+  text-shadow: var(--light-yellow) 1px 0 10px;
+}
+
 .group {
   grid-template-columns: 1fr 1fr;
 }

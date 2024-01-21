@@ -53,7 +53,7 @@ function SignupFormPage() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+      <h2 className="subheading">Sign Up</h2>
       <form id="signup-form" onSubmit={handleSubmit}>
         <label>Email</label>
         <input
