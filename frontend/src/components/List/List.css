@@ -18,18 +18,18 @@
   font-size: 33px;
 }
 
-#header-event {
+#list-headers h1 a#unselected {
   color: var(--gray);
   cursor: auto;
 }
 
-#header-group {
+#list-headers h1 a#selected {
   color: var(--teal);
   text-decoration: underline;
   cursor: auto;
 }
 
-#header-event:hover {
+#list-headers h1 a#unselected:hover {
   text-decoration: none;
 }
 
