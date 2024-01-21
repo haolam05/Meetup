@@ -1,16 +1,7 @@
+import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import "./Event.css";
 
 function Event({ event, user = false, details = false }) {
-  const formattedDate = date => {
-    date = new Date(date);
-    return `${date.getFullYear()}-${`${date.getMonth() + 1}`.padStart(2, '0')}-${`${date.getDate()}`.padStart(2, '0')}`;
-  };
-
-  const formattedTime = date => {
-    date = new Date(date);
-    return `${`${date.getHours()}`.padStart(2, '0')}:${`${date.getMinutes()}`.padStart(2, '0')}`;
-  };
-
   if (!details) return (
     <div id="event">
       <div id="event-image">
@@ -93,7 +84,6 @@ function Event({ event, user = false, details = false }) {
             </div>
           </>
         )}
-
       </div>
     </div >
   );
