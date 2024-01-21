@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import Group from '../Group';
+import Event from '../Event';
 import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
 import './GroupDetails.css';
@@ -53,7 +54,6 @@ function GroupDetails() {
           description={false}
           organizer={true}
         />
-
         <div id="group-details">
           <div id="group-details-header">
             <h2 className="subheading">Organizer</h2>
@@ -63,9 +63,12 @@ function GroupDetails() {
             <h2 className="subheading">What we&apos;re about</h2>
             <p>{group.about}</p>
           </div>
-          {/* <Events /> */}
-          <h2 className="subheading">Upcoming Events ({ })</h2>
-          <h2 className="subheading">Past Events ({ })</h2>
+          <div id="events">
+            {group.upcomingEvents.length > 0 && (<h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>)}
+            {group.upcomingEvents.map(event => <Event key={event.id} eventId={event.id} previewImage={event.previewImage} />)}
+            {group.pastEvents.length > 0 && (<h2 className="subheading">Past Events ({group.pastEvents.length})</h2>)}
+            {group.pastEvents.map(event => <Event key={event.id} eventId={event.id} previewImage={event.previewImage} />)}
+          </div>
         </div>
       </div>
     </div>

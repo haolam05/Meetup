@@ -43,11 +43,17 @@ export const loadGroupDetails = groupId => async dispatch => {
     const image = group.GroupImages.find(image => image.preview);
     group.previewImage = image ? image.url : "Preview Image Not Found";
 
+    const sortAsc = dates => dates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    const sortDesc = dates => dates.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+    const pastDates = dates => dates.filter(event => new Date(event.startDate).getTime() <= Date.now());
+    const futureDates = dates => dates.filter(event => new Date(event.startDate).getTime() > Date.now());
+
     const response2 = await csrfFetch(`/api/groups/${group.id}/events`);
     if (response2.ok) {
       const events = await response2.json();
-      group.events = events.Events;
       group.numEvents = events.Events.length;
+      group.upcomingEvents = sortAsc(futureDates(events.Events));
+      group.pastEvents = sortDesc(pastDates(events.Events));
     }
 
     dispatch(addGroupDetails(group));
@@ -73,7 +79,7 @@ function groupReducer(state = initialState, action) {
     case LOAD_GROUPS:
       return { groups: { ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {}) } };
     case ADD_GROUP_DETAILS:
-      return { ...state, groupDetails: { ...state.groupDetails, [action.group.id]: action.group } }
+      return { ...state, groupDetails: { ...state.groupDetails, [action.group.id]: action.group } };
     default:
       return state;
   }

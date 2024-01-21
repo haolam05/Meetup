@@ -1,0 +1,40 @@
+#event {
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  grid-gap: 30px;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 0;
+  border-top: 3px solid var(--light-gray);
+  /* color: gray; */
+}
+
+#event-image img {
+  width: 100%;
+  height: 100%;
+}
+
+#event-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#event-time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--gray);
+}
+
+#event-dot {
+  padding-bottom: 8px;
+}
+
+#event-location {
+  color: var(--gray);
+}
+
+#event-description {
+  font-style: italic;
+}

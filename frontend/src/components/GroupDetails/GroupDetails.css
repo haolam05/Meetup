@@ -49,6 +49,14 @@
   text-shadow: var(--light-yellow) 1px 0 10px;
 }
 
+#events {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
 .group.details {
   grid-template-columns: 1fr 1fr;
 }
