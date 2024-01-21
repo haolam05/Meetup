@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { getPreviewImageUrl } from '../../utils/images';
 import "./Group.css";
 
 function Group({ group, user = false, description = true, organizer = false }) {
@@ -12,7 +13,7 @@ function Group({ group, user = false, description = true, organizer = false }) {
       <div className="group-image">
         <img
           className="group-thumbnail"
-          src={group.previewImage === "Preview Image Not Found" ? "/images/no-preview-available.jpg" : group.previewImage}
+          src={getPreviewImageUrl(group)}
           alt="preview-image"
         />
       </div>

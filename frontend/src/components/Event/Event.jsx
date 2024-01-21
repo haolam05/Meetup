@@ -1,11 +1,12 @@
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
+import { getPreviewImageUrl } from "../../utils/images";
 import "./Event.css";
 
 function Event({ event, user = false, details = false }) {
   if (!details) return (
     <div id="event">
       <div id="event-image">
-        <img src={`${event.previewImage === "Preview Image Not Found" ? "/images/no-preview-available.jpg" : event.previewImage}`} alt="preview-image" />
+        <img src={getPreviewImageUrl(event)} alt="preview-image" />
       </div>
       <div id="event-text">
         <div id="event-time">
@@ -23,14 +24,14 @@ function Event({ event, user = false, details = false }) {
   return (
     <div id="event" className="event">
       <div id="event-image">
-        <img src={`${event.previewImage === "Preview Image Not Found" ? "/images/no-preview-available.jpg" : event.previewImage}`} alt="preview-image" />
+        <img src={getPreviewImageUrl(event)} alt="preview-image" />
       </div>
       <div id="event-text">
         <div className="group details">
           <div className="group-image">
             <img
               className="group-thumbnail"
-              src={event.Group.previewImage === "Preview Image Not Found" ? "/images/no-preview-available.jpg" : event.Group.previewImage}
+              src={getPreviewImageUrl(event.Group)}
               alt="preview-image"
             />
           </div>
