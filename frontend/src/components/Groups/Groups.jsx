@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 import * as groupActions from '../../store/group';
 import "./Groups.css";
 
@@ -18,7 +19,9 @@ function Groups() {
     loadGroups();
   }, [dispatch]);
 
-  return isLoaded ? (
+  if (!isLoaded) return <Loading />;
+
+  return (
     <div id="groups-container">
       <ul id="groups">
         <li id="group-headers">
@@ -51,10 +54,6 @@ function Groups() {
         ))}
       </ul>
     </div >
-  ) : (
-    <div id="groups-container">
-      <h1 className="heading">Loading ...</h1>
-    </div>
   );
 }
 

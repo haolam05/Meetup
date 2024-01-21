@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import Loading from '../Loading';
 import * as groupActions from '../../store/group';
 import './GroupDetails.css';
 
@@ -18,7 +19,9 @@ function GroupDetails() {
     loadGroupDetails();
   }, [dispatch, groupId]);
 
-  return isLoaded && (
+  if (!isLoaded) return <Loading />;
+
+  return (
     <div id="groups-container">
       <div id="groups">
         <div key={group.id} className="group">
