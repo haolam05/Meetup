@@ -49,6 +49,10 @@ const router = createBrowserRouter([
         element: <GroupDetails />
       },
       {
+        path: 'events',
+        element: <List list="Events" />
+      },
+      {
         path: '*',
         element: <Error title="Page not found" />
       }

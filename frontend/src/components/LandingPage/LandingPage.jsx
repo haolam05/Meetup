@@ -35,7 +35,7 @@ function LandingPage() {
         </div>
         <div id="find-an-event">
           <img src="/images/events.png" alt="events" />
-          <Link to="#" className="enabled">Find an event</Link>
+          <Link to="/events" className="enabled">Find an event</Link>
           <p>Enjoy doing something fun with your friends!</p>
         </div>
         <div id="start-a-group">

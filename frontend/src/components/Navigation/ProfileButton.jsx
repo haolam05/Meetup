@@ -50,6 +50,9 @@ function ProfileButton({ user }) {
         <li>
           <button className="btn-accent" onClick={() => navigate("groups", { replace: true })}>View groups</button>
         </li>
+        <li>
+          <button className="btn-accent" onClick={() => navigate("events", { replace: true })}>View events</button>
+        </li>
         {
           user ? (
             <li>
