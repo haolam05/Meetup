@@ -43,10 +43,21 @@ export const loadEvents = () => async dispatch => {
 };
 
 export const loadEventDetails = eventId => async dispatch => {
-  const response = await csrfFetch(`/api/events/${eventId}`);
+  const response1 = await csrfFetch(`/api/events/${eventId}`);
 
-  if (response.ok) {
-    const event = await response.json();
+  if (response1.ok) {
+    const event = await response1.json();
+    const image = event.EventImages.find(image => image.preview);
+    event.previewImage = image ? image.url : "Preview Image Not Found";
+
+    const response2 = await csrfFetch(`/api/groups/${event.Group.id}`);
+    if (response2.ok) {
+      const group = await response2.json();
+      const image = group.GroupImages.find(image => image.preview);
+      event.Group = { ...event.Group, ...group };
+      event.Group.previewImage = image ? image.url : "Preview Image Not Found";
+    }
+
     dispatch(getAllEventDetails(event));
   }
 };

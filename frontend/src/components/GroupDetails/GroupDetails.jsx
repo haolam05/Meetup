@@ -65,10 +65,22 @@ function GroupDetails() {
           </div>
           <div id="events">
             <h2 id="group-num-events" className="subheading">Events ({group.numEvents})</h2>
-            {group.upcomingEvents.length > 0 && (<h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>)}
-            {group.upcomingEvents.map(event => <Event key={event.id} event={event} />)}
-            {group.pastEvents.length > 0 && (<h2 className="subheading">Past Events ({group.pastEvents.length})</h2>)}
-            {group.pastEvents.map(event => <Event key={event.id} event={event} />)}
+            {group.upcomingEvents.length > 0 && (
+              <h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>
+            )}
+            {group.upcomingEvents.map(event => (
+              <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+                <Event event={event} />
+              </div>
+            ))}
+            {group.pastEvents.length > 0 && (
+              <h2 className="subheading">Past Events ({group.pastEvents.length})</h2>
+            )}
+            {group.pastEvents.map(event => (
+              <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+                <Event event={event} />
+              </div>
+            ))}
           </div>
         </div>
       </div>

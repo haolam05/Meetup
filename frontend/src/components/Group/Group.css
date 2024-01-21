@@ -76,3 +76,7 @@
 .group-dot {
   padding: 0px 5px 8px 5px;
 }
+
+.group.details {
+  grid-template-columns: 1fr 1fr;
+}

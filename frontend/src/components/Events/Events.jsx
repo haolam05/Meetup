@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Loading';
@@ -5,6 +6,7 @@ import Event from '../Event';
 import * as eventActions from '../../store/event';
 
 function Events() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const events = useSelector(eventActions.getEvents);
@@ -21,8 +23,16 @@ function Events() {
 
   return (
     <li>
-      {events.upcomingEvents.map(event => <Event key={event.id} event={event} />)}
-      {events.pastEvents.map(event => <Event key={event.id} event={event} />)}
+      {events.upcomingEvents.map(event => (
+        <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+          <Event event={event} />
+        </div>
+      ))}
+      {events.pastEvents.map(event => (
+        <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+          <Event event={event} />
+        </div>
+      ))}
     </li>
   );
 }

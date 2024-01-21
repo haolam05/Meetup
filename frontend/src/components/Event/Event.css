@@ -6,7 +6,6 @@
   width: 100%;
   padding: 10px 0;
   border-top: 3px solid var(--light-gray);
-  /* color: gray; */
 }
 
 #event-image img {
@@ -37,4 +36,8 @@
 
 #event-description {
   font-style: italic;
+}
+
+.event.details {
+  grid-template-columns: 1fr 1fr;
 }

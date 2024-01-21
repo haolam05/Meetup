@@ -7,6 +7,7 @@ import * as sessionActions from './store/session';
 import List from './components/List/List';
 import Error from './components/Error';
 import GroupDetails from './components/GroupDetails';
+import EventDetails from './components/EventDetails';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: 'events',
         element: <List list="Events" />
+      },
+      {
+        path: 'events/:eventId',
+        element: <EventDetails />
       },
       {
         path: '*',
