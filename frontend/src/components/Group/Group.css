@@ -1,0 +1,43 @@
+.group-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.group {
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  border-top: 3px solid var(--light-gray);
+  padding: 10px 0;
+  grid-gap: 30px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.group-name {
+  font-size: 17px;
+}
+
+.group-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.group-location {
+  color: var(--gray)
+}
+
+.group-description {
+  font-style: italic;
+}
+
+.group-info {
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.group-dot {
+  padding: 0px 5px 8px 5px;
+}
