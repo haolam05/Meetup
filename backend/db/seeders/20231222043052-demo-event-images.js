@@ -21,7 +21,13 @@ const eventNames = [
   'Who wants to sing?',
   'Baking & Desert',
   'Badminton Competition Season #2',
-  'Swimming Competetion Season #21'
+  'Swimming Competetion Season #21',
+  'Luffy Gang Reunion',
+  'Zoro Gang Reunion',
+  'Sanji Gang Reuninon',
+  'Nami Gang Reuinion',
+  'Robin Gang Reunion',
+  'Chopper Gang Reunion'
 ];
 
 const urls = [
@@ -42,7 +48,13 @@ const urls = [
   'https://media.istockphoto.com/id/937048674/vector/vector-illustration-of-kids-making-art-performance.jpg?s=612x612&w=0&k=20&c=sOhMafkCCvOSzMwrraGv1l2m_mtXiKnYK75Wk3wcEBE=',
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFoxHcEk7X2TTgT0Ey69cZdDNQPz3RlHvvag&usqp=CAU',
   'https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2021/11/loveallplay_teasertrailer2screenshot.png?fit=1920%2C1080&ssl=1',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUxFwsTTQX2h86JHIp_gCFT6ZNUbiJU98EOQ&usqp=CAU'
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUxFwsTTQX2h86JHIp_gCFT6ZNUbiJU98EOQ&usqp=CAU',
+  'https://i.pinimg.com/originals/5b/df/d6/5bdfd6a360e0b56427d442015acbf9b8.gif',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-8x-FjPmUFCUisw4SIL6ExHGpZhnNqLDKLg&usqp=CAU',
+  'https://i.pinimg.com/originals/75/a5/67/75a5673957d77321e285a94efa076490.gif',
+  'https://gifdb.com/images/high/nami-cute-blush-nod-5tngxyjv2kmi1cyp.gif',
+  'https://i.pinimg.com/originals/aa/41/be/aa41bec777bf2a01bcf947a99c84181b.gif',
+  'https://i.pinimg.com/originals/26/1f/db/261fdbdd9daff46c9771c09e8592d6e2.gif'
 ];
 
 const eventImages = [
@@ -134,6 +146,36 @@ const eventImages = [
   {
     eventName: eventNames[13],
     url: urls[17],
+    preview: true
+  },
+  {
+    eventName: eventNames[14],
+    url: urls[18],
+    preview: true
+  },
+  {
+    eventName: eventNames[15],
+    url: urls[19],
+    preview: true
+  },
+  {
+    eventName: eventNames[16],
+    url: urls[20],
+    preview: true
+  },
+  {
+    eventName: eventNames[17],
+    url: urls[21],
+    preview: true
+  },
+  {
+    eventName: eventNames[18],
+    url: urls[22],
+    preview: true
+  },
+  {
+    eventName: eventNames[19],
+    url: urls[23],
     preview: true
   }
 ];

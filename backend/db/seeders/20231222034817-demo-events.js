@@ -36,7 +36,13 @@ const venueAddresses = [
   '450 E Fremont St UNIT 201, Las Vegas, NV 89101',
   '225 Crummer Ln, Reno, NV 89502',
   '2100 Olympic Ave., Henderson NV 89014',
-  '987 Franklin Street'
+  '987 Franklin Street',
+  null,   // Online
+  null,   // Online
+  null,   // Online
+  null,   // Online
+  null,   // Online
+  null,   // Online
 ];
 
 const eventNames = [
@@ -53,7 +59,13 @@ const eventNames = [
   'Who wants to sing?',
   'Baking & Desert',
   'Badminton Competition Season #2',
-  'Swimming Competetion Season #21'
+  'Swimming Competetion Season #21',
+  'Luffy Gang Reunion',
+  'Zoro Gang Reunion',
+  'Sanji Gang Reuninon',
+  'Nami Gang Reuinion',
+  'Robin Gang Reunion',
+  'Chopper Gang Reunion'
 ];
 
 const events = [
@@ -211,6 +223,72 @@ const events = [
     startDate: '2024-12-30',
     endDate: '2024-12-31'
   },
+  {
+    groupName: groupNames[0],
+    venueAddress: venueAddresses[14],
+    name: eventNames[14],
+    description: `Known for his signature straw hat and elastic limbs, Luffy always remains optimistic no matter the danger he encounters. With a pure heart, he easily wins over his crew's loyalty — and often drives his rivals crazy. “He is a super cheerful guy, full of joy,” Iñaki Godoy told Netflix during production.`,
+    type: 'Online',
+    capacity: 12,
+    price: 12.21,
+    startDate: '2026-10-30',
+    endDate: '2026-12-31'
+  },
+  {
+    groupName: groupNames[0],
+    venueAddress: venueAddresses[15],
+    name: eventNames[15],
+    description: `Zoro has a stern, serious, and distanced personality, but unlike Robin, he often reacts in a goofy and exaggerated comic style due to his short-tempered and impatient attitude. On the ship, he normally either trains with weights or sleeps.`,
+    type: 'Online',
+    capacity: 23,
+    price: 23.32,
+    startDate: '2026-09-30',
+    endDate: '206-11-31'
+  },
+  {
+    groupName: groupNames[0],
+    venueAddress: venueAddresses[16],
+    name: eventNames[16],
+    description: `Sanji is a slim, muscular, long-legged man with blond hair which he keeps brushed over one side of his face. Before the timeskip, this was the left side. After the two-year timeskip, he switched his hairstyle so that it covers the right side.`,
+    type: 'Online',
+    capacity: 34,
+    price: 34.43,
+    startDate: '2019-12-30',
+    endDate: '2029-12-31'
+  },
+  {
+    groupName: groupNames[0],
+    venueAddress: venueAddresses[17],
+    name: eventNames[17],
+    description: `In the series, Nami is the Straw Hat Pirates' navigator, who dreams of drawing a map of the entire world. Despite her initial distrust of pirates, Nami eventually changes her mind after being around Luffy and the rest of the crew. Nami is depicted as an intelligent girl who is obsessed with obtaining money.`,
+    type: 'Online',
+    capacity: 56,
+    price: 56.65,
+    startDate: '2025-01-01',
+    endDate: '2025-01-31'
+  },
+  {
+    groupName: groupNames[0],
+    venueAddress: venueAddresses[18],
+    name: eventNames[18],
+    description: `Nico Robin is an extremely tall, slender, yet athletic young woman with shoulder-length black hair and brown eyes with dark, wide pupils (blue eyes in the anime, excluding the tenth and the twelfth movie). She also has a long, thin and defined nose.`,
+    type: 'Online',
+    capacity: 67,
+    price: 67.76,
+    startDate: '2025-12-30',
+    endDate: '2025-12-31'
+  },
+  {
+    groupName: groupNames[0],
+    venueAddress: venueAddresses[19],
+    name: eventNames[19],
+    description: `Tony Tony Chopper is a half-reindeer, half-human hybrid who gained this ability after eating the Hito Hito no Mi or the Human-Human Fruit, which allows him to be able to walk and talk like a human. He is also able to transform into different forms that are suitable for battle situations.`,
+    type: 'Online',
+    capacity: 78,
+    price: 78.87,
+    startDate: '2025-11-30',
+    endDate: '2025-11-31'
+  }
 ];
 
 

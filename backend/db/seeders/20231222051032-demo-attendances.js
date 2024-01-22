@@ -21,7 +21,13 @@ const eventNames = [
   'Who wants to sing?',
   'Baking & Desert',
   'Badminton Competition Season #2',
-  'Swimming Competetion Season #21'
+  'Swimming Competetion Season #21',
+  'Luffy Gang Reunion',
+  'Zoro Gang Reunion',
+  'Sanji Gang Reuninon',
+  'Nami Gang Reuinion',
+  'Robin Gang Reunion',
+  'Chopper Gang Reunion'
 ];
 
 const userEmails = [
