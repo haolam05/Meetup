@@ -1,23 +1,35 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import GroupForm from "../GroupForm";
 import Loading from '../Loading';
+import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
 
 function EditGroup() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const group = useSelector(groupActions.getGroupById(groupId));
+  const user = useSelector(sessionActions.sessionUser);
 
   useEffect(() => {
     const loadGroupDetails = async () => {
       await dispatch(groupActions.loadGroupDetails(groupId));
+      await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
     }
     loadGroupDetails();
   }, [dispatch, groupId]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      if (!user || (user.id !== group.Organizer.id)) {
+        navigate('/', { replace: true });
+      }
+    }
+  });
 
   if (!isLoaded) return <Loading />;
 
