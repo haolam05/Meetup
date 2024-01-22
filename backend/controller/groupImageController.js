@@ -1,5 +1,5 @@
 const { GroupImage, Group } = require('../db/models');
-const { notFoundError } = require('../utils/makeError');
+const { notFoundError, forbiddenError } = require('../utils/makeError');
 const checkUserRole = require('../utils/userRoleAuthorization');
 
 async function deleteGroupImage(req, res, next) {
@@ -16,6 +16,28 @@ async function deleteGroupImage(req, res, next) {
   res.json({ message: 'Successfully deleted' });
 }
 
+async function createGroupImage(req, res, next) {
+  const group = await Group.findByPk(req.params.groupId);
+
+  if (!group) {
+    const err = notFoundError("Group couldn't be found");
+    return next(err);
+  }
+
+  if (group.organizerId !== req.user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  const newImage = await group.createGroupImage(req.body);
+  res.json({
+    id: newImage.id,
+    url: newImage.url,
+    preview: newImage.preview
+  });
+}
+
 module.exports = {
+  createGroupImage,
   deleteGroupImage
 }
