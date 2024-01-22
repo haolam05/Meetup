@@ -4,7 +4,7 @@ function ConfirmDeleteForm({ text, deleteCb, cancelDeleteCb }) {
   return (
     <div id="confirm-delete">
       <h2 className="subheading">Confirm Delete</h2>
-      <p>Are you sure you wnat to remove this {text.toLowerCase()}?</p>
+      <p>Are you sure you want to remove this {text.toLowerCase()}?</p>
       <div>
         <button
           className="btn-primary delete"
