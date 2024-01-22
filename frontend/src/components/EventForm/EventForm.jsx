@@ -40,11 +40,9 @@ function EventForm({ groupId }) {
     }
 
     const dateValue = new Date(`${date} ${time} ${identifier}`);
-    console.log(dateValue, '❌❌❌')
+
     if (dateValue.toString() === 'Invalid Date') {
-      console.log(errorName, '🐼🐼🐼')
       setErrors({ [errorName]: "Invalid Date" });
-      console.log(errorName, errors)
       return false;
     }
 
