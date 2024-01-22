@@ -118,7 +118,7 @@ function createEventValidation() {
       .isInt({ min: 1 })
       .withMessage('Capacity must be an integer'),
     check('price')
-      .isFloat({ min: 1 })
+      .isFloat({ min: 0 })
       .withMessage('Price is invalid'),
     check('description')
       .exists({ checkFalsy: true })

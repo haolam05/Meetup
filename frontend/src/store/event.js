@@ -4,6 +4,7 @@ import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const LOAD_EVENT_DETAILS = '/events/LOAD_EVENT_DETAILS';
+const ADD_EVENT = '/events/ADD_EVENT';
 
 // POJO action creators
 const getAllEvents = (events, upcomingEvents, pastEvents) => ({
@@ -15,6 +16,11 @@ const getAllEvents = (events, upcomingEvents, pastEvents) => ({
 
 const getAllEventDetails = event => ({
   type: LOAD_EVENT_DETAILS,
+  event
+});
+
+const addEvent = event => ({
+  type: ADD_EVENT,
   event
 });
 
@@ -62,6 +68,36 @@ export const loadEventDetails = eventId => async dispatch => {
   }
 };
 
+export const createEvent = (groupId, payload) => async dispatch => {
+  const response1 = await csrfFetch(`/api/groups/${groupId}/events`, {
+    method: 'POST',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const eventData = await response1.json();
+  if (!response1.ok) return eventData.errors ? eventData : { errors: eventData };
+
+  if (payload.image) {
+    const response2 = await csrfFetch(`/api/events/${eventData.id}/images`, {
+      method: 'POST',
+      body: JSON.stringify({
+        url: payload.image,
+        preview: true
+      })
+    });
+
+    if (response2.ok) {
+      const image = await response2.json();
+      eventData.previewImage = image.url;
+    }
+  }
+
+  dispatch(addEvent(eventData));
+  return eventData;
+};
+
 // Custom selectors
 export const getEvents = createSelector(
   state => state.event,
@@ -82,6 +118,8 @@ function eventReducer(state = initialState, action) {
       return { events: { ...action.events }, upcomingEvents: action.upcomingEvents, pastEvents: action.pastEvents };
     case LOAD_EVENT_DETAILS:
       return { ...state, eventDetails: { ...state.eventDetails, [action.event.id]: action.event } };
+    case ADD_EVENT:
+      return { ...state, events: { ...state.events, [action.event.id]: action.event } };
     default:
       return state;
   }

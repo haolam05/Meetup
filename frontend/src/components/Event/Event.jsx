@@ -75,6 +75,10 @@ function Event({ event, user = false, details = false }) {
             <div><i className="fa-solid fa-location-dot"></i></div>
             <div>{event.type}</div>
           </div>
+          <div id="event-capacity">
+            <div><i className="fa-solid fa-user-group"></i></div>
+            <div>{event.capacity}</div>
+          </div>
           <div id="event-description">
             <div>Description</div>
             <p>{event.description.length > 100 ? `${event.description.slice(0, 100)}...` : event.description}</p>

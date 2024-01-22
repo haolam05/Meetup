@@ -25,7 +25,7 @@ function CreateEvent() {
     <div id="lists-container">
       <div id="lists">
         <h1 id="list-headers" className="heading new-group">Create a new event for {group.name}</h1>
-        <EventForm />
+        <EventForm groupId={groupId} />
       </div>
     </div>
   );

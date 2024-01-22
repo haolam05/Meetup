@@ -76,10 +76,15 @@
 
 #event-price,
 #event-type,
+#event-capacity,
 #event-description {
   display: flex;
   color: var(--gray);
   gap: 20px;
+}
+
+#event-capacity {
+  gap: 10px;
 }
 
 #event-description>div {

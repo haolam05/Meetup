@@ -49,9 +49,6 @@ function GroupDetails() {
           </div>
           <div id="events">
             <h2 id="group-num-events" className="subheading">Events ({group.numEvents})</h2>
-            {group.numEvents === 0 && (
-              <h2 className="subheading">No Upcoming Events</h2>
-            )}
             {group.upcomingEvents.length > 0 && (
               <h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>
             )}
