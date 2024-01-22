@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import { getPreviewImageUrl } from "../../utils/images";
 import { formatPrice } from "../../utils/priceFormatter";
+import OpenModalButton from '../OpenModalButton';
+import DeleteEvent from '../DeleteEvent';
 import "./Event.css";
 
 function Event({ event, user = false, details = false }) {
@@ -89,7 +91,10 @@ function Event({ event, user = false, details = false }) {
             <div id="event-line-break"></div>
             <div id="event-btns">
               <button className="btn-accent">Update</button>
-              <button className="btn-accent">Delete</button>
+              <OpenModalButton
+                modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />}
+                buttonText="Delete"
+              />
             </div>
           </>
         )}

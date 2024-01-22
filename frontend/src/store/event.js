@@ -5,6 +5,7 @@ import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const LOAD_EVENT_DETAILS = '/events/LOAD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
+const REMOVE_EVENT = '/events/REMOVE_EVENT';
 
 // POJO action creators
 const getAllEvents = (events, upcomingEvents, pastEvents) => ({
@@ -22,6 +23,11 @@ const getAllEventDetails = event => ({
 const addEvent = event => ({
   type: ADD_EVENT,
   event
+});
+
+const removeEvent = eventId => ({
+  type: REMOVE_EVENT,
+  eventId
 });
 
 export const loadEvents = () => async dispatch => {
@@ -98,6 +104,18 @@ export const createEvent = (groupId, payload) => async dispatch => {
   return eventData;
 };
 
+export const deleteEvent = eventId => async disptach => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    disptach(removeEvent(eventId));
+    return data;
+  }
+};
+
 // Custom selectors
 export const getEvents = createSelector(
   state => state.event,
@@ -120,6 +138,11 @@ function eventReducer(state = initialState, action) {
       return { ...state, eventDetails: { ...state.eventDetails, [action.event.id]: action.event } };
     case ADD_EVENT:
       return { ...state, events: { ...state.events, [action.event.id]: action.event } };
+    case REMOVE_EVENT: {
+      const newState = { ...state };
+      delete newState.events[action.eventId];
+      return newState;
+    }
     default:
       return state;
   }
