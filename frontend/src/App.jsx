@@ -9,6 +9,7 @@ import Error from './components/Error';
 import GroupDetails from './components/GroupDetails';
 import EventDetails from './components/EventDetails';
 import CreateGroup from './components/CreateGroup';
+import EditGroup from './components/EditGroup';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: 'groups/new',
         element: <CreateGroup />
+      },
+      {
+        path: 'groups/:groupId/edit',
+        element: <EditGroup />
       },
       {
         path: 'events',

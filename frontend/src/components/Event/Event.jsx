@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import { getPreviewImageUrl } from "../../utils/images";
 import { formatPrice } from "../../utils/priceFormatter";
 import "./Event.css";
 
 function Event({ event, user = false, details = false }) {
+  const navigate = useNavigate();
+
   if (!details) return (
     <div id="event">
       <div id="event-image">
@@ -28,7 +31,7 @@ function Event({ event, user = false, details = false }) {
         <img src={getPreviewImageUrl(event)} alt="preview-image" />
       </div>
       <div id="event-text">
-        <div className="group details">
+        <div className="group details" onClick={() => navigate(`/groups/${event.Group.id}`)}>
           <div className="group-image">
             <img
               className="group-thumbnail"

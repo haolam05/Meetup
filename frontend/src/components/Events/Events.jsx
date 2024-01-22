@@ -24,12 +24,12 @@ function Events() {
   return (
     <li>
       {events.upcomingEvents.map(event => (
-        <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+        <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
           <Event event={event} />
         </div>
       ))}
       {events.pastEvents.map(event => (
-        <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+        <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
           <Event event={event} />
         </div>
       ))}

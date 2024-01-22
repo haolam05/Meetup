@@ -4,15 +4,15 @@ import { useDispatch } from 'react-redux';
 import * as groupActions from '../../store/group';
 import "./GroupForm.css";
 
-function GroupForm({ group = {} }) {
+function GroupForm({ group = {}, title }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [location, setLocation] = useState("");
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [privateStatus, setPrivateStatus] = useState("");
-  const [type, setType] = useState("In person");
-  const [image, setImage] = useState("");
+  const [location, setLocation] = useState(group.city && group.state ? `${group.city}, ${group.state}` : "");
+  const [name, setName] = useState(group.name || "");
+  const [about, setAbout] = useState(group.about || "");
+  const [privateStatus, setPrivateStatus] = useState(group.private !== undefined ? group.private : false);
+  const [type, setType] = useState(group.type || "In person");
+  const [image, setImage] = useState(group.image || "");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async e => {
@@ -33,22 +33,30 @@ function GroupForm({ group = {} }) {
     state = state[0].toUpperCase() + state.slice(1).toLowerCase();
 
     const payload = {
-      ...group,
       name,
       about,
       type,
-      private: privateStatus === "true",
+      private: privateStatus,
       city,
       state,
       image
     }
 
-    const groupData = await dispatch(groupActions.createGroup(payload));
+    console.log(payload, '⬅️⬅️⬅️⬅️⬅️⬅️⬅️')
+
+    let groupData;
+    if (title === 'Update Group') {
+      console.log("Update")
+      groupData = await dispatch(groupActions.updateGroup(payload, group.id));
+    } else {
+      console.log("Create")
+      groupData = await dispatch(groupActions.createGroup(payload));
+    }
 
     if (groupData?.errors) {
       setErrors({ ...groupData.errors });
     } else {
-      navigate(`/groups/${groupData?.id}`);
+      navigate(`/groups/${groupData?.id}`, { replace: true });
     }
   };
 
@@ -124,24 +132,27 @@ function GroupForm({ group = {} }) {
             value={privateStatus}
             onChange={e => setPrivateStatus(e.target.value)}
           >
-            <option value="true">Private</option>
-            <option value="false">Public</option>
+            <option value={true}>Private</option>
+            <option value={false}>Public</option>
           </select>
           {errors.privateStatus && <p className="error-message">{errors.privateStatus}</p>}
         </div>
-        <div>
-          <label htmlFor="group-image">Please add an image URL for your group below</label>
-          <input
-            type="text"
-            placeholder="Image Url"
-            value={image}
-            onChange={e => setImage(e.target.value)}
-          />
-          {errors.image && <p className="error-message">{errors.image}</p>}
+        {
+          title !== 'Update Group' && (
+            <div>
+              <label htmlFor="group-image">Please add an image URL for your group below</label>
+              <input
+                type="text"
+                placeholder="Image Url"
+                value={image}
+                onChange={e => setImage(e.target.value)}
+              />
+              {errors.image && <p className="error-message">{errors.image}</p>}
 
-        </div>
+            </div>
+          )}
       </div>
-      <button type="submit" className="btn-primary">Create Group</button>
+      <button type="submit" className="btn-primary">{title}</button>
     </form>
   );
 }

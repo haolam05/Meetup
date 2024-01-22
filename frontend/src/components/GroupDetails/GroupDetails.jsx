@@ -49,11 +49,14 @@ function GroupDetails() {
           </div>
           <div id="events">
             <h2 id="group-num-events" className="subheading">Events ({group.numEvents})</h2>
+            {group.numEvents === 0 && (
+              <h2 className="subheading">No Upcoming Events</h2>
+            )}
             {group.upcomingEvents.length > 0 && (
               <h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>
             )}
             {group.upcomingEvents.map(event => (
-              <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+              <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
                 <Event event={event} />
               </div>
             ))}
@@ -61,7 +64,7 @@ function GroupDetails() {
               <h2 className="subheading">Past Events ({group.pastEvents.length})</h2>
             )}
             {group.pastEvents.map(event => (
-              <div key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+              <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
                 <Event event={event} />
               </div>
             ))}

@@ -93,7 +93,7 @@ export const createGroup = payload => async dispatch => {
   }
 
   if (payload.image) {
-    const response = await csrfFetch(`/api/groups/${groupData.id}/images`, {
+    const response3 = await csrfFetch(`/api/groups/${groupData.id}/images`, {
       method: 'POST',
       body: JSON.stringify({
         url: payload.image,
@@ -101,8 +101,8 @@ export const createGroup = payload => async dispatch => {
       })
     });
 
-    if (response.ok) {
-      const image = await response.json();
+    if (response3.ok) {
+      const image = await response3.json();
       groupData.previewImage = image.url;
     }
   }
@@ -110,6 +110,27 @@ export const createGroup = payload => async dispatch => {
   dispatch(addGroup(groupData));
   return groupData;
 };
+
+export const updateGroup = (payload, groupId) => async dispatch => {
+  const response1 = await csrfFetch(`/api/groups/${groupId}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const groupData = await response1.json();
+  if (!response1.ok) return groupData.errors ? groupData : { errors: groupData };
+
+  const response2 = await csrfFetch(`/api/groups/${groupData.id}/events`);
+  if (response2.ok) {
+    const events = await response2.json();
+    groupData.numEvents = events.Events.length;
+  }
+
+  dispatch(addGroup(groupData));
+  return groupData;
+}
 
 // Custom selectors
 export const getGroups = createSelector(
