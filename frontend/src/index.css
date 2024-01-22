@@ -50,6 +50,12 @@ button {
   border-color: var(--black);
 }
 
+.btn-teal {
+  background-color: var(--teal);
+  color: var(--white);
+  border-color: var(--black);
+}
+
 a,
 button:hover {
   cursor: pointer;
@@ -71,6 +77,14 @@ form {
 }
 
 form input {
+  padding: 10px;
+}
+
+form select {
+  padding: 10px;
+}
+
+form textarea {
   padding: 10px;
 }
 

@@ -1,0 +1,54 @@
+form#new-group {
+  margin-top: 10px;
+  gap: 30px;
+}
+
+form#new-group .caption {
+  color: var(--gray);
+  font-style: italic;
+}
+
+form#new-group .create-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form#new-group #event-line-break {
+  border-style: hidden;
+  border-color: var(--dark-gray);
+}
+
+form#new-group .subheading {
+  color: var(--gray);
+  text-shadow: var(--light-yellow) 1px 0 10px;
+}
+
+form#new-group .questions {
+  margin: 10px 20px;
+}
+
+form#new-group .section-4 {
+  gap: 30px;
+}
+
+form#new-group .section-4 div {
+  color: var(--gray);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form#new-group select {
+  color: var(--gray);
+}
+
+form#new-group button {
+  border: none;
+}
+
+form#new-group button:hover {
+  background-color: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+}

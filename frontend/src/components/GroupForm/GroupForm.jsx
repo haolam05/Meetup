@@ -53,7 +53,8 @@ function GroupForm({ group = {} }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form id="new-group" onSubmit={handleSubmit}>
+      <div id="event-line-break"></div>
       <div className="create-group section-1">
         <h2 className="subheading">Set your group&apos;s location</h2>
         <div className="caption">
@@ -67,6 +68,7 @@ function GroupForm({ group = {} }) {
         />
         {errors.location && <p className="error-message">{errors.location}</p>}
       </div>
+      <div id="event-line-break"></div>
       <div className="create-group section-2">
         <h2 className="subheading">What will your group&apos;s name be?</h2>
         <div className="caption">
@@ -80,10 +82,20 @@ function GroupForm({ group = {} }) {
         />
         {errors.name && <p className="error-message">{errors.name}</p>}
       </div>
+      <div id="event-line-break"></div>
       <div className="create-group section-3">
-        <h2 className="subheading">Describe the purpose of your group.</h2>
+        <h2 className="subheading">Describe the purpose of your group</h2>
         <div className="caption">
-          People will see this when we promote your group, but you&apos;ll be able to add to it later, too. 1. What&apos;s the purpose of the group? 2. Who should join? 3. What will you do at your events?
+          <p>
+            People will see this when we promote your group, but you&apos;ll be able to add to it later, too.
+          </p>
+          <div className="questions">
+            1. What&apos;s the purpose of the group?
+            <br />
+            2. Who should join?
+            <br />
+            3. What will you do at your events?
+          </div>
         </div>
         <textarea
           placeholder="Please write at least 50 characters"
@@ -92,35 +104,44 @@ function GroupForm({ group = {} }) {
         />
         {errors.about && <p className="error-message">{errors.about}</p>}
       </div>
+      <div id="event-line-break"></div>
+      <h2 className="subheading">Final steps...</h2>
       <div className="create-group section-4">
-        <label htmlFor="group-type">Is this an in-person or online group?</label>
-        <select
-          value={type}
-          onChange={e => setType(e.target.value)}
-        >
-          <option value="In person">In person</option>
-          <option value="Online">Online</option>
-        </select>
-        {errors.type && <p className="error-message">{errors.type}</p>}
-        <label htmlFor="group-private-status">Is this group private or public?</label>
-        <select
-          value={privateStatus}
-          onChange={e => setPrivateStatus(e.target.value)}
-        >
-          <option value="true">Private</option>
-          <option value="false">Public</option>
-        </select>
-        {errors.privateStatus && <p className="error-message">{errors.privateStatus}</p>}
-        <label htmlFor="group-image">Please add an image URL for your group below</label>
-        <input
-          type="text"
-          placeholder="Image Url"
-          value={image}
-          onChange={e => setImage(e.target.value)}
-        />
-        {errors.image && <p className="error-message">{errors.image}</p>}
+        <div>
+          <label htmlFor="group-type">Is this an in-person or online group?</label>
+          <select
+            value={type}
+            onChange={e => setType(e.target.value)}
+          >
+            <option value="In person">In person</option>
+            <option value="Online">Online</option>
+          </select>
+          {errors.type && <p className="error-message">{errors.type}</p>}
+        </div>
+        <div>
+          <label htmlFor="group-private-status">Is this group private or public?</label>
+          <select
+            value={privateStatus}
+            onChange={e => setPrivateStatus(e.target.value)}
+          >
+            <option value="true">Private</option>
+            <option value="false">Public</option>
+          </select>
+          {errors.privateStatus && <p className="error-message">{errors.privateStatus}</p>}
+        </div>
+        <div>
+          <label htmlFor="group-image">Please add an image URL for your group below</label>
+          <input
+            type="text"
+            placeholder="Image Url"
+            value={image}
+            onChange={e => setImage(e.target.value)}
+          />
+          {errors.image && <p className="error-message">{errors.image}</p>}
+
+        </div>
       </div>
-      <button type="submit">Create Group</button>
+      <button type="submit" className="btn-primary">Create Group</button>
     </form>
   );
 }
