@@ -4,6 +4,7 @@ import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const LOAD_GROUP_DETAILS = '/groups/LOAD_GROUP_DETAILS';
+const ADD_GROUP = '/groups/ADD_GROUP';
 
 // POJO action creators
 const getAllGroups = groups => ({
@@ -12,6 +13,11 @@ const getAllGroups = groups => ({
 
 const getAllGroupDetails = group => ({
   type: LOAD_GROUP_DETAILS,
+  group
+});
+
+const addGroup = group => ({
+  type: ADD_GROUP,
   group
 });
 
@@ -34,7 +40,7 @@ export const loadGroups = () => async dispatch => {
 
     dispatch(getAllGroups(groups.Groups));
   }
-}
+};
 
 export const loadGroupDetails = groupId => async dispatch => {
   const response1 = await csrfFetch(`/api/groups/${groupId}`);
@@ -67,7 +73,43 @@ export const loadGroupDetails = groupId => async dispatch => {
 
     dispatch(getAllGroupDetails(group));
   }
-}
+};
+
+export const createGroup = payload => async dispatch => {
+  const response1 = await csrfFetch(`/api/groups`, {
+    method: 'POST',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const groupData = await response1.json();
+  if (!response1.ok) return groupData.errors ? groupData : { errors: groupData };
+
+  const response2 = await csrfFetch(`/api/groups/${groupData.id}/events`);
+  if (response2.ok) {
+    const events = await response2.json();
+    groupData.numEvents = events.Events.length;
+  }
+
+  if (payload.image) {
+    const response = await csrfFetch(`/api/groups/${groupData.id}/images`, {
+      method: 'POST',
+      body: JSON.stringify({
+        url: payload.image,
+        preview: true
+      })
+    });
+
+    if (response.ok) {
+      const image = await response.json();
+      groupData.previewImage = image.url;
+    }
+  }
+
+  dispatch(addGroup(groupData));
+  return groupData;
+};
 
 // Custom selectors
 export const getGroups = createSelector(
@@ -89,6 +131,8 @@ function groupReducer(state = initialState, action) {
       return { groups: { ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {}) } };
     case LOAD_GROUP_DETAILS:
       return { ...state, groupDetails: { ...state.groupDetails, [action.group.id]: action.group } };
+    case ADD_GROUP:
+      return { ...state, groups: { ...state.groups, [action.group.id]: action.group } };
     default:
       return state;
   }
