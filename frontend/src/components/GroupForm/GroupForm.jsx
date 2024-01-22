@@ -42,14 +42,10 @@ function GroupForm({ group = {}, title }) {
       image
     }
 
-    console.log(payload, '⬅️⬅️⬅️⬅️⬅️⬅️⬅️')
-
     let groupData;
     if (title === 'Update Group') {
-      console.log("Update")
       groupData = await dispatch(groupActions.updateGroup(payload, group.id));
     } else {
-      console.log("Create")
       groupData = await dispatch(groupActions.createGroup(payload));
     }
 
