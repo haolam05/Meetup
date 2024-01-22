@@ -11,7 +11,7 @@ function Group({ group, user = false, description = true, organizer = false }) {
     if (updateGroupBtn) {
       navigate(`/groups/${group.id}/edit`, { replace: true });
     }
-  }, [updateGroupBtn]);
+  }, [updateGroupBtn, group.id, navigate]);
 
   return (
     <div
