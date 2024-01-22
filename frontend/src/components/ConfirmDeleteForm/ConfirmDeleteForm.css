@@ -1,20 +1,20 @@
-#delete-group {
+#confirm-delete {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-#delete-group div {
+#confirm-delete div {
   display: flex;
   gap: 10px;
 }
 
-#delete-group .sub-text {
+#confirm-delete .sub-text {
   text-shadow: var(--light-yellow) 1px 0 10px;
   font-style: italic;
 }
 
-#delete-group button {
+#confirm-delete button {
   border: none;
   width: 100%;
   display: flex;
@@ -22,13 +22,13 @@
   align-items: center;
 }
 
-#delete-group button.cancel:hover {
+#confirm-delete button.cancel:hover {
   background-color: transparent;
   color: var(--gray);
   border: 1px solid var(--gray);
 }
 
-#delete-group button.delete:hover {
+#confirm-delete button.delete:hover {
   background-color: transparent;
   color: var(--red);
   border: 1px solid var(--red);
