@@ -8,12 +8,17 @@ import "./Group.css";
 function Group({ group, user = false, description = true, organizer = false }) {
   const navigate = useNavigate();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
+  const [createEventBtn, setCreateEventBtn] = useState(false);
 
   useEffect(() => {
     if (updateGroupBtn) {
       navigate(`/groups/${group.id}/edit`, { replace: true });
     }
-  }, [updateGroupBtn, group.id, navigate]);
+
+    if (createEventBtn) {
+      navigate(`/groups/${group.id}/events/new`, { replace: true });
+    }
+  }, [updateGroupBtn, createEventBtn, group.id, navigate]);
 
   return (
     <div
@@ -59,7 +64,7 @@ function Group({ group, user = false, description = true, organizer = false }) {
             </button>
           ) : (
             <div id="event-btns">
-              <button className="btn-accent">Create event</button>
+              <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
               <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
               <OpenModalButton
                 modalComponent={<DeleteGroup groupId={group.id} />}
