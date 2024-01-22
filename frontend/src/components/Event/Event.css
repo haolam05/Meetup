@@ -117,3 +117,9 @@
 .event.details {
   grid-template-columns: 1fr 1fr;
 }
+
+.event-type.event-type.event-capacity {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loading from '../Loading';
 import EventForm from "../EventForm";
 import * as groupActions from '../../store/group';
+import "./CreateEvent.css";
 
 function CreateEvent() {
   const dispatch = useDispatch();
@@ -24,7 +25,8 @@ function CreateEvent() {
   return (
     <div id="lists-container">
       <div id="lists">
-        <h1 id="list-headers" className="heading new-group">Create a new event for {group.name}</h1>
+        <h1 id="list-headers" className="heading new-group">Create a new event</h1>
+        <div id="event-group-name">{group.name}</div>
         <EventForm groupId={groupId} />
       </div>
     </div>

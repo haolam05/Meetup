@@ -69,17 +69,19 @@ function Event({ event, user = false, details = false }) {
               </div>
             </div>
           </div>
-          <div id="event-price">
-            <div><i className="fa-brands fa-bitcoin"></i></div>
-            <div>{formatPrice(event.price)}</div>
-          </div>
-          <div id="event-type">
-            <div><i className="fa-solid fa-location-dot"></i></div>
-            <div>{event.type}</div>
-          </div>
-          <div id="event-capacity">
-            <div><i className="fa-solid fa-user-group"></i></div>
-            <div>{event.capacity}</div>
+          <div className="event-price event-type event-capacity">
+            <div id="event-price">
+              <div><i className="fa-brands fa-bitcoin"></i></div>
+              <div>{formatPrice(event.price)}</div>
+            </div>
+            <div id="event-type">
+              <div><i className="fa-solid fa-location-dot"></i></div>
+              <div>{event.type}</div>
+            </div>
+            <div id="event-capacity">
+              <div><i className="fa-solid fa-user-group"></i></div>
+              <div>{event.capacity}</div>
+            </div>
           </div>
           <div id="event-description">
             <div>Description</div>

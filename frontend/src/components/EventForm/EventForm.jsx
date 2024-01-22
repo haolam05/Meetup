@@ -83,9 +83,13 @@ function EventForm({ groupId }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="event-name">What is the name of your event?</label>
+    <form id="new-group" onSubmit={handleSubmit}>
+      <div id="event-line-break"></div>
+      <div className="create-group">
+        <h2 className="subheading">What is the name of your event?</h2>
+        <div className="caption">
+          Tell us all about your event. The given information will be used by Meetup to advertise for your event.
+        </div>
         <input
           type="text"
           placeholder="Event Name"
@@ -94,72 +98,21 @@ function EventForm({ groupId }) {
         />
         {errors.name && <p className="error-message">{errors.name}</p>}
       </div>
-      <div>
-        <label htmlFor="event-name">Is this an in-person or online group?</label>
-        <select
-          name="event-type"
-          value={type}
-          onChange={e => setType(e.target.value)}
-        >
-          <option value="In person">In person</option>
-          <option value="Online">Online</option>
-        </select>
-        {errors.type && <p className="error-message">{errors.type}</p>}
-      </div>
-      <div>
-        <label htmlFor="event-capacity">What is the capacity of your event?</label>
-        <input
-          type="number"
-          min="1"
-          placeholder="1"
-          value={capacity}
-          onChange={e => setCapacity(e.target.value)}
-        />
-        {errors.capacity && <p className="error-message">{errors.capacity}</p>}
-      </div>
-      <div>
-        <label htmlFor="event-price">What is the price for your event?</label>
-        <input
-          type="decimal"
-          min="0"
-          placeholder="0"
-          value={price}
-          onChange={e => setPrice(e.target.value)}
-        />
-        {errors.price && <p className="error-message">{errors.price}</p>}
-      </div>
-      <div>
-        <label htmlFor="event-startDate">When does your event start?</label>
-        <input
-          type="text"
-          placeholder='MM/DD/YYYY, HH:mm AM'
-          value={startDate}
-          onChange={e => setStartDate(e.target.value)}
-        />
-        {errors.startDate && <p className="error-message">{errors.startDate}</p>}
-      </div>
-      <div>
-        <label htmlFor="event-endDate">When does your event end?</label>
-        <input
-          type="text"
-          placeholder='MM/DD/YYYY, HH:mm PM'
-          value={endDate}
-          onChange={e => setEndDate(e.target.value)}
-        />
-        {errors.endDate && <p className="error-message">{errors.endDate}</p>}
-      </div>
-      <div>
-        <label htmlFor="event-iamge">Please add an image url for your event below:</label>
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={image}
-          onChange={e => setImage(e.target.value)}
-        />
-        {errors.image && <p className="error-message">{errors.image}</p>}
-      </div>
-      <div>
-        <label htmlFor="event-description">Please describe your event</label>
+      <div id="event-line-break"></div>
+      <div className="create-group">
+        <h2 className="subheading">Describe your event</h2>
+        <div className="caption">
+          <p>Be descriptive! People will see this when we promote your event.</p>
+          <div className="questions">
+            1. What&apos;s activites will take place during your event?
+            <br />
+            2. What&apos;s should the attendees bring to the event?
+            <br />
+            3. Who can join your event?
+            <br />
+            4. Where will the event take place?
+          </div>
+        </div>
         <textarea
           placeholder="Please include at least 30 characters."
           value={description}
@@ -167,7 +120,82 @@ function EventForm({ groupId }) {
         />
         {errors.description && <p className="error-message">{errors.description}</p>}
       </div>
-      <button>Create Event</button>
+      <div id="event-line-break"></div>
+      <div className="create-group section-4">
+        <h2 className="subheading">Event Date</h2>
+        <div>
+          <label htmlFor="event-startDate">When does your event start?</label>
+          <input
+            type="text"
+            placeholder='MM/DD/YYYY, HH:mm AM'
+            value={startDate}
+            onChange={e => setStartDate(e.target.value)}
+          />
+          {errors.startDate && <p className="error-message">{errors.startDate}</p>}
+        </div>
+        <div>
+          <label htmlFor="event-endDate">When does your event end?</label>
+          <input
+            type="text"
+            placeholder='MM/DD/YYYY, HH:mm PM'
+            value={endDate}
+            onChange={e => setEndDate(e.target.value)}
+          />
+          {errors.endDate && <p className="error-message">{errors.endDate}</p>}
+        </div>
+      </div>
+      <div id="event-line-break"></div>
+
+
+
+      <div className="create-group section-4">
+        <h2 className="subheading">Final steps...</h2>
+        <div>
+          <label htmlFor="event-type">Is this an in-person or online group?</label>
+          <select
+            name="event-type"
+            value={type}
+            onChange={e => setType(e.target.value)}
+          >
+            <option value="In person">In person</option>
+            <option value="Online">Online</option>
+          </select>
+          {errors.type && <p className="error-message">{errors.type}</p>}
+        </div>
+        <div>
+          <label htmlFor="event-capacity">What is the capacity of your event?</label>
+          <input
+            type="number"
+            min="1"
+            placeholder="1"
+            value={capacity}
+            onChange={e => setCapacity(e.target.value)}
+          />
+          {errors.capacity && <p className="error-message">{errors.capacity}</p>}
+        </div>
+        <div>
+          <label htmlFor="event-price">What is the price for your event?</label>
+          <input
+            type="decimal"
+            min="0"
+            placeholder="0"
+            value={price}
+            onChange={e => setPrice(e.target.value)}
+          />
+          {errors.price && <p className="error-message">{errors.price}</p>}
+        </div>
+        <div>
+          <label htmlFor="event-iamge">Please add an image url for your event below</label>
+          <input
+            type="text"
+            placeholder="Image URL"
+            value={image}
+            onChange={e => setImage(e.target.value)}
+          />
+          {errors.image && <p className="error-message">{errors.image}</p>}
+        </div>
+      </div>
+      <button className="btn-primary">Create Event</button>
     </form>
   );
 }
