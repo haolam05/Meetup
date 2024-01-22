@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPreviewImageUrl } from '../../utils/images';
+import OpenModalButton from '../OpenModalButton';
+import DeleteGroup from '../DeleteGroup';
 import "./Group.css";
 
 function Group({ group, user = false, description = true, organizer = false }) {
@@ -59,7 +61,10 @@ function Group({ group, user = false, description = true, organizer = false }) {
             <div id="event-btns">
               <button className="btn-accent">Create event</button>
               <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
-              <button className="btn-accent">Delete</button>
+              <OpenModalButton
+                modalComponent={<DeleteGroup groupId={group.id} />}
+                buttonText="Delete"
+              />
             </div>
           )
         )

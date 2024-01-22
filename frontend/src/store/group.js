@@ -5,6 +5,7 @@ import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const LOAD_GROUP_DETAILS = '/groups/LOAD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
+const REMOVE_GROUP = '/groups/REMOVE_GROUP';
 
 // POJO action creators
 const getAllGroups = groups => ({
@@ -19,6 +20,11 @@ const getAllGroupDetails = group => ({
 const addGroup = group => ({
   type: ADD_GROUP,
   group
+});
+
+const removeGroup = groupId => ({
+  type: REMOVE_GROUP,
+  groupId
 });
 
 // Thunk action creators
@@ -130,7 +136,19 @@ export const updateGroup = (payload, groupId) => async dispatch => {
 
   dispatch(addGroup(groupData));
   return groupData;
-}
+};
+
+export const deleteGroup = groupId => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(removeGroup(groupId));
+    return data;
+  }
+};
 
 // Custom selectors
 export const getGroups = createSelector(
@@ -154,6 +172,11 @@ function groupReducer(state = initialState, action) {
       return { ...state, groupDetails: { ...state.groupDetails, [action.group.id]: action.group } };
     case ADD_GROUP:
       return { ...state, groups: { ...state.groups, [action.group.id]: action.group } };
+    case REMOVE_GROUP: {
+      const newState = { ...state };
+      delete newState.groups[action.groupId];
+      return newState;
+    }
     default:
       return state;
   }

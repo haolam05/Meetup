@@ -1,0 +1,35 @@
+#delete-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#delete-group div {
+  display: flex;
+  gap: 10px;
+}
+
+#delete-group .sub-text {
+  text-shadow: var(--light-yellow) 1px 0 10px;
+  font-style: italic;
+}
+
+#delete-group button {
+  border: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#delete-group button.cancel:hover {
+  background-color: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray);
+}
+
+#delete-group button.delete:hover {
+  background-color: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
