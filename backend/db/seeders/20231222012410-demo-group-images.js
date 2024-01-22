@@ -47,21 +47,21 @@ const urls = [
 
 const groupImages = [
   { preview: true },
-  { preview: false },
-  { preview: true },
-  { preview: true },
-  { preview: true },
-  { preview: false },
-  { preview: false },
   { preview: true },
   { preview: true },
   { preview: true },
   { preview: true },
   { preview: true },
   { preview: true },
-  { preview: false },
-  { preview: false },
-  { preview: false },
+  { preview: true },
+  { preview: true },
+  { preview: true },
+  { preview: true },
+  { preview: true },
+  { preview: true },
+  { preview: true },
+  { preview: true },
+  { preview: true },
 ];
 
 /** @type {import('sequelize-cli').Migration} */

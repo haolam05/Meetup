@@ -54,22 +54,22 @@ const eventImages = [
   {
     eventName: eventNames[0],
     url: urls[1],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[0],
     url: urls[2],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[1],
     url: urls[3],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[2],
     url: urls[4],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[3],
@@ -94,27 +94,27 @@ const eventImages = [
   {
     eventName: eventNames[5],
     url: urls[9],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[6],
     url: urls[10],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[7],
     url: urls[11],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[8],
     url: urls[12],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[9],
     url: urls[13],
-    preview: false
+    preview: true
   },
   {
     eventName: eventNames[10],
