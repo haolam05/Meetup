@@ -25,7 +25,7 @@ function LandingPage() {
         <h2 id="sub-title" className="subheading">
           How Meetup works
         </h2>
-        <p id="caption">See all groups | Find an event | Start a group</p>
+        <p id="caption">See all groups | Find an event | Start a new group</p>
       </section>
       <section id="section-3">
         <div id="see-all-groups">
@@ -40,7 +40,13 @@ function LandingPage() {
         </div>
         <div id="start-a-group">
           <img src="/images/friends.png" alt="friends" />
-          <Link to="#" className={user ? "enabled" : "disabled"}>Start a group</Link>
+          <Link
+            to="/groups/new"
+            className={user ? "enabled" : "disabled"}
+            onClick={e => !user && e.preventDefault()}
+          >
+            Start a new group
+          </Link>
           <p>Create your own group and invite your friends to join!</p>
         </div>
       </section>

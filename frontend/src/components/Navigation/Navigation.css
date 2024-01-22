@@ -51,3 +51,19 @@
   color: var(--dark-gray);
   border: 1px solid var(--dark-gray);
 }
+
+#header-right-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#header-right-section a {
+  color: var(--gray);
+  text-decoration: none;
+}
+
+#header-right-section a:hover {
+  font-size: 12pt;
+  text-shadow: var(--light-yellow) 1px 0 10px;
+}
