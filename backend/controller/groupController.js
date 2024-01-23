@@ -1,6 +1,7 @@
 const { Group, GroupImage, Venue, User, Membership } = require('../db/models');
 const { check } = require('express-validator');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
+const { Op } = require('sequelize');
 const handleValidationErrors = require('../utils/validation');
 
 async function getGroup(req, res, next) {
@@ -31,8 +32,22 @@ async function getGroup(req, res, next) {
   res.json(group);
 }
 
-async function getGroups(_req, res) {
-  const groups = await Group.findAll();
+async function getGroups(req, res) {
+  const page = req.query.page === undefined ? 1 : +req.query.page;
+  const size = req.query.size === undefined ? 20 : +req.query.size;
+  const query = {
+    limit: size,
+    offset: (page - 1) * size,
+    where: {}
+  };
+
+  if (req.query.name) query.where.name = { [Op.like]: `%${req.query.name}%` };
+  if (req.query.type) query.where.type = req.query.type;
+  if (req.query.private) query.where.private = +req.query.private;
+  if (req.query.city) query.where.city = req.query.city;
+  if (req.query.state) query.where.state = req.query.state;
+
+  const groups = await Group.findAll(query);
   res.json({ Groups: await _countNumMembersAndGetPreviewURL(groups) });
 }
 

@@ -27,7 +27,7 @@ function Groups() {
       page={page}
       setPage={setPage}
     />
-    <li>{groups.map(group => <Group key={group.id} group={group} />)}</li>;
+    <li>{groups.map(group => <Group key={group.id} group={group} />)}</li>
   </>
 }
 
