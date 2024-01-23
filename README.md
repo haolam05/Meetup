@@ -1246,7 +1246,7 @@ Edit and return an updated image for an event image specified by id.
 
     ```json
     {
-      "message": "Event couldn't be found"
+      "message": "Event Image couldn't be found"
     }
     ```
 
