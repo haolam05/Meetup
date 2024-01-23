@@ -1,12 +1,10 @@
-# Meetup
-
-## Hosted On: https://meetup-tzx9.onrender.com
+# Meetup Clone
 
 ## Database Schema Design
 
 ![meetup-database-schema]
 
-[meetup-database-schema]: ./images/meetup-db-schema.png
+[meetup-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png
 [meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
 
 ## API Documentation
@@ -498,6 +496,52 @@ Create and return a new image for a group specified by id.
     ```json
     {
       "message": "Group couldn't be found"
+    }
+    ```
+
+### Edit an Image for a Group
+
+Edit and return a new image for a group specified by the image id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must be the organizer for the group
+* Request
+  * Method: PUT
+  * URL: /api/group-images/:imageId
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "url": "image url 2",
+      "preview": false
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "url": "image url 2",
+      "preview": false
+    }
+    ```
+
+* Error response: Couldn't find an Image with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group Image couldn't be found"
     }
     ```
 
