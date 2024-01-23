@@ -13,9 +13,8 @@ function ManageGroups() {
 
   useEffect(() => {
     const loadGroups = async () => {
-      const { user } = await dispatch(sessionActions.restoreSession());
-      console.log(user);
-      await dispatch(groupActions.loadGroups(user.id));
+      await dispatch(sessionActions.restoreSession());
+      await dispatch(groupActions.loadGroups());
       setIsLoaded(true);
     }
     loadGroups();
