@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Loading';
 import Event from '../Event';
 import * as eventActions from '../../store/event';
+import Pagination from '../Pagination/Pagination';
 
 function Events() {
   const navigate = useNavigate();
@@ -35,18 +36,12 @@ function Events() {
   if (!isLoaded) return <Loading />;
 
   return <>
-    <div id="pagination">
-      <div id="pagination-btns">
-        <button className="btn-accent page-prev" onClick={handlePrevPageClick}>Prev Page</button>
-        <button className="btn-teal page-curr">Page {page}</button>
-        <button className="btn-accent page-next" onClick={handleNextPageClick}>Next Page</button>
-      </div>
-    </div>
-    {!events.upcomingEvents.length && !events.pastEvents.length && (
-      <h2 className="subheading no-results">
-        No results found on this page <i className="fa-regular fa-face-frown"></i>
-      </h2>
-    )}
+    <Pagination
+      listsLength={events.upcomingEvents.length + events.pastEvents.length}
+      handlePrevPageClick={handlePrevPageClick}
+      handleNextPageClick={handleNextPageClick}
+      page={page}
+    />
     <li>
       {events.upcomingEvents.map(event => (
         <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>

@@ -1,0 +1,22 @@
+#pagination-btns {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+#pagination-btns button {
+  border: none;
+}
+
+#pagination-btns button.page-prev:hover,
+#pagination-btns button.page-next:hover {
+  background-color: transparent;
+  border: 1px solid var(--gray);
+  color: var(--gray);
+}
+
+.no-results {
+  color: var(--gray);
+  padding: 20px;
+  border-radius: 10px;
+}
