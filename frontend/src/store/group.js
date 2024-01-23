@@ -180,6 +180,26 @@ export const deleteGroup = groupId => async dispatch => {
   }
 };
 
+export const loadCurrentUserGroups = () => async dispatch => {
+  const response = await csrfFetch(`/api/groups/current`);
+
+  if (response.ok) {
+    const groups = await response.json();
+
+    for (let i = 0; i < groups.Groups.length; i++) {
+      const group = groups.Groups[i];
+
+      const response = await csrfFetch(`/api/groups/${group.id}/events`);
+      if (response.ok) {
+        const events = await response.json();
+        group.numEvents = events.Events.length;
+      }
+    }
+
+    dispatch(getAllGroups(groups.Groups));
+  }
+};
+
 // Custom selectors
 export const getGroups = createSelector(
   state => state.group.groups,
@@ -189,11 +209,6 @@ export const getGroups = createSelector(
 export const getGroupById = groupId => createSelector(
   state => state.group.groupDetails,
   groups => groups ? groups[groupId] : {}
-);
-
-export const getGroupsByUserId = userId => createSelector(
-  state => state.group.groups,
-  groups => Object.values(groups).filter(group => group.organizerId === userId)
 );
 
 // Reducer

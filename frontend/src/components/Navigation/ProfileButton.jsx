@@ -54,8 +54,10 @@ function ProfileButton({ user }) {
         {
           user ? (<>
             <li id="group-btns">
-              <button className="btn-accent" onClick={() => navigate("groups/current", { replace: true })}>Your groups</button>
-              <button className="btn-accent" onClick={() => navigate("events/current", { replace: true })}>Your events</button>
+              <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your groups</button>
+              <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your events</button>
+              {/* <button className="btn-accent" onClick={() => navigate("groups/current", { replace: true })}>Your groups</button>
+              <button className="btn-accent" onClick={() => navigate("events/current", { replace: true })}>Your events</button> */}
             </li>
             <li>
               <ul id="user-info">

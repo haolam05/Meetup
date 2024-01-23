@@ -2,19 +2,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Loading';
 import Group from '../Group';
-import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
 
 function ManageGroups() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const user = useSelector(sessionActions.sessionUser);
-  const groups = useSelector(groupActions.getGroupsByUserId(user.id));
+  const groups = useSelector(groupActions.getGroups);
 
   useEffect(() => {
     const loadGroups = async () => {
-      await dispatch(sessionActions.restoreSession());
-      await dispatch(groupActions.loadGroups());
+      await dispatch(groupActions.loadCurrentUserGroups());
       setIsLoaded(true);
     }
     loadGroups();

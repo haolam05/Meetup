@@ -1,5 +1,7 @@
 #pagination-btns {
+  width: 900px;
   display: flex;
+  justify-content: flex-start;
   gap: 5px;
   margin-bottom: 5px;
 }
