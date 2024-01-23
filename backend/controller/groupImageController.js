@@ -37,7 +37,28 @@ async function createGroupImage(req, res, next) {
   });
 }
 
+async function editGroupImage(req, res, next) {
+  const groupImage = await GroupImage.findByPk(req.params.imageId, { include: Group });
+  if (!groupImage) {
+    const err = notFoundError("Group Image couldn't be found");
+    return next(err);
+  }
+
+  if (groupImage.Group.organizerId !== req.user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  const updatedImage = await groupImage.update(req.body);
+  res.json({
+    id: updatedImage.id,
+    url: updatedImage.url,
+    preview: updatedImage.preview
+  });
+}
+
 module.exports = {
   createGroupImage,
+  editGroupImage,
   deleteGroupImage
 }

@@ -124,7 +124,6 @@ module.exports = {
   getGroupsOrganizedByCurrentUser,
   createGroupValidation,
   createGroup,
-  createGroupImage,
   editGroup,
   deleteGroup
 }
