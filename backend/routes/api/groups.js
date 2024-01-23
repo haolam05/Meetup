@@ -24,7 +24,7 @@ router
 
 router
   .route('/')
-  .get(groupController.getGroups)
+  .get(groupController.getGroupsQueryValidation(), groupController.getGroups)
   .post(requireAuth, groupController.createGroupValidation(), groupController.createGroup);
 
 module.exports = router;

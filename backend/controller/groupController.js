@@ -1,5 +1,5 @@
 const { Group, GroupImage, Venue, User, Membership } = require('../db/models');
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const { Op } = require('sequelize');
 const handleValidationErrors = require('../utils/validation');
@@ -30,6 +30,41 @@ async function getGroup(req, res, next) {
   group = { ...group.toJSON(), numMembers };
 
   res.json(group);
+}
+
+function getGroupsQueryValidation() {
+  const isString = val => val.split('').every(ch => ' abcdefghijklmnopqrstuvwxyz'.includes(ch.toLowerCase()));
+
+  return [
+    query('page')
+      .optional({ checkFalsy: true })
+      .isInt({ min: 1 })
+      .withMessage('Page must be greater than or equal to 1'),
+    query('size')
+      .optional({ checkFalsy: true })
+      .isInt({ min: 1 })
+      .withMessage('Size must be greater than or equal to 1'),
+    query('name')
+      .optional({ checkFalsy: true })
+      .custom(val => isString(val))
+      .withMessage('Name must be a string'),
+    query('type')
+      .optional({ checkFalsy: true })
+      .isIn(['Online', 'In person'])
+      .withMessage("Type must be 'Online' or 'In person'"),
+    query('private')
+      .optional({ checkFalsy: true })
+      .isIn(['0', '1'])
+      .withMessage('Private must be 0 and 1'),
+    query('city')
+      .optional({ checkFalsy: true })
+      .custom(val => isString(val))
+      .withMessage('City must be a string'),
+    query('state').optional({ checkFalsy: true })
+      .custom(val => isString(val))
+      .withMessage('State must be a string'),
+    handleValidationErrors
+  ];
 }
 
 async function getGroups(req, res) {
@@ -140,5 +175,6 @@ module.exports = {
   createGroupValidation,
   createGroup,
   editGroup,
-  deleteGroup
+  deleteGroup,
+  getGroupsQueryValidation
 }
