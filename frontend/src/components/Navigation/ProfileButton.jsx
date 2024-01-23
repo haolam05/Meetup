@@ -47,28 +47,32 @@ function ProfileButton({ user }) {
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        <li id="group-btns">
+        {user && (
+          <>
+            <li className="greet-user">
+              <button className="btn-accent">Hello, {user.firstName}</button>
+            </li>
+            <li className="greet-user">
+              <button className="btn-accent">{user.email}</button>
+            </li>
+          </>
+        )}
+        <li>
           <button className="btn-accent" onClick={() => navigate("groups", { replace: true })}>View groups</button>
+        </li>
+        <li>
           <button className="btn-accent" onClick={() => navigate("events", { replace: true })}>View events</button>
         </li>
         {
           user ? (<>
-            <li id="group-btns">
+            <li>
               <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your groups</button>
-              <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your events</button>
-              {/* <button className="btn-accent" onClick={() => navigate("groups/current", { replace: true })}>Your groups</button>
-              <button className="btn-accent" onClick={() => navigate("events/current", { replace: true })}>Your events</button> */}
             </li>
             <li>
-              <ul id="user-info">
-                <li id="group-btns">
-                  <div>Hello, {user.firstName}</div>
-                  <div>{user.email}</div>
-                </li>
-                <li>
-                  <button className='btn-accent' onClick={logout}>Log Out</button>
-                </li>
-              </ul>
+              <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your events</button>
+            </li>
+            <li>
+              <button className="btn-accent" onClick={logout}>Log Out</button>
             </li>
           </>
           ) : (
