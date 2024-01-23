@@ -1,6 +1,18 @@
 import "./Pagination.css";
 
-function Pagination({ listLength, handlePrevPageClick, handleNextPageClick, page }) {
+function Pagination({ list, page, setPage }) {
+  const handlePrevPageClick = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
+
+  const handleNextPageClick = () => {
+    if (page > 0 && list.length) {
+      setPage(page + 1);
+    }
+  }
+
   return (
     <>
       <div id="pagination">
@@ -11,7 +23,7 @@ function Pagination({ listLength, handlePrevPageClick, handleNextPageClick, page
         </div>
       </div>
       {
-        !listLength && (
+        !list.length && (
           <h2 className="subheading no-results">
             No results found on this page <i className="fa-regular fa-face-frown"></i>
           </h2>

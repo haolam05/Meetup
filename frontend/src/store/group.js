@@ -28,8 +28,8 @@ const removeGroup = groupId => ({
 });
 
 // Thunk action creators
-export const loadGroups = () => async dispatch => {
-  const response = await csrfFetch(`/api/groups`);
+export const loadGroups = (page, size) => async dispatch => {
+  const response = await csrfFetch(`/api/groups?page=${page}&size=${size}`);
 
   if (response.ok) {
     const groups = await response.json();

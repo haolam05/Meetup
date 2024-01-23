@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Pagination from '../Pagination';
 import Loading from '../Loading';
 import Event from '../Event';
 import * as eventActions from '../../store/event';
-import Pagination from '../Pagination/Pagination';
 
 function Events() {
   const navigate = useNavigate();
@@ -12,18 +12,6 @@ function Events() {
   const [page, setPage] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
   const events = useSelector(eventActions.getEvents);
-
-  const handlePrevPageClick = () => {
-    if (isLoaded && page > 1) {
-      setPage(page - 1);
-    }
-  }
-
-  const handleNextPageClick = () => {
-    if (isLoaded && page > 0 && (events.upcomingEvents.length || events.pastEvents.length)) {
-      setPage(page + 1);
-    }
-  }
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -37,10 +25,9 @@ function Events() {
 
   return <>
     <Pagination
-      listsLength={events.upcomingEvents.length + events.pastEvents.length}
-      handlePrevPageClick={handlePrevPageClick}
-      handleNextPageClick={handleNextPageClick}
+      list={[...events.upcomingEvents, ...events.pastEvents]}
       page={page}
+      setPage={setPage}
     />
     <li>
       {events.upcomingEvents.map(event => (
