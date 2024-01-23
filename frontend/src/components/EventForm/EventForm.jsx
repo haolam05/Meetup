@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as eventActions from '../../store/event';
 
-function EventForm({ groupId, title, event }) {
+function EventForm({ groupId, title, event = {} }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState(event?.name || "");
@@ -39,7 +39,9 @@ function EventForm({ groupId, title, event }) {
     const [time, identifier] = timeStr ? timeStr.split(' ') : '';
 
     if (!date || !timeStr || !time) {
-      setErrors({ [errorName]: `Please enter in this format: "MM/DD/YYYY, HH:mm AM"` });
+      setErrors({
+        [errorName]: `Please enter in this format: "MM/DD/YYYY, HH:mm ${errorName === 'endDate' ? 'PM' : 'AM'}"`
+      });
       return false;
     }
 
@@ -89,7 +91,7 @@ function EventForm({ groupId, title, event }) {
       startDate: startDateValue,
       endDate: endDateValue,
       image,
-      imageId: event.previewImageId
+      imageId: event?.previewImageId
     }
 
     let eventData;

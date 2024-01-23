@@ -40,7 +40,7 @@ function GroupForm({ group = {}, title }) {
       city,
       state,
       image,
-      imageId: group.previewImageId
+      imageId: group?.previewImageId
     }
 
     let groupData;
