@@ -51,6 +51,7 @@ export const restoreSession = () => async dispatch => {
   const response = await csrfFetch("/api/session");
   const data = await response.json();
   dispatch(createSession(data));
+  return data;
 };
 
 // Custom selectors

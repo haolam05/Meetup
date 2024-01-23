@@ -182,6 +182,11 @@ export const getGroupById = groupId => createSelector(
   groups => groups ? groups[groupId] : {}
 );
 
+export const getGroupsByUserId = userId => createSelector(
+  state => state.group.groups,
+  groups => Object.values(groups).filter(group => group.organizerId === userId)
+);
+
 // Reducer
 const initialState = { groups: {}, groupDetails: {} };
 

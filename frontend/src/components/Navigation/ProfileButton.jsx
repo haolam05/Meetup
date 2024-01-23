@@ -51,12 +51,12 @@ function ProfileButton({ user }) {
           <button className="btn-accent" onClick={() => navigate("groups", { replace: true })}>View groups</button>
           <button className="btn-accent" onClick={() => navigate("events", { replace: true })}>View events</button>
         </li>
-        <li id="group-btns">
-          <button className="btn-accent" onClick={() => navigate("events", { replace: true })}>Your group</button>
-          <button className="btn-accent" onClick={() => navigate("events", { replace: true })}>Your events</button>
-        </li>
         {
-          user ? (
+          user ? (<>
+            <li id="group-btns">
+              <button className="btn-accent" onClick={() => navigate("groups/current", { replace: true })}>Your groups</button>
+              <button className="btn-accent" onClick={() => navigate("events/current", { replace: true })}>Your events</button>
+            </li>
             <li>
               <ul id="user-info">
                 <li id="group-btns">
@@ -68,6 +68,7 @@ function ProfileButton({ user }) {
                 </li>
               </ul>
             </li>
+          </>
           ) : (
             <>
               <li>

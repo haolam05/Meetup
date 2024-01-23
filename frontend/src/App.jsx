@@ -50,6 +50,10 @@ const router = createBrowserRouter([
         element: <List list="Groups" />
       },
       {
+        path: 'groups/current',
+        element: <List list="Manage Groups" title="Your groups" />
+      },
+      {
         path: 'groups/:groupId',
         element: <GroupDetails />
       },
@@ -68,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: 'events',
         element: <List list="Events" />
+      },
+      {
+        path: 'events',
+        element: <List list="Manage Events" title="Your events" />
       },
       {
         path: 'events/:eventId',
