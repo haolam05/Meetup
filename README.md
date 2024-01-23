@@ -1204,6 +1204,52 @@ Create and return a new image for an event specified by id.
     }
     ```
 
+### Edit an Image of an Event
+
+Edit and return an updated image for an event image specified by id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must be the Host of the event.
+* Request
+  * Method: PUT
+  * URL: /api/event-images/:imageId
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "url": "image url 2",
+      "preview": true
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "url": "image url 2",
+      "preview": true
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
 ### Edit an Event specified by its id
 
 Edit and returns an event specified by its id

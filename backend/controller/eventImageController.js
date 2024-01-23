@@ -35,6 +35,29 @@ async function createEventImage(req, res, next) {
   });
 }
 
+async function editEventImage(req, res, next) {
+  const eventImage = await EventImage.findByPk(req.params.imageId);
+  if (!eventImage) {
+    const err = notFoundError("Event Image couldn't be found");
+    return next(err);
+  }
+
+  const event = await eventImage.getEvent();
+  const group = await Group.findByPk(event.groupId);
+
+  if (group.organizerId !== req.user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  const updatedEventImage = await eventImage.update(req.body);
+  res.json({
+    id: updatedEventImage.id,
+    url: updatedEventImage.url,
+    preview: updatedEventImage.preview
+  });
+}
+
 async function deleteEventImage(req, res, next) {
   const eventImage = await EventImage.findByPk(req.params.imageId);
   if (!eventImage) {
@@ -53,5 +76,6 @@ async function deleteEventImage(req, res, next) {
 
 module.exports = {
   createEventImage,
+  editEventImage,
   deleteEventImage
 }

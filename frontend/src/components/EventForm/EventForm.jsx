@@ -3,18 +3,36 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as eventActions from '../../store/event';
 
-function EventForm({ groupId }) {
+function EventForm({ groupId, title, event }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [type, setType] = useState("In person");
-  const [price, setPrice] = useState(0);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [capacity, setCapacity] = useState(0);
-  const [image, setImage] = useState("");
+  const [name, setName] = useState(event?.name || "");
+  const [type, setType] = useState(event?.type || "In person");
+  const [price, setPrice] = useState(event?.price || 0);
+  const [startDate, setStartDate] = useState(dateToFormat(event?.startDate) || "");
+  const [endDate, setEndDate] = useState(dateToFormat(event?.endDate) || "");
+  const [description, setDescription] = useState(event?.description || "");
+  const [capacity, setCapacity] = useState(event?.capacity || 0);
+  const [image, setImage] = useState(event?.previewImage || "");
   const [errors, setErrors] = useState({});
+
+  function dateToFormat(date) {
+    if (!date) return false;
+
+    date = new Date(date);
+    let identifier = 'AM';
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    if (+hours > 12) {
+      hours = `${hours - 12}`.padStart(2, '0');
+      identifier = 'PM';
+    }
+    const minutes = `${date.getMinutes()}`.padStart(2, '0');
+    const formattedDate = `${month}/${day}/${year}, ${hours}:${minutes} ${identifier}`;
+    return formattedDate
+  }
 
   const validateTime = (dateInput, errorName) => {
     const [date, timeStr] = dateInput.split(', ');
@@ -61,9 +79,9 @@ function EventForm({ groupId }) {
     const endDateValue = validateTime(endDate, "endDate");
     if (!endDateValue) return;
 
-
+    console.log(event);
     const payload = {
-      venueId: 1,   // to be implemented later
+      venueId: type === "Onine" ? null : 1,   // to be implemented later
       name,
       type,
       capacity,
@@ -71,10 +89,18 @@ function EventForm({ groupId }) {
       description,
       startDate: startDateValue,
       endDate: endDateValue,
-      image
+      image,
+      imageId: event.previewImageId
     }
 
-    const eventData = await dispatch(eventActions.createEvent(groupId, payload));
+    let eventData;
+
+    if (title === 'Create Event') {
+      eventData = await dispatch(eventActions.createEvent(groupId, payload));
+    } else {
+      eventData = await dispatch(eventActions.updateEvent(event.id, payload));
+    }
+
     if (eventData?.errors) {
       setErrors({ ...eventData.errors });
     } else {
@@ -195,7 +221,7 @@ function EventForm({ groupId }) {
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
       </div>
-      <button className="btn-primary">Create Event</button>
+      <button className="btn-primary">{title}</button>
     </form>
   );
 }

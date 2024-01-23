@@ -92,7 +92,12 @@ function Event({ event, user = false, details = false }) {
           <>
             <div id="event-line-break"></div>
             <div id="event-btns">
-              <button className="btn-accent">Update</button>
+              <button
+                className="btn-accent"
+                onClick={() => navigate(`/events/${event.id}/edit`)}
+              >
+                Update
+              </button>
               <OpenModalButton
                 modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />}
                 buttonText="Delete"

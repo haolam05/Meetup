@@ -60,7 +60,12 @@ export const loadEventDetails = eventId => async dispatch => {
   if (response1.ok) {
     const event = await response1.json();
     const image = event.EventImages.find(image => image.preview);
-    event.previewImage = image ? image.url : "Preview Image Not Found";
+    if (image) {
+      event.previewImage = image.url;
+      event.previewImageId = image.id;
+    } else {
+      event.previewImage = "Preview Image Not Found";
+    }
 
     const response2 = await csrfFetch(`/api/groups/${event.Group.id}`);
     if (response2.ok) {
@@ -71,6 +76,7 @@ export const loadEventDetails = eventId => async dispatch => {
     }
 
     dispatch(getAllEventDetails(event));
+    return event;
   }
 };
 
@@ -97,12 +103,45 @@ export const createEvent = (groupId, payload) => async dispatch => {
     if (response2.ok) {
       const image = await response2.json();
       eventData.previewImage = image.url;
+      eventData.previewImageId = image.id;
     }
   }
 
   dispatch(addEvent(eventData));
   return eventData;
 };
+
+export const updateEvent = (eventId, payload) => async dispatch => {
+  const response1 = await csrfFetch(`/api/events/${eventId}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const eventData = await response1.json();
+  if (!response1.ok) return eventData.errors ? eventData : { errors: eventData };
+
+  if (payload.image) {
+    console.log(payload.image);
+    const response2 = await csrfFetch(`/api/event-images/${payload.imageId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        url: payload.image,
+        preview: true
+      })
+    });
+
+    if (response2.ok) {
+      const image = await response2.json();
+      eventData.previewImage = image.url;
+      eventData.previewImageId = image.id;
+    }
+  }
+
+  dispatch(addEvent(eventData));
+  return eventData;
+}
 
 export const deleteEvent = eventId => async disptach => {
   const response = await csrfFetch(`/api/events/${eventId}`, {

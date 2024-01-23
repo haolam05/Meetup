@@ -4,6 +4,10 @@ const eventImageController = require('../../controller/eventImageController');
 const { requireAuth } = require('../../controller/authController');
 
 router.post('/', requireAuth, eventImageController.createEventImage);
-router.delete('/:imageId', requireAuth, eventImageController.deleteEventImage);
+
+router
+  .route('/:imageId')
+  .put(requireAuth, eventImageController.editEventImage)
+  .delete(requireAuth, eventImageController.deleteEventImage);
 
 module.exports = router;

@@ -11,6 +11,7 @@ import EventDetails from './components/EventDetails';
 import CreateGroup from './components/CreateGroup';
 import EditGroup from './components/EditGroup';
 import CreateEvent from './components/CreateEvent';
+import EditEvent from './components/EditEvent';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: 'events/:eventId',
         element: <EventDetails />
+      },
+      {
+        path: 'events/:eventId/edit',
+        element: <EditEvent />
       },
       {
         path: '*',
