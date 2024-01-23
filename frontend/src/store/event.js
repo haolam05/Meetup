@@ -165,6 +165,11 @@ export const getEventById = eventId => createSelector(
   events => events ? events[eventId] : {}
 );
 
+export const getEventsByUserId = userId => createSelector(
+  state => state.event.events,
+  events => Object.values(events).filter(event => event.organizerId === userId)
+);
+
 // Reducer
 const initialState = { events: {}, eventDetails: {} };
 

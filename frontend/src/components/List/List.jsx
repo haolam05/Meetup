@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Groups from "../Groups";
 import Events from "../Events";
 import ManageGroups from "../ManageGroups";
+import ManageEvents from "../ManageEvents/ManageEvents";
 import "./List.css";
 
 function List({ list, title = "" }) {
@@ -15,12 +16,14 @@ function List({ list, title = "" }) {
               <Link to="/groups" id={`${list === "Groups" ? "selected" : "unselected"}`}>Groups</Link>
             </>)}
             {list === "Manage Groups" && list}
+            {list === "Manage Events" && list}
           </h1>
         </li>
         <li id="caption">{title ? title : list} in Meetup</li>
         {list === "Groups" && <Groups />}
         {list === "Events" && <Events />}
         {list === "Manage Groups" && <ManageGroups />}
+        {list === "Manage Events" && <ManageEvents />}
       </ul>
     </div >
   );

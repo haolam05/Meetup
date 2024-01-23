@@ -74,7 +74,7 @@ const router = createBrowserRouter([
         element: <List list="Events" />
       },
       {
-        path: 'events',
+        path: 'events/current',
         element: <List list="Manage Events" title="Your events" />
       },
       {
