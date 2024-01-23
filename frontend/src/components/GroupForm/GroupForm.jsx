@@ -39,7 +39,8 @@ function GroupForm({ group = {}, title }) {
       private: privateStatus,
       city,
       state,
-      image
+      image,
+      imageId: group.previewImageId
     }
 
     let groupData;
@@ -133,20 +134,16 @@ function GroupForm({ group = {}, title }) {
           </select>
           {errors.privateStatus && <p className="error-message">{errors.privateStatus}</p>}
         </div>
-        {
-          title !== 'Update Group' && (
-            <div>
-              <label htmlFor="group-image">Please add an image URL for your group below</label>
-              <input
-                type="text"
-                placeholder="Image Url"
-                value={image}
-                onChange={e => setImage(e.target.value)}
-              />
-              {errors.image && <p className="error-message">{errors.image}</p>}
-
-            </div>
-          )}
+        <div>
+          <label htmlFor="group-image">Please add an image URL for your group below</label>
+          <input
+            type="text"
+            placeholder="Image Url"
+            value={image}
+            onChange={e => setImage(e.target.value)}
+          />
+          {errors.image && <p className="error-message">{errors.image}</p>}
+        </div>
       </div>
       <button type="submit" className="btn-primary">{title}</button>
     </form>

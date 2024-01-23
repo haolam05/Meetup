@@ -54,7 +54,12 @@ export const loadGroupDetails = groupId => async dispatch => {
   if (response1.ok) {
     const group = await response1.json();
     const image = group.GroupImages.find(image => image.preview);
-    group.previewImage = image ? image.url : "Preview Image Not Found";
+    if (image) {
+      group.previewImage = image.url;
+      group.previewImageId = image.id;
+    } else {
+      group.previewImage = "Preview Image Not Found";
+    }
 
     const response2 = await csrfFetch(`/api/groups/${group.id}/events`);
     if (response2.ok) {
@@ -110,6 +115,7 @@ export const createGroup = payload => async dispatch => {
     if (response3.ok) {
       const image = await response3.json();
       groupData.previewImage = image.url;
+      groupData.previewImageId = image.id;
     }
   }
 
@@ -127,11 +133,26 @@ export const updateGroup = (payload, groupId) => async dispatch => {
 
   const groupData = await response1.json();
   if (!response1.ok) return groupData.errors ? groupData : { errors: groupData };
-
   const response2 = await csrfFetch(`/api/groups/${groupData.id}/events`);
   if (response2.ok) {
     const events = await response2.json();
     groupData.numEvents = events.Events.length;
+  }
+
+  if (payload.image) {
+    const response3 = await csrfFetch(`/api/group-images/${payload.imageId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        url: payload.image,
+        preview: true
+      })
+    });
+
+    if (response3.ok) {
+      const image = await response3.json();
+      groupData.previewImage = image.url;
+      groupData.previewImageId = image.id;
+    }
   }
 
   dispatch(addGroup(groupData));
