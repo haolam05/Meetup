@@ -50,6 +50,7 @@
 
 .group-name {
   font-size: 17px;
+  line-break: anywhere;
 }
 
 .group-text {

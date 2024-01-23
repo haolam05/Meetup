@@ -22,11 +22,13 @@
 .heading {
   font-size: 25pt;
   font-weight: bold;
+  line-break: anywhere;
 }
 
 .subheading {
   font-size: 17pt;
   font-weight: bold;
+  line-break: anywhere;
 }
 
 button {

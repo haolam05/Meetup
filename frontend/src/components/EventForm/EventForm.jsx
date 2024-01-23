@@ -72,14 +72,18 @@ function EventForm({ groupId, title, event = {} }) {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    if (capacity < 1) return setErrors({ capacity: "Capacity must be greater than 0" });
-    if (description.length < 30) return setErrors({ description: "Description needs 30 or more characters" });
+    if (name.length < 5) return setErrors({ name: "Name must be at least 5 characters" });
+    if (name.length > 60) return setErrors({ name: "`Name can not have more than 60 characters." });
+    if (description.length < 30) return setErrors({ description: "Description needs at least 30 characters" });
 
     const startDateValue = validateTime(startDate, "startDate");
     if (!startDateValue) return;
 
     const endDateValue = validateTime(endDate, "endDate");
     if (!endDateValue) return;
+
+    if (capacity < 1) return setErrors({ capacity: "Capacity must be greater than 0" });
+    if (price < 0) return setErrors({ price: "Price must be at lest 0" })
 
     const payload = {
       venueId: type === "Onine" ? null : 1,   // to be implemented later
@@ -193,7 +197,6 @@ function EventForm({ groupId, title, event = {} }) {
           <label htmlFor="event-capacity">What is the capacity of your event?</label>
           <input
             type="number"
-            min="1"
             placeholder="1"
             value={capacity}
             onChange={e => setCapacity(e.target.value)}

@@ -18,19 +18,27 @@ function GroupForm({ group = {}, title }) {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const locationArr = location.split(', ');
-
+    let locationArr = location.split(', ');
+    locationArr = locationArr.length == 2 ? locationArr : location.split(' ');
+    locationArr = locationArr.length == 2 ? locationArr : location.split(',');
     if (locationArr.length !== 2) {
-      return setErrors({ location: `Please enter the location in this format: "City, STATE"` });
+      return setErrors({ location: `Please enter the location in this format: "City, STATE" or "City STATE" or "City,STATE` });
     }
+
+    if (name.length === 0) return setErrors({ name: `Name can not be empty.` });
+    if (name.length > 60) return setErrors({ name: `Name can not have more than 60 characters.` });
+    if (about.length === 0) return setErrors({ about: `Description can not be empty.` });
+    if (about.length < 50) return setErrors({ about: `Description must be at least 50 characters.` })
 
     let [city, state] = locationArr;
 
     if (city.length === 0) return setErrors({ location: `City can't be empty` });
     if (state.length === 0) return setErrors({ location: `State can't be empty` });
+    if (location.length > 40) return setErrors({ location: `Location can not have more than 40 characters.` })
 
     city = city[0].toUpperCase() + city.slice(1).toLowerCase();
     state = state[0].toUpperCase() + state.slice(1).toLowerCase();
+
 
     const payload = {
       name,
@@ -67,7 +75,7 @@ function GroupForm({ group = {}, title }) {
         </div>
         <input
           type="text"
-          placeholder="City, STATE"
+          placeholder="City, STATE  -  City STATE"
           value={location}
           onChange={e => setLocation(e.target.value)}
         />
