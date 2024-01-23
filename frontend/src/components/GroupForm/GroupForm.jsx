@@ -12,7 +12,7 @@ function GroupForm({ group = {}, title }) {
   const [about, setAbout] = useState(group.about || "");
   const [privateStatus, setPrivateStatus] = useState(group.private !== undefined ? group.private : false);
   const [type, setType] = useState(group.type || "In person");
-  const [image, setImage] = useState(group.image || "");
+  const [image, setImage] = useState(group.previewImage || "");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async e => {

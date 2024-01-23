@@ -8,6 +8,8 @@
 
 #event-details-wrapper p {
   text-shadow: var(--light-yellow) 1px 0 10px;
+  line-break: anywhere;
+  text-align: justify;
 }
 
 #event-header {

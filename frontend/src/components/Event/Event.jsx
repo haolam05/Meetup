@@ -22,7 +22,7 @@ function Event({ event, user = false, details = false }) {
         </div>
         <h2 id="event-title" className="subheading">{event.name}</h2>
         <div id="event-location">{event.Venue ? `${event.Venue?.city}, ${event.Venue?.state}` : 'Online'}</div>
-        <div id="event-description">{event.description}</div>
+        <div id="event-description">{event.description.slice(0, 50) + '...'}</div>
       </div>
     </div>
   );
@@ -85,7 +85,7 @@ function Event({ event, user = false, details = false }) {
           </div>
           <div id="event-description">
             <div>Description</div>
-            <p>{event.description.length > 100 ? `${event.description.slice(0, 100)}...` : event.description}</p>
+            <p>{`${event.description.slice(0, 50)}...`}</p>
           </div>
         </div>
         {user && user.id === event.Group.Organizer.id && (

@@ -133,6 +133,7 @@ export const updateGroup = (payload, groupId) => async dispatch => {
 
   const groupData = await response1.json();
   if (!response1.ok) return groupData.errors ? groupData : { errors: groupData };
+
   const response2 = await csrfFetch(`/api/groups/${groupData.id}/events`);
   if (response2.ok) {
     const events = await response2.json();
@@ -140,8 +141,16 @@ export const updateGroup = (payload, groupId) => async dispatch => {
   }
 
   if (payload.image) {
-    const response3 = await csrfFetch(`/api/group-images/${payload.imageId}`, {
-      method: 'PUT',
+    let response3, url, method;
+    if (payload.imageId) { // update image
+      url = `/api/group-images/${payload.imageId}`;
+      method = 'PUT';
+    } else { // create image
+      url = `/api/groups/${groupId}/images`;
+      method = 'POST';
+    }
+    response3 = await csrfFetch(url, {
+      method,
       body: JSON.stringify({
         url: payload.image,
         preview: true

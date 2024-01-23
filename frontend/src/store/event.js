@@ -123,8 +123,16 @@ export const updateEvent = (eventId, payload) => async dispatch => {
   if (!response1.ok) return eventData.errors ? eventData : { errors: eventData };
 
   if (payload.image) {
-    const response2 = await csrfFetch(`/api/event-images/${payload.imageId}`, {
-      method: 'PUT',
+    let response2, url, method;
+    if (payload.imageId) { // update image
+      url = `/api/event-images/${payload.imageId}`;
+      method = 'PUT';
+    } else { // create image
+      url = `/api/events/${eventId}/images`;
+      method = 'POST';
+    }
+    response2 = await csrfFetch(url, {
+      method,
       body: JSON.stringify({
         url: payload.image,
         preview: true

@@ -40,7 +40,7 @@ function Group({ group, user = false, description = true, organizer = false }) {
           }
           <div className="group-location">{group.city}, {group.state}</div>
           {description && (
-            <div className="group-description">{group.about}</div>
+            <div className="group-description">{group.about.slice(0, 50)}...</div>
           )}
           <div className="group-info">
             <span className="group-num-events">{group.numEvents} event{group.numEvents > 1 ? 's' : ''}</span>
