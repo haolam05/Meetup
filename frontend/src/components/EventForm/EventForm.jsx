@@ -79,7 +79,6 @@ function EventForm({ groupId, title, event }) {
     const endDateValue = validateTime(endDate, "endDate");
     if (!endDateValue) return;
 
-    console.log(event);
     const payload = {
       venueId: type === "Onine" ? null : 1,   // to be implemented later
       name,
