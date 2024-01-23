@@ -15,6 +15,9 @@ function Groups() {
     const loadGroups = async () => {
       await dispatch(groupActions.loadGroups(page, 10));
       setIsLoaded(true);
+
+      document.querySelector(".page-prev")?.removeAttribute("disabled");
+      document.querySelector(".page-next")?.removeAttribute("disabled");
     }
     loadGroups();
   }, [dispatch, page]);

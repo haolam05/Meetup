@@ -4,12 +4,16 @@ function Pagination({ list, page, setPage }) {
   const handlePrevPageClick = () => {
     if (page > 1) {
       setPage(page - 1);
+      document.querySelector(".page-prev").setAttribute("disabled", "");
+      document.querySelector(".page-next").setAttribute("disabled", "");
     }
   }
 
   const handleNextPageClick = () => {
     if (page > 0 && list.length) {
       setPage(page + 1);
+      document.querySelector(".page-prev").setAttribute("disabled", "");
+      document.querySelector(".page-next").setAttribute("disabled", "");
     }
   }
 

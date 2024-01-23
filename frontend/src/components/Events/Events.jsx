@@ -17,6 +17,9 @@ function Events() {
     const loadEvents = async () => {
       await dispatch(eventActions.loadEvents(page, 10));
       setIsLoaded(true);
+
+      document.querySelector(".page-prev")?.removeAttribute("disabled");
+      document.querySelector(".page-next")?.removeAttribute("disabled");
     }
     loadEvents();
   }, [dispatch, page]);
