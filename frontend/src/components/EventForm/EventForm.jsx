@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import * as eventActions from '../../store/event';
 
 function EventForm({ groupId, title, event = {} }) {
+  const [ref1, ref2, ref3, ref4] = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const { setModalContent, setOnModalClose } = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -74,18 +75,18 @@ function EventForm({ groupId, title, event = {} }) {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    if (name.length < 5) return setErrors({ name: "Name must be at least 5 characters" });
-    if (name.length > 40) return setErrors({ name: "`Name can not have more than 40 characters." });
-    if (description.length < 30) return setErrors({ description: "Description needs at least 30 characters" });
+    if (name.length < 5) { ref1.current.scrollIntoView(); return setErrors({ name: "Name must be at least 5 characters" }); }
+    if (name.length > 40) { ref1.current.scrollIntoView(); return setErrors({ name: "`Name can not have more than 40 characters." }); }
+    if (description.length < 30) { ref2.current.scrollIntoView(); return setErrors({ description: "Description needs at least 30 characters" }); }
 
     const startDateValue = validateTime(startDate, "startDate");
-    if (!startDateValue) return;
+    if (!startDateValue) { ref3.current.scrollIntoView(); return; }
 
     const endDateValue = validateTime(endDate, "endDate");
-    if (!endDateValue) return;
+    if (!endDateValue) { ref3.current.scrollIntoView(); return; }
 
-    if (capacity < 1) return setErrors({ capacity: "Capacity must be greater than 0" });
-    if (price < 0) return setErrors({ price: "Price must be at lest 0" })
+    if (capacity < 1) { ref4.current.scrollIntoView(); return setErrors({ capacity: "Capacity must be greater than 0" }); }
+    if (price < 0) { ref4.current.scrollIntoView(); return setErrors({ price: "Price must be at lest 0" }) }
 
     const payload = {
       venueId: type === "Onine" ? null : 1,   // to be implemented later
@@ -125,7 +126,7 @@ function EventForm({ groupId, title, event = {} }) {
   return (
     <form id="new-group" onSubmit={handleSubmit}>
       <div id="event-line-break"></div>
-      <div className="create-group">
+      <div className="create-group" ref={ref1} onClick={() => ref1.current.scrollIntoView()}>
         <h2 className="subheading">What is the name of your event?</h2>
         <div className="caption">
           Tell us all about your event. The given information will be used by Meetup to advertise for your event.
@@ -139,7 +140,7 @@ function EventForm({ groupId, title, event = {} }) {
         {errors.name && <p className="error-message">{errors.name}</p>}
       </div>
       <div id="event-line-break"></div>
-      <div className="create-group">
+      <div className="create-group" ref={ref2} onClick={() => ref2.current.scrollIntoView()}>
         <h2 className="subheading">Describe your event</h2>
         <div className="caption">
           <p>Be descriptive! People will see this when we promote your event.</p>
@@ -161,7 +162,7 @@ function EventForm({ groupId, title, event = {} }) {
         {errors.description && <p className="error-message">{errors.description}</p>}
       </div>
       <div id="event-line-break"></div>
-      <div className="create-group section-4">
+      <div className="create-group section-4" ref={ref3} onClick={() => ref3.current.scrollIntoView()}>
         <h2 className="subheading">Event Date</h2>
         <div>
           <label htmlFor="event-startDate">When does your event start?</label>
@@ -185,10 +186,7 @@ function EventForm({ groupId, title, event = {} }) {
         </div>
       </div>
       <div id="event-line-break"></div>
-
-
-
-      <div className="create-group section-4">
+      <div className="create-group section-4" ref={ref4} onClick={() => ref4.current.scrollIntoView()}>
         <h2 className="subheading">Final steps...</h2>
         <div>
           <label htmlFor="event-type">Is this an in-person or online group?</label>

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as groupActions from '../../store/group';
 import "./GroupForm.css";
 
 function GroupForm({ group = {}, title }) {
+  const [ref1, ref2, ref3, ref4] = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [location, setLocation] = useState(group.city && group.state ? `${group.city}, ${group.state}` : "");
@@ -22,19 +23,20 @@ function GroupForm({ group = {}, title }) {
     locationArr = locationArr.length == 2 ? locationArr : location.split(' ');
     locationArr = locationArr.length == 2 ? locationArr : location.split(',');
     if (locationArr.length !== 2) {
+      ref1.current.scrollIntoView();
       return setErrors({ location: `Please enter the location in this format: "City, STATE" or "City STATE" or "City,STATE` });
     }
 
-    if (name.length === 0) return setErrors({ name: `Name can not be empty.` });
-    if (name.length > 40) return setErrors({ name: `Name can not have more than 40 characters.` });
-    if (about.length === 0) return setErrors({ about: `Description can not be empty.` });
-    if (about.length < 50) return setErrors({ about: `Description must be at least 50 characters.` })
+    if (name.length === 0) { ref2.current.scrollIntoView(); return setErrors({ name: `Name can not be empty.` }); }
+    if (name.length > 40) { ref2.current.scrollIntoView(); return setErrors({ name: `Name can not have more than 40 characters.` }); }
+    if (about.length === 0) { ref3.current.scrollIntoView(); return setErrors({ about: `Description can not be empty.` }); }
+    if (about.length < 50) { ref3.current.scrollIntoView(); return setErrors({ about: `Description must be at least 50 characters.` }); }
 
     let [city, state] = locationArr;
 
-    if (city.length === 0) return setErrors({ location: `City can't be empty` });
-    if (state.length === 0) return setErrors({ location: `State can't be empty` });
-    if (location.length > 40) return setErrors({ location: `Location can not have more than 40 characters.` })
+    if (city.length === 0) { ref1.current.scrollIntoView(); return setErrors({ location: `City can't be empty` }); }
+    if (state.length === 0) { ref1.current.scrollIntoView(); return setErrors({ location: `State can't be empty` }); }
+    if (location.length > 40) { ref1.current.scrollIntoView(); return setErrors({ location: `Location can not have more than 40 characters.` }); }
 
     city = city[0].toUpperCase() + city.slice(1).toLowerCase();
     state = state[0].toUpperCase() + state.slice(1).toLowerCase();
@@ -68,7 +70,7 @@ function GroupForm({ group = {}, title }) {
   return (
     <form id="new-group" onSubmit={handleSubmit}>
       <div id="event-line-break"></div>
-      <div className="create-group section-1">
+      <div className="create-group section-1" ref={ref1} onClick={() => ref1.current.scrollIntoView()}>
         <h2 className="subheading">Set your group&apos;s location</h2>
         <div className="caption">
           Meetup groups meet locally, in person, and online. We&apos;ll connect you with people in your area.
@@ -82,7 +84,7 @@ function GroupForm({ group = {}, title }) {
         {errors.location && <p className="error-message">{errors.location}</p>}
       </div>
       <div id="event-line-break"></div>
-      <div className="create-group section-2">
+      <div className="create-group section-2" ref={ref2} onClick={() => ref2.current.scrollIntoView()}>
         <h2 className="subheading">What will your group&apos;s name be?</h2>
         <div className="caption">
           Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.
@@ -96,7 +98,7 @@ function GroupForm({ group = {}, title }) {
         {errors.name && <p className="error-message">{errors.name}</p>}
       </div>
       <div id="event-line-break"></div>
-      <div className="create-group section-3">
+      <div className="create-group section-3" ref={ref3} onClick={() => ref3.current.scrollIntoView()}>
         <h2 className="subheading">Describe the purpose of your group</h2>
         <div className="caption">
           <p>
@@ -119,7 +121,7 @@ function GroupForm({ group = {}, title }) {
       </div>
       <div id="event-line-break"></div>
       <h2 className="subheading">Final steps...</h2>
-      <div className="create-group section-4">
+      <div className="create-group section-4" ref={ref4} onClick={() => ref4.current.scrollIntoView()}>
         <div>
           <label htmlFor="group-type">Is this an in-person or online group?</label>
           <select

@@ -19,6 +19,10 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .heading {
   font-size: 25pt;
   font-weight: bold;
@@ -76,6 +80,10 @@ form {
   flex-direction: column;
   gap: 10px;
   width: 100%;
+}
+
+form h2 {
+  cursor: pointer;
 }
 
 form input {
