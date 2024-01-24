@@ -49,7 +49,7 @@ function Group({ group, user = false, description = true, organizer = false }) {
           </div>
           {organizer && (
             <div id="group-organizer">
-              Organized by: {group.Organizer.firstName}, {group.Organizer.lastName}
+              Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}
             </div>
           )}
         </div>

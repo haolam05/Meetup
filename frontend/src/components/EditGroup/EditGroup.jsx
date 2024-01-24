@@ -25,7 +25,7 @@ function EditGroup() {
 
   useEffect(() => {
     if (isLoaded) {
-      if (!user || (user.id !== group.Organizer.id)) {
+      if (!user || (group && user.id !== group?.Organizer.id)) {
         navigate('/', { replace: true });
       }
     }

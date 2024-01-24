@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useModal } from '../../context/Modal';
 import * as eventActions from '../../store/event';
 
 function EventForm({ groupId, title, event = {} }) {
+  const { setModalContent, setOnModalClose } = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState(event?.name || "");
@@ -107,6 +109,13 @@ function EventForm({ groupId, title, event = {} }) {
     }
 
     if (eventData?.errors) {
+      const { message } = eventData.errors;
+      if (message) {
+        setOnModalClose(() => navigate("/", { replace: true }));
+        setModalContent(<div>
+          <h2 className="subheading">{message}</h2>
+        </div>)
+      }
       setErrors({ ...eventData.errors });
     } else {
       navigate(`/events/${eventData?.id}`, { replace: true });

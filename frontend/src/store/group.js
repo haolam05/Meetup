@@ -149,7 +149,7 @@ export const createGroup = payload => async (dispatch, getState) => {
   return groupData;
 };
 
-export const updateGroup = (payload, groupId) => async dispatch => {
+export const updateGroup = (payload, groupId) => async (dispatch, getState) => {
   const response1 = await csrfFetch(`/api/groups/${groupId}`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -189,8 +189,11 @@ export const updateGroup = (payload, groupId) => async dispatch => {
     }
   }
 
-  dispatch(addGroup(groupData));
   dispatch(removeGroupDetails(groupData.id)); // remove to force details page reload
+
+  const state = getState();
+  const numGroups = Object.values(state.group.groups).length;
+  if (numGroups % state.group.size) dispatch(addGroup(groupData));
   return groupData;
 };
 

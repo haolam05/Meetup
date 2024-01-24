@@ -130,7 +130,7 @@ export const createEvent = (groupId, payload) => async (dispatch, getState) => {
   return eventData;
 };
 
-export const updateEvent = (eventId, payload) => async dispatch => {
+export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
   const response1 = await csrfFetch(`/api/events/${eventId}`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -165,8 +165,11 @@ export const updateEvent = (eventId, payload) => async dispatch => {
     }
   }
 
-  dispatch(addEvent(eventData));
   dispatch(removeEventDetails(eventData.id)); // remove to force details page reload
+
+  const state = getState();
+  const numEvents = Object.values(state.event.events).length;
+  if (numEvents % state.event.size) dispatch(addEvent(eventData));
   return eventData;
 }
 
@@ -191,15 +194,6 @@ export const getEvents = createSelector(
   ],
   (size, offset, events) => Object.values(events).slice(offset, offset + size)
 );
-// , state => {
-//   const page = state.event.page;
-//   const size = state.event.size;
-//   const offset = (page - 1) * size;
-//   const events = state.event.events;
-//   const eventsArr = Object.values(events);
-//   const selectedEventsArr = eventsArr.slice(offset, offset + size);
-//   return selectedEventsArr;
-// });
 
 export const getEventById = eventId => createSelector(
   state => state.event.eventDetails,

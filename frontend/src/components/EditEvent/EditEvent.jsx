@@ -19,6 +19,7 @@ function EditEvent() {
   useEffect(() => {
     const loadInfo = async () => {
       const event = await dispatch(eventActions.loadEventDetails(eventId));
+      console.log(event)
       if (event) await dispatch(groupActions.loadGroupDetails(event.groupId));
       await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
@@ -28,7 +29,7 @@ function EditEvent() {
 
   useEffect(() => {
     if (isLoaded) {
-      if (!user || (user.id !== group.Organizer.id)) {
+      if (!user || (group && user.id !== group?.Organizer.id)) {
         navigate('/', { replace: true });
       }
     }

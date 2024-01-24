@@ -41,7 +41,7 @@ function GroupDetails() {
         <div id="group-details">
           <div id="group-details-header">
             <h2 className="subheading">Organizer</h2>
-            <span>{group.Organizer.firstName}, {group.Organizer.lastName}</span>
+            <span>{group?.Organizer.firstName}, {group?.Organizer.lastName}</span>
           </div>
           <div id="group-details-about">
             <h2 className="subheading">What we&apos;re about</h2>

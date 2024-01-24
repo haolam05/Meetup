@@ -19,7 +19,7 @@ function Events() {
 
   useEffect(() => {
     const loadEvents = async () => {
-      await dispatch(eventActions.loadEvents(page, 10));
+      await dispatch(eventActions.loadEvents(page, 5));
       setIsLoaded(true);
 
       document.querySelector(".page-prev")?.removeAttribute("disabled");
