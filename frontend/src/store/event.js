@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
+import * as groupActions from './group';
 
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
@@ -29,7 +30,7 @@ const removeEvent = eventId => ({
   eventId
 });
 
-const removeEventDetails = eventId => ({
+export const removeEventDetails = eventId => ({
   type: REMOVE_EVENT_DETAILS,
   eventId
 });
@@ -68,8 +69,8 @@ export const loadEvents = (page, size) => async (dispatch, getState) => {
   }
 };
 
-export const loadEventDetails = (eventId, forceLoad = false) => async (dispatch, getState) => {
-  if (!forceLoad && getState().event.eventDetails[eventId]) return;
+export const loadEventDetails = eventId => async (dispatch, getState) => {
+  if (getState().event.eventDetails[eventId]) return;
 
   const response1 = await csrfFetch(`/api/events/${eventId}`);
 
@@ -165,11 +166,24 @@ export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
     }
   }
 
-  dispatch(removeEventDetails(eventData.id)); // remove to force details page reload
+  // remove to force details page reload
+  dispatch(removeEventDetails(eventData.id));
 
+  // force to load events if no events is loaded yet on /events
   const state = getState();
   const numEvents = Object.values(state.event.events).length;
-  if (numEvents % state.event.size) dispatch(addEvent(eventData));
+  if (numEvents !== 0) dispatch(addEvent(eventData));
+
+  // event details page -> list group
+  // group details page -> list events
+  // ---> force remove to update accordingly
+  const groupDetails = Object.values(state.group.groupDetails);
+  for (let i = 0; i < groupDetails.length; i++) {
+    if (groupDetails[i].id === eventData.groupId) {
+      dispatch(groupActions.removeGroupDetails(groupDetails[i].id));
+    }
+  }
+
   return eventData;
 }
 

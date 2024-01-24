@@ -1,6 +1,7 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
 import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
+import * as eventActions from './event';
 
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
@@ -30,7 +31,7 @@ const removeGroup = groupId => ({
   groupId
 });
 
-const removeGroupDetails = groupId => ({
+export const removeGroupDetails = groupId => ({
   type: REMOVE_GROUP_DETAILS,
   groupId
 });
@@ -69,8 +70,8 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
   }
 };
 
-export const loadGroupDetails = (groupId, forceLoad = false) => async (dispatch, getState) => {
-  if (!forceLoad && getState().group.groupDetails[groupId]) return;
+export const loadGroupDetails = groupId => async (dispatch, getState) => {
+  if (getState().group.groupDetails[groupId]) return;
 
   const response1 = await csrfFetch(`/api/groups/${groupId}`);
 
@@ -189,11 +190,24 @@ export const updateGroup = (payload, groupId) => async (dispatch, getState) => {
     }
   }
 
-  dispatch(removeGroupDetails(groupData.id)); // remove to force details page reload
+  // remove to force details page reload
+  dispatch(removeGroupDetails(groupData.id));
 
+  // force to load groups if no groups is loaded yet on /groups
   const state = getState();
   const numGroups = Object.values(state.group.groups).length;
-  if (numGroups % state.group.size) dispatch(addGroup(groupData));
+  if (numGroups !== 0) dispatch(addGroup(groupData));
+
+  // group details page -> list events
+  // event details page -> list group
+  // ---> force remove to update accordingly
+  const eventDetails = Object.values(state.event.eventDetails);
+  for (let i = 0; i < eventDetails.length; i++) {
+    if (eventDetails[i].groupId === groupData.id) {
+      dispatch(eventActions.removeEventDetails(eventDetails[i].id));
+    }
+  }
+
   return groupData;
 };
 
