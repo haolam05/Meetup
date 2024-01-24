@@ -1,25 +1,37 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useModal } from '../../context/Modal';
 import Loading from '../Loading';
-import Group from '../Group';
+import ManageGroup from '../ManageGroup/ManageGroup';
 import * as groupActions from '../../store/group';
+import * as sessionActions from '../../store/session';
 
 function ManageGroups() {
+  const { setModalContent } = useModal();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
-  const groups = useSelector(groupActions.getGroups);
+  const groups = useSelector(groupActions.getCurrentUserGroups);
+  const user = useSelector(sessionActions.sessionUser);
 
   useEffect(() => {
     const loadGroups = async () => {
-      await dispatch(groupActions.loadCurrentUserGroups());
+      const group = await dispatch(groupActions.loadCurrentUserGroups());
+      if (group?.errors?.message) {
+        setModalContent(<h1 className="heading">{group.errors.message}</h1>)
+        navigate("/", { replace: true });
+      }
+
+      await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
     }
     loadGroups();
-  }, [dispatch]);
+  }, [dispatch, navigate, setModalContent]);
 
   if (!isLoaded) return <Loading />;
 
-  return <li>{groups.map(group => <Group key={group.id} group={group} />)}</li>;
+  return <li>{groups.map(group => <ManageGroup key={group.id} group={group} user={user} />)}</li>;
 }
 
 export default ManageGroups;

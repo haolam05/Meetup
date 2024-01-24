@@ -48,3 +48,7 @@
   align-items: center;
   width: 900px;
 }
+
+#manage-groups {
+  text-decoration: none;
+}

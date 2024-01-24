@@ -66,7 +66,7 @@ function ProfileButton({ user }) {
         {
           user ? (<>
             <li>
-              <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your groups</button>
+              <button className="btn-accent" onClick={() => navigate("groups/current")}>Your groups</button>
             </li>
             <li>
               <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your events</button>

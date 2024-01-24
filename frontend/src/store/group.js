@@ -3,14 +3,22 @@ import { createSelector } from 'reselect';
 import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 import * as eventActions from './event';
 
+const LOAD_USER_GROUPS = '/groups/LOAD_USER_GROUPS';
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
+const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
 const REMOVE_GROUP = '/groups/REMOVE_GROUP';
+const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 
 // POJO action creators
+const getUserGroups = groups => ({
+  type: LOAD_USER_GROUPS,
+  groups
+});
+
 const getAllGroups = groups => ({
   type: LOAD_GROUPS,
   groups
@@ -26,8 +34,18 @@ const addGroup = group => ({
   group
 });
 
+const addUserGroup = group => ({
+  type: ADD_USER_GROUP,
+  group
+});
+
 const removeGroup = groupId => ({
   type: REMOVE_GROUP,
+  groupId
+});
+
+const removeUserGroup = groupId => ({
+  type: REMOVE_USER_GROUP,
   groupId
 });
 
@@ -43,6 +61,27 @@ const setPagination = (page, size) => ({
 });
 
 // Thunk action creators
+export const loadCurrentUserGroups = () => async (dispatch, getState) => {
+  if (Object.values(getState().group.userGroups).length) return;
+
+  const response = await csrfFetch(`/api/groups/current`);
+  const groups = await response.json();
+
+  if (!response.ok) return groups.errors ? groups : { errors: groups };
+
+  for (let i = 0; i < groups.Groups.length; i++) {
+    const group = groups.Groups[i];
+
+    const response = await csrfFetch(`/api/groups/${group.id}/events`);
+    if (response.ok) {
+      const events = await response.json();
+      group.numEvents = events.Events.length;
+    }
+  }
+
+  dispatch(getUserGroups(groups.Groups));
+};
+
 export const loadGroups = (page, size) => async (dispatch, getState) => {
   const state = getState();
   const groupPage = state.group.page;
@@ -143,6 +182,8 @@ export const createGroup = payload => async (dispatch, getState) => {
     }
   }
 
+  dispatch(addUserGroup(groupData));
+
   const state = getState();
   const numGroups = Object.values(state.group.groups).length;
   if (numGroups % state.group.size) dispatch(addGroup(groupData));
@@ -193,6 +234,9 @@ export const updateGroup = (payload, groupId) => async (dispatch, getState) => {
   // remove to force details page reload
   dispatch(removeGroupDetails(groupData.id));
 
+  // No pagination on /groups/current -> just update to keep data integrity
+  dispatch(addUserGroup(groupData));
+
   // force to load groups if no groups is loaded yet on /groups
   const state = getState();
   const numGroups = Object.values(state.group.groups).length;
@@ -219,31 +263,17 @@ export const deleteGroup = groupId => async dispatch => {
   if (response.ok) {
     const data = await response.json();
     dispatch(removeGroup(groupId));
+    dispatch(removeUserGroup(groupId))
     return data;
   }
 };
 
-export const loadCurrentUserGroups = () => async dispatch => {
-  const response = await csrfFetch(`/api/groups/current`);
-
-  if (response.ok) {
-    const groups = await response.json();
-
-    for (let i = 0; i < groups.Groups.length; i++) {
-      const group = groups.Groups[i];
-
-      const response = await csrfFetch(`/api/groups/${group.id}/events`);
-      if (response.ok) {
-        const events = await response.json();
-        group.numEvents = events.Events.length;
-      }
-    }
-
-    dispatch(getAllGroups(groups.Groups));
-  }
-};
-
 // Custom selectors
+export const getCurrentUserGroups = createSelector(
+  state => state.group.userGroups,
+  groups => Object.values(groups)
+);
+
 export const getGroups = createSelector(
   [
     state => state.group.size,
@@ -259,10 +289,18 @@ export const getGroupById = groupId => createSelector(
 );
 
 // Reducer
-const initialState = { groups: {}, groupDetails: {}, page: 0, size: 0 };
+const initialState = { userGroups: {}, groups: {}, groupDetails: {}, page: 0, size: 0 };
 
 function groupReducer(state = initialState, action) {
   switch (action.type) {
+    case LOAD_USER_GROUPS:
+      return {
+        ...state,
+        userGroups: {
+          ...state.userGroups,
+          ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {})
+        }
+      }
     case LOAD_GROUPS:
       return {
         ...state,
@@ -279,6 +317,14 @@ function groupReducer(state = initialState, action) {
           [action.group.id]: action.group
         }
       };
+    case ADD_USER_GROUP:
+      return {
+        ...state,
+        userGroups: {
+          ...state.userGroups,
+          [action.group.id]: action.group
+        }
+      }
     case ADD_GROUP:
       return {
         ...state,
@@ -290,6 +336,11 @@ function groupReducer(state = initialState, action) {
     case REMOVE_GROUP: {
       const newState = { ...state };
       delete newState.groups[action.groupId];
+      return newState;
+    }
+    case REMOVE_USER_GROUP: {
+      const newState = { ...state };
+      delete newState.userGroups[action.groupId];
       return newState;
     }
     case REMOVE_GROUP_DETAILS: {

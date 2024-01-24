@@ -177,12 +177,7 @@ export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
   // event details page -> list group
   // group details page -> list events
   // ---> force remove to update accordingly
-  const groupDetails = Object.values(state.group.groupDetails);
-  for (let i = 0; i < groupDetails.length; i++) {
-    if (groupDetails[i].id === eventData.groupId) {
-      dispatch(groupActions.removeGroupDetails(groupDetails[i].id));
-    }
-  }
+  dispatch(groupActions.removeGroupDetails(eventData.groupId));
 
   return eventData;
 }

@@ -26,6 +26,7 @@
 
 #group-join-btn {
   border: none;
+  margin-top: 10px;
 }
 
 #group-join-btn:hover {

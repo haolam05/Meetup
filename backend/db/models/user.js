@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         {
           through: models.Membership,
           foreignKey: 'userId',
-          otherKey: 'groupId'
+          otherKey: 'groupId',
+          as: 'Memberships'
         }
       );
     }

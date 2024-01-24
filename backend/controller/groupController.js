@@ -87,7 +87,9 @@ async function getGroups(req, res) {
 }
 
 async function getGroupsOrganizedByCurrentUser(req, res) {
-  const groupsByCurrentUser = await req.user.getGroups();
+  const groupsOwnByCurrentUser = await req.user.getGroups();
+  const groupsCurrentUserIsMember = await req.user.getMemberships();
+  const groupsByCurrentUser = [...groupsOwnByCurrentUser, ...groupsCurrentUserIsMember];
   res.json({ Groups: await _countNumMembersAndGetPreviewURL(groupsByCurrentUser) });
 }
 
