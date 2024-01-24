@@ -47,7 +47,9 @@ export const logout = () => async dispatch => {
   dispatch(deleteSession());
 };
 
-export const restoreSession = () => async dispatch => {
+export const restoreSession = () => async (dispatch, getState) => {
+  if (getState().session.user !== null) return;
+
   const response = await csrfFetch("/api/session");
   const data = await response.json();
   dispatch(createSession(data));

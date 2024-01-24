@@ -17,7 +17,7 @@ function EventDetails() {
 
   useEffect(() => {
     const loadEventDetails = async () => {
-      await dispatch(eventActions.loadEventDetails(eventId));
+      await dispatch(eventActions.loadEventDetails(eventId, true));
       await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
     }

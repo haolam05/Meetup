@@ -2,7 +2,7 @@ import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
 
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
-const LOAD_EVENT_DETAILS = '/events/LOAD_EVENT_DETAILS';
+const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const REMOVE_EVENT = '/events/REMOVE_EVENT';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
@@ -15,7 +15,7 @@ const getAllEvents = events => ({
 });
 
 const getAllEventDetails = event => ({
-  type: LOAD_EVENT_DETAILS,
+  type: ADD_EVENT_DETAILS,
   event
 });
 
@@ -68,8 +68,8 @@ export const loadEvents = (page, size) => async (dispatch, getState) => {
   }
 };
 
-export const loadEventDetails = eventId => async (dispatch, getState) => {
-  if (getState().event.eventDetails[eventId]) return;
+export const loadEventDetails = (eventId, forceLoad = false) => async (dispatch, getState) => {
+  if (!forceLoad && getState().event.eventDetails[eventId]) return;
 
   const response1 = await csrfFetch(`/api/events/${eventId}`);
 
@@ -216,7 +216,7 @@ function eventReducer(state = initialState, action) {
           ...action.events
         }
       };
-    case LOAD_EVENT_DETAILS:
+    case ADD_EVENT_DETAILS:
       return {
         ...state,
         eventDetails: {
