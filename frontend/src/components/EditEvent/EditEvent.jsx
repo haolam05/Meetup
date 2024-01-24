@@ -19,7 +19,6 @@ function EditEvent() {
   useEffect(() => {
     const loadInfo = async () => {
       const event = await dispatch(eventActions.loadEventDetails(eventId));
-      console.log(event)
       if (event) await dispatch(groupActions.loadGroupDetails(event.groupId));
       await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
