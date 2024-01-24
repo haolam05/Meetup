@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { sortAscFuture, sortDescPast } from '../../utils/dateConverter';
 import Pagination from '../Pagination';
 import Loading from '../Loading';
 import Event from '../Event';
@@ -11,7 +12,10 @@ function Events() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
-  const events = useSelector(eventActions.getEvents);
+  let events = useSelector(eventActions.getEvents);
+  const upcomingEvents = sortAscFuture(Object.values(events));
+  const pastEvents = sortDescPast(Object.values(events));
+  events = [...upcomingEvents, ...pastEvents];
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -28,17 +32,12 @@ function Events() {
 
   return <>
     <Pagination
-      list={[...events.upcomingEvents, ...events.pastEvents]}
+      list={events}
       page={page}
       setPage={setPage}
     />
     <li>
-      {events.upcomingEvents.map(event => (
-        <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
-          <Event event={event} />
-        </div>
-      ))}
-      {events.pastEvents.map(event => (
+      {events.map(event => (
         <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
           <Event event={event} />
         </div>

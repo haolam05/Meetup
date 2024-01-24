@@ -46,6 +46,7 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
   const state = getState();
   const groupPage = state.group.page;
   const numGroups = Object.values(state.group.groups).length;
+
   if (groupPage !== page) dispatch(setPagination(page, size));
   if (numGroups > (page - 1) * size || (numGroups % size !== 0)) return;
 
@@ -68,8 +69,8 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
   }
 };
 
-export const loadGroupDetails = groupId => async (dispatch, getState) => {
-  if (getState().group.groupDetails[groupId]) return;
+export const loadGroupDetails = (groupId, forceLoad = false) => async (dispatch, getState) => {
+  if (!forceLoad && getState().group.groupDetails[groupId]) return;
 
   const response1 = await csrfFetch(`/api/groups/${groupId}`);
 
@@ -108,7 +109,7 @@ export const loadGroupDetails = groupId => async (dispatch, getState) => {
   }
 };
 
-export const createGroup = payload => async dispatch => {
+export const createGroup = payload => async (dispatch, getState) => {
   const response1 = await csrfFetch(`/api/groups`, {
     method: 'POST',
     body: JSON.stringify({
@@ -141,7 +142,10 @@ export const createGroup = payload => async dispatch => {
     }
   }
 
-  dispatch(addGroup(groupData));
+  const state = getState();
+  const numGroups = Object.values(state.group.groups).length;
+  if (numGroups % state.group.size) dispatch(addGroup(groupData));
+
   return groupData;
 };
 
@@ -229,7 +233,7 @@ export const getGroups = state => {
   const offset = (page - 1) * size;
   const groups = state.group.groups;
   const groupsArr = Object.values(groups);
-  const selectedGroupsArr = groupsArr.slice(offset, offset + size)
+  const selectedGroupsArr = groupsArr.slice(offset, offset + size);
   return selectedGroupsArr;
 };
 
@@ -254,12 +258,18 @@ function groupReducer(state = initialState, action) {
     case ADD_GROUP_DETAILS:
       return {
         ...state,
-        groupDetails: { ...state.groupDetails, [action.group.id]: action.group }
+        groupDetails: {
+          ...state.groupDetails,
+          [action.group.id]: action.group
+        }
       };
     case ADD_GROUP:
       return {
         ...state,
-        groups: { ...state.groups, [action.group.id]: action.group }
+        groups: {
+          ...state.groups,
+          [action.group.id]: action.group
+        }
       };
     case REMOVE_GROUP: {
       const newState = { ...state };

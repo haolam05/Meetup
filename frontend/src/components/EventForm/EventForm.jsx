@@ -12,7 +12,7 @@ function EventForm({ groupId, title, event = {} }) {
   const [startDate, setStartDate] = useState(dateToFormat(event?.startDate) || "");
   const [endDate, setEndDate] = useState(dateToFormat(event?.endDate) || "");
   const [description, setDescription] = useState(event?.description || "");
-  const [capacity, setCapacity] = useState(event?.capacity || 0);
+  const [capacity, setCapacity] = useState(event?.capacity || 1);
   const [image, setImage] = useState(event?.previewImage || "");
   const [errors, setErrors] = useState({});
 

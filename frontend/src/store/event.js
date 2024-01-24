@@ -1,18 +1,17 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
-import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const LOAD_EVENT_DETAILS = '/events/LOAD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const REMOVE_EVENT = '/events/REMOVE_EVENT';
+const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
+const SET_PAGINATION = '/groups/SET_PAGINATION';
 
 // POJO action creators
-const getAllEvents = (events, upcomingEvents, pastEvents) => ({
+const getAllEvents = events => ({
   type: LOAD_EVENTS,
-  events,
-  upcomingEvents,
-  pastEvents
+  events
 });
 
 const getAllEventDetails = event => ({
@@ -30,12 +29,29 @@ const removeEvent = eventId => ({
   eventId
 });
 
-export const loadEvents = (page, size) => async dispatch => {
+const removeEventDetails = eventId => ({
+  type: REMOVE_EVENT_DETAILS,
+  eventId
+});
+
+const setPagination = (page, size) => ({
+  type: SET_PAGINATION,
+  page,
+  size
+});
+
+export const loadEvents = (page, size) => async (dispatch, getState) => {
+  const state = getState();
+  const eventPage = state.event.page;
+  const numEvents = Object.values(state.event.events).length;
+
+  if (eventPage !== page) dispatch(setPagination(page, size));
+  if (numEvents > (page - 1) * size || (numEvents % size !== 0)) return;
+
   const response1 = await csrfFetch(`/api/events?page=${page}&size=${size}`);
 
   if (response1.ok) {
     const events = await response1.json();
-
     const eventDetails = {}
     for (let i = 0; i < events.Events.length; i++) {
       const event = events.Events[i];
@@ -48,13 +64,13 @@ export const loadEvents = (page, size) => async dispatch => {
       }
     }
 
-    const upcomingEvents = sortAscFuture(Object.values(eventDetails));
-    const pastEvents = sortDescPast(Object.values(eventDetails));
-    dispatch(getAllEvents(eventDetails, upcomingEvents, pastEvents));
+    dispatch(getAllEvents(eventDetails));
   }
 };
 
-export const loadEventDetails = eventId => async dispatch => {
+export const loadEventDetails = eventId => async (dispatch, getState) => {
+  if (getState().event.eventDetails[eventId]) return;
+
   const response1 = await csrfFetch(`/api/events/${eventId}`);
 
   if (response1.ok) {
@@ -80,7 +96,7 @@ export const loadEventDetails = eventId => async dispatch => {
   }
 };
 
-export const createEvent = (groupId, payload) => async dispatch => {
+export const createEvent = (groupId, payload) => async (dispatch, getState) => {
   const response1 = await csrfFetch(`/api/groups/${groupId}/events`, {
     method: 'POST',
     body: JSON.stringify({
@@ -107,7 +123,10 @@ export const createEvent = (groupId, payload) => async dispatch => {
     }
   }
 
-  dispatch(addEvent(eventData));
+  const state = getState();
+  const numEvents = Object.values(state.event.events).length;
+  if (numEvents % state.event.size) dispatch(addEvent(eventData));
+
   return eventData;
 };
 
@@ -147,6 +166,7 @@ export const updateEvent = (eventId, payload) => async dispatch => {
   }
 
   dispatch(addEvent(eventData));
+  dispatch(removeEventDetails(eventData.id)); // remove to force details page reload
   return eventData;
 }
 
@@ -163,10 +183,15 @@ export const deleteEvent = eventId => async disptach => {
 };
 
 // Custom selectors
-export const getEvents = createSelector(
-  state => state.event,
-  event => ({ upcomingEvents: event.upcomingEvents, pastEvents: event.pastEvents })
-);
+export const getEvents = state => {
+  const page = state.event.page;
+  const size = state.event.size;
+  const offset = (page - 1) * size;
+  const events = state.event.events;
+  const eventsArr = Object.values(events);
+  const selectedEventsArr = eventsArr.slice(offset, offset + size);
+  return selectedEventsArr;
+};
 
 export const getEventById = eventId => createSelector(
   state => state.event.eventDetails,
@@ -179,21 +204,50 @@ export const getEventsByUserId = userId => createSelector(
 );
 
 // Reducer
-const initialState = { events: {}, eventDetails: {} };
+const initialState = { events: {}, eventDetails: {}, page: 0, size: 0 };
 
 function eventReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_EVENTS:
-      return { ...state, events: { ...action.events }, upcomingEvents: action.upcomingEvents, pastEvents: action.pastEvents };
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          ...action.events
+        }
+      };
     case LOAD_EVENT_DETAILS:
-      return { ...state, eventDetails: { ...state.eventDetails, [action.event.id]: action.event } };
+      return {
+        ...state,
+        eventDetails: {
+          ...state.eventDetails,
+          [action.event.id]: action.event
+        }
+      };
     case ADD_EVENT:
-      return { ...state, events: { ...state.events, [action.event.id]: action.event } };
+      return {
+        ...state,
+        events: {
+          ...state.events,
+          [action.event.id]: action.event
+        }
+      };
     case REMOVE_EVENT: {
       const newState = { ...state };
       delete newState.events[action.eventId];
       return newState;
     }
+    case REMOVE_EVENT_DETAILS: {
+      const newState = { ...state };
+      delete newState.eventDetails[action.eventId];
+      return newState;
+    }
+    case SET_PAGINATION:
+      return {
+        ...state,
+        page: action.page,
+        size: action.size
+      }
     default:
       return state;
   }
