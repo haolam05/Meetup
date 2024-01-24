@@ -73,7 +73,7 @@ function EventForm({ groupId, title, event = {} }) {
     e.preventDefault();
 
     if (name.length < 5) return setErrors({ name: "Name must be at least 5 characters" });
-    if (name.length > 60) return setErrors({ name: "`Name can not have more than 60 characters." });
+    if (name.length > 40) return setErrors({ name: "`Name can not have more than 40 characters." });
     if (description.length < 30) return setErrors({ description: "Description needs at least 30 characters" });
 
     const startDateValue = validateTime(startDate, "startDate");

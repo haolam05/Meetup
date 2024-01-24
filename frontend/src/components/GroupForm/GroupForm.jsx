@@ -26,7 +26,7 @@ function GroupForm({ group = {}, title }) {
     }
 
     if (name.length === 0) return setErrors({ name: `Name can not be empty.` });
-    if (name.length > 60) return setErrors({ name: `Name can not have more than 60 characters.` });
+    if (name.length > 40) return setErrors({ name: `Name can not have more than 40 characters.` });
     if (about.length === 0) return setErrors({ about: `Description can not be empty.` });
     if (about.length < 50) return setErrors({ about: `Description must be at least 50 characters.` })
 
@@ -75,7 +75,7 @@ function GroupForm({ group = {}, title }) {
         </div>
         <input
           type="text"
-          placeholder="City, STATE  -  City STATE"
+          placeholder="City, STATE  -  City STATE  -  City,STATE"
           value={location}
           onChange={e => setLocation(e.target.value)}
         />

@@ -184,7 +184,7 @@ const initialState = { events: {}, eventDetails: {} };
 function eventReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_EVENTS:
-      return { events: { ...action.events }, upcomingEvents: action.upcomingEvents, pastEvents: action.pastEvents };
+      return { ...state, events: { ...action.events }, upcomingEvents: action.upcomingEvents, pastEvents: action.pastEvents };
     case LOAD_EVENT_DETAILS:
       return { ...state, eventDetails: { ...state.eventDetails, [action.event.id]: action.event } };
     case ADD_EVENT:

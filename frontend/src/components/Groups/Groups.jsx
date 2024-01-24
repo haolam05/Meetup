@@ -13,7 +13,7 @@ function Groups() {
 
   useEffect(() => {
     const loadGroups = async () => {
-      await dispatch(groupActions.loadGroups(page, 10));
+      await dispatch(groupActions.loadGroups(page, 5));
       setIsLoaded(true);
 
       document.querySelector(".page-prev")?.removeAttribute("disabled");

@@ -3,17 +3,20 @@ import { createSelector } from 'reselect';
 import { sortAscFuture, sortDescPast } from '../utils/dateConverter';
 
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
-const LOAD_GROUP_DETAILS = '/groups/LOAD_GROUP_DETAILS';
+const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const REMOVE_GROUP = '/groups/REMOVE_GROUP';
+const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
+const SET_PAGINATION = '/groups/SET_PAGINATION';
 
 // POJO action creators
 const getAllGroups = groups => ({
-  type: LOAD_GROUPS, groups
+  type: LOAD_GROUPS,
+  groups
 });
 
 const getAllGroupDetails = group => ({
-  type: LOAD_GROUP_DETAILS,
+  type: ADD_GROUP_DETAILS,
   group
 });
 
@@ -27,8 +30,25 @@ const removeGroup = groupId => ({
   groupId
 });
 
+const removeGroupDetails = groupId => ({
+  type: REMOVE_GROUP_DETAILS,
+  groupId
+});
+
+const setPagination = (page, size) => ({
+  type: SET_PAGINATION,
+  page,
+  size
+});
+
 // Thunk action creators
-export const loadGroups = (page, size) => async dispatch => {
+export const loadGroups = (page, size) => async (dispatch, getState) => {
+  const state = getState();
+  const groupPage = state.group.page;
+  const numGroups = Object.values(state.group.groups).length;
+  if (groupPage !== page) dispatch(setPagination(page, size));
+  if (numGroups > (page - 1) * size || (numGroups % size !== 0)) return;
+
   const response = await csrfFetch(`/api/groups?page=${page}&size=${size}`);
 
   if (response.ok) {
@@ -48,7 +68,9 @@ export const loadGroups = (page, size) => async dispatch => {
   }
 };
 
-export const loadGroupDetails = groupId => async dispatch => {
+export const loadGroupDetails = groupId => async (dispatch, getState) => {
+  if (getState().group.groupDetails[groupId]) return;
+
   const response1 = await csrfFetch(`/api/groups/${groupId}`);
 
   if (response1.ok) {
@@ -139,7 +161,6 @@ export const updateGroup = (payload, groupId) => async dispatch => {
     const events = await response2.json();
     groupData.numEvents = events.Events.length;
   }
-
   if (payload.image) {
     let response3, url, method;
     if (payload.imageId) { // update image
@@ -165,6 +186,7 @@ export const updateGroup = (payload, groupId) => async dispatch => {
   }
 
   dispatch(addGroup(groupData));
+  dispatch(removeGroupDetails(groupData.id)); // remove to force details page reload
   return groupData;
 };
 
@@ -201,10 +223,15 @@ export const loadCurrentUserGroups = () => async dispatch => {
 };
 
 // Custom selectors
-export const getGroups = createSelector(
-  state => state.group.groups,
-  groups => Object.values(groups)
-);
+export const getGroups = state => {
+  const page = state.group.page;
+  const size = state.group.size;
+  const offset = (page - 1) * size;
+  const groups = state.group.groups;
+  const groupsArr = Object.values(groups);
+  const selectedGroupsArr = groupsArr.slice(offset, offset + size)
+  return selectedGroupsArr;
+};
 
 export const getGroupById = groupId => createSelector(
   state => state.group.groupDetails,
@@ -212,21 +239,44 @@ export const getGroupById = groupId => createSelector(
 );
 
 // Reducer
-const initialState = { groups: {}, groupDetails: {} };
+const initialState = { groups: {}, groupDetails: {}, page: 0, size: 0 };
 
 function groupReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_GROUPS:
-      return { groups: { ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {}) } };
-    case LOAD_GROUP_DETAILS:
-      return { ...state, groupDetails: { ...state.groupDetails, [action.group.id]: action.group } };
+      return {
+        ...state,
+        groups: {
+          ...state.groups,
+          ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {})
+        }
+      };
+    case ADD_GROUP_DETAILS:
+      return {
+        ...state,
+        groupDetails: { ...state.groupDetails, [action.group.id]: action.group }
+      };
     case ADD_GROUP:
-      return { ...state, groups: { ...state.groups, [action.group.id]: action.group } };
+      return {
+        ...state,
+        groups: { ...state.groups, [action.group.id]: action.group }
+      };
     case REMOVE_GROUP: {
       const newState = { ...state };
       delete newState.groups[action.groupId];
       return newState;
     }
+    case REMOVE_GROUP_DETAILS: {
+      const newState = { ...state };
+      delete newState.groupDetails[action.groupId];
+      return newState;
+    }
+    case SET_PAGINATION:
+      return {
+        ...state,
+        page: action.page,
+        size: action.size
+      }
     default:
       return state;
   }

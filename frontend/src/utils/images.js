@@ -1,3 +1,3 @@
 export const getPreviewImageUrl = obj => {
-  return obj.previewImage === "Preview Image Not Found" ? "/images/no-preview-available.jpg" : obj.previewImage;
+  return (!obj.previewImage || obj.previewImage === "Preview Image Not Found") ? "/images/no-preview-available.jpg" : obj.previewImage;
 }
