@@ -1,0 +1,9 @@
+#manage-event #event-btns .btn-accent {
+  flex-grow: 1;
+}
+
+#manage-event .btn-accent:hover {
+  background-color: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray);
+}

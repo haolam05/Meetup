@@ -17,9 +17,9 @@ function ManageGroups() {
 
   useEffect(() => {
     const loadGroups = async () => {
-      const group = await dispatch(groupActions.loadCurrentUserGroups());
-      if (group?.errors?.message) {
-        setModalContent(<h1 className="heading">{group.errors.message}</h1>)
+      const groups = await dispatch(groupActions.loadCurrentUserGroups());
+      if (groups?.errors?.message) {
+        setModalContent(<h1 className="heading modal-errors">{groups.errors.message}</h1>)
         navigate("/", { replace: true });
       }
 

@@ -5,7 +5,7 @@ import { useModal } from '../../context/Modal';
 import { dateToFormat } from '../../utils/dateFormatter';
 import * as eventActions from '../../store/event';
 
-function EventForm({ groupId, title, event = {} }) {
+function EventForm({ groupId, title, event = {}, organizerId }) {
   const [ref1, ref2, ref3, ref4] = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const { setModalContent, setOnModalClose } = useModal();
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ function EventForm({ groupId, title, event = {} }) {
     let eventData;
 
     if (title === 'Create Event') {
-      eventData = await dispatch(eventActions.createEvent(groupId, payload));
+      eventData = await dispatch(eventActions.createEvent(groupId, payload, organizerId));
     } else {
       eventData = await dispatch(eventActions.updateEvent(event.id, payload));
     }

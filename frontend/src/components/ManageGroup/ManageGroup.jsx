@@ -17,7 +17,7 @@ function ManageGroup({ group, user }) {
 
   const handleToGroupDetailsPage = e => {
     if (!e.target.classList.contains("btn-accent")) {
-      navigate(`/groups/${group.id}`, { replace: true })
+      navigate(`/groups/${group.id}`, { replace: true });
     }
   }
 

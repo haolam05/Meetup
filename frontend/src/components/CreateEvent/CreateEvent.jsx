@@ -27,7 +27,7 @@ function CreateEvent() {
       <div id="lists">
         <h1 id="list-headers" className="heading new-group">Create a new event</h1>
         <div id="event-group-name">{group.name}</div>
-        <EventForm groupId={groupId} title="Create Event" />
+        <EventForm groupId={groupId} title="Create Event" organizerId={group.organizerId} />
       </div>
     </div>
   );

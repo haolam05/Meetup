@@ -23,7 +23,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
-    navigate("/", { replace: true });
+    window.location.href = "/"; // force refresh to clear store
   }
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function ProfileButton({ user }) {
               <button className="btn-accent" onClick={() => navigate("groups/current")}>Your groups</button>
             </li>
             <li>
-              <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Your events</button>
+              <button className="btn-accent" onClick={() => navigate("events/current")}>Your events</button>
             </li>
             <li>
               <button className="btn-accent" onClick={logout}>Log Out</button>
