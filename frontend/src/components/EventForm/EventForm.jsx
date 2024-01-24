@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
+import { dateToFormat } from '../../utils/dateFormatter';
 import * as eventActions from '../../store/event';
 
 function EventForm({ groupId, title, event = {} }) {
@@ -18,24 +19,6 @@ function EventForm({ groupId, title, event = {} }) {
   const [capacity, setCapacity] = useState(event?.capacity || 1);
   const [image, setImage] = useState(event?.previewImage || "");
   const [errors, setErrors] = useState({});
-
-  function dateToFormat(date) {
-    if (!date) return false;
-
-    date = new Date(date);
-    let identifier = 'AM';
-    const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const year = date.getFullYear();
-    let hours = date.getHours();
-    if (+hours > 12) {
-      hours = `${hours - 12}`.padStart(2, '0');
-      identifier = 'PM';
-    }
-    const minutes = `${date.getMinutes()}`.padStart(2, '0');
-    const formattedDate = `${month}/${day}/${year}, ${hours}:${minutes} ${identifier}`;
-    return formattedDate
-  }
 
   const validateTime = (dateInput, errorName) => {
     const [date, timeStr] = dateInput.split(', ');
