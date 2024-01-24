@@ -227,15 +227,14 @@ export const loadCurrentUserGroups = () => async dispatch => {
 };
 
 // Custom selectors
-export const getGroups = state => {
-  const page = state.group.page;
-  const size = state.group.size;
-  const offset = (page - 1) * size;
-  const groups = state.group.groups;
-  const groupsArr = Object.values(groups);
-  const selectedGroupsArr = groupsArr.slice(offset, offset + size);
-  return selectedGroupsArr;
-};
+export const getGroups = createSelector(
+  [
+    state => state.group.size,
+    state => (state.group.page - 1) * state.group.size,
+    state => state.group.groups
+  ],
+  (size, offset, groups) => Object.values(groups).slice(offset, offset + size)
+);
 
 export const getGroupById = groupId => createSelector(
   state => state.group.groupDetails,

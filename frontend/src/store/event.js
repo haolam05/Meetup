@@ -183,15 +183,23 @@ export const deleteEvent = eventId => async disptach => {
 };
 
 // Custom selectors
-export const getEvents = state => {
-  const page = state.event.page;
-  const size = state.event.size;
-  const offset = (page - 1) * size;
-  const events = state.event.events;
-  const eventsArr = Object.values(events);
-  const selectedEventsArr = eventsArr.slice(offset, offset + size);
-  return selectedEventsArr;
-};
+export const getEvents = createSelector(
+  [
+    state => state.event.size,
+    state => (state.event.page - 1) * state.event.size,
+    state => state.event.events
+  ],
+  (size, offset, events) => Object.values(events).slice(offset, offset + size)
+);
+// , state => {
+//   const page = state.event.page;
+//   const size = state.event.size;
+//   const offset = (page - 1) * size;
+//   const events = state.event.events;
+//   const eventsArr = Object.values(events);
+//   const selectedEventsArr = eventsArr.slice(offset, offset + size);
+//   return selectedEventsArr;
+// });
 
 export const getEventById = eventId => createSelector(
   state => state.event.eventDetails,
