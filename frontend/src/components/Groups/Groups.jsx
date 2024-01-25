@@ -20,10 +20,19 @@ function Groups() {
     setPropertyOnDom('.group-name', 'color', `var(--${textColor})`);
   }
 
-  // The search is extended to other pages IIF that page is already loaded from DB to React Store
-  // Only the results found on current page will be highlighted. The results from other pages will not be highlighted.
-  // The results come before the first hightlight are from previous page(s)
-  // The results come after the last hightlight are from next page(s)
+  /**
+   * The search is extended to other pages IIF that page is already loaded from DB to React Store
+   * Only the results found on current page will be highlighted. The results from other pages will not be highlighted.
+   *
+   * When the FIRST character is entered:
+   *    1. All matches result will be displayed on the current page
+   *    2. The results come before the first hightlight are from previous page(s)
+   *    3. The results come after the last hightlight are from next page(s)
+   *
+   * When the NEXT charater is entered:
+   *    1. It furthers search from the matched results on the current page
+   *    2. Now, the next matched results will all be highlighted since they are now on the "current page"
+   */
   const handleSearch = e => {
     const substring = e.target.value;
     const results = groupsNoOffset.filter(group => group.name.includes(substring));

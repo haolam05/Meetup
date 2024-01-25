@@ -26,10 +26,7 @@ function Events() {
     setPropertyOnDom('#event-title', 'color', `var(--${textColor})`);
   }
 
-  // The search is extended to other pages IIF that page is already loaded from DB to React Store
-  // Only the results found on current page will be highlighted. The results from other pages will not be highlighted.
-  // The results come before the first hightlight are from previous page(s)
-  // The results come after the last hightlight are from next page(s)
+  // See Events/Events.jsx for more information
   const handleSearch = e => {
     const substring = e.target.value;
     const results = eventsNoOffset.filter(event => event.name.includes(substring));
