@@ -15,8 +15,8 @@ function List({ list, title = "" }) {
               <Link to="/events" id={`${list === "Events" ? "selected" : "unselected"}`}>Events</Link>
               <Link to="/groups" id={`${list === "Groups" ? "selected" : "unselected"}`}>Groups</Link>
             </>)}
-            {list === "Manage Groups" && <Link to="#" id="manage-groups">{list}</Link>}
-            {list === "Manage Events" && list}
+            {list === "Manage Groups" && <Link to="#" id="manage-lists">{list}</Link>}
+            {list === "Manage Events" && <Link to="#" id="manage-lists">{list}</Link>}
           </h1>
         </li>
         <li id="caption">{title ? title : list} in Meetup</li>
