@@ -12,11 +12,13 @@ function EventDetails() {
   const dispatch = useDispatch();
   const { eventId } = useParams();
   const [isLoaded, setIsLoaded] = useState(false);
+  const userEvents = useSelector(eventActions.getCurrentUserEvents);
   const event = useSelector(eventActions.getEventById(eventId));
   const user = useSelector(sessionActions.sessionUser);
 
   useEffect(() => {
     const loadEventDetails = async () => {
+      await dispatch(eventActions.loadCurrentUserEvents());
       await dispatch(eventActions.loadEventDetails(eventId));
       await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
@@ -34,7 +36,7 @@ function EventDetails() {
           <h1 className="heading">{event.name}</h1>
           <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
         </div>
-        <Event event={event} user={user} details={true} />
+        <Event event={event} user={user} details={true} userEvents={userEvents} />
         <div id="event-details-wrapper">
           <h2 className="subheading">Details</h2>
           <p>{event.description}</p>
