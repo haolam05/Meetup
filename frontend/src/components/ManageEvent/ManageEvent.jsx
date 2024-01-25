@@ -50,7 +50,7 @@ function ManageEvent({ event, user }) {
               className="btn-accent"
               onClick={() => alert("Feature coming soon")}
             >
-              Join this group
+              Unattend
             </button>
           )}
         </div>

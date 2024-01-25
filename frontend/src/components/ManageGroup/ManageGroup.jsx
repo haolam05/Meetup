@@ -47,7 +47,7 @@ function ManageGroup({ group, user }) {
               className="btn-accent"
               onClick={() => alert("Feature coming soon")}
             >
-              Join this group
+              Unjoin
             </button>
           ) : (
             <div id="event-btns">

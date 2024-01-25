@@ -18,7 +18,6 @@ function ManageEvents() {
   useEffect(() => {
     const loadEvents = async () => {
       const events = await dispatch(eventActions.loadCurrentUserEvents());
-      console.log(events)
       if (events?.errors?.message) {
         setModalContent(<h1 className="heading modal-errors">{events.errors.message}</h1>)
         navigate("/", { replace: true });
