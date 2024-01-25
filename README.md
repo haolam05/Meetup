@@ -918,6 +918,77 @@ Returns all the events.
       ]
     }
     ```
+### Get all Events attended or hosted by the Current User
+
+Returns all the events.
+
+* Require Authentication: true
+* Request
+  * Method: GET
+  * URL: /api/events/current
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Events": [
+        { // Current user is the host
+          "id": 6,
+          "venueId": 6,
+          "groupId": 1,
+          "name": "Beach Volleyball",
+          "description": "Let's enjoy the sun on the beach and play professional volleyball.",
+          "type": "In person",
+          "capacity": 100,
+          "price": 33.3,
+          "startDate": "2023-12-01T00:00:00.000Z",
+          "endDate": "2023-12-02T00:00:00.000Z",
+          "hostId": 1
+        },
+        { // Current user is the attendee
+          "id": 1,
+          "venueId": null,
+          "groupId": 4,
+          "name": "One Piece Live Action",
+          "description": "Watch One Piece Live Action series that was released by Netflix in 2023.",
+          "type": "Online",
+          "capacity": 20,
+          "price": 55.5,
+          "startDate": "2023-12-24T00:00:00.000Z",
+          "endDate": "2023-12-28T00:00:00.000Z",
+          "Attendance": {
+            "id": 1,
+            "eventId": 1,
+            "userId": 1,
+            "status": "attending"
+          }
+        },
+        { // Current user is the attendee
+          "id": 4,
+          "venueId": 4,
+          "groupId": 3,
+          "name": "Chess Competition",
+          "description": "Players will compete among different chess variants, including: international chess, chinese chess, and Fischer random chess.",
+          "type": "In person",
+          "capacity": 100,
+          "price": 99.9,
+          "startDate": "2023-12-01T00:00:00.000Z",
+          "endDate": "2024-03-01T00:00:00.000Z",
+          "Attendance": {
+            "id": 8,
+            "eventId": 4,
+            "userId": 1,
+            "status": "attending"
+          }
+        }
+      ]
+    }
+    ```
 
 ### Get all Events of a Group specified by its id
 
