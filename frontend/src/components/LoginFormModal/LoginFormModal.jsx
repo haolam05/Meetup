@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import * as sessionActions from '../../store/session';
 
 function LoginFormPage() {
@@ -12,6 +13,7 @@ function LoginFormPage() {
 
   const handleSubmit = async (e, loginAsDemoUser) => {
     e.preventDefault();
+    disabledSubmitButton();
 
     const data = await dispatch(
       sessionActions.login({
@@ -21,6 +23,7 @@ function LoginFormPage() {
     );
 
     if (data?.errors) {
+      enabledSubmitButton();
       setErrors({ credential: "The provided credentials were invalid" });
     } else {
       closeModal();

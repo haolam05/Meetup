@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import * as sessionActions from '../../store/session';
 
 function SignupFormPage() {
@@ -16,11 +17,11 @@ function SignupFormPage() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    disabledSubmitButton();
 
     if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword: "Confirm Password field must be the same as the Password field"
-      });
+      enabledSubmitButton();
+      return setErrors({ confirmPassword: "Confirm Password field must be the same as the Password field" });
     }
 
     const data = await dispatch(
@@ -34,6 +35,7 @@ function SignupFormPage() {
     );
 
     if (data?.errors) {
+      enabledSubmitButton();
       setErrors(data.errors);
     } else {
       closeModal();
