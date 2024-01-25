@@ -254,6 +254,11 @@ export const getEvents = createSelector(
   (size, offset, events) => Object.values(events).slice(offset, offset + size)
 );
 
+export const getEventsNoOffset = createSelector(
+  state => state.event.events,
+  events => Object.values(events)
+);
+
 export const getEventById = eventId => createSelector(
   state => state.event.eventDetails,
   events => events ? events[eventId] : {}

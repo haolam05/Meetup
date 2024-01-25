@@ -55,7 +55,7 @@ function Groups() {
           setPage={setPage}
           searchMode={input.length}
         />
-        {groups.length ? <input id="search-box" type="text" value={input} onChange={handleSearch} placeholder='Search box' /> : ''}
+        {groups.length ? <input spellCheck="false" id="search-box" type="text" value={input} onChange={handleSearch} placeholder='Search box' /> : ''}
       </div>
     </div>
     <li>{(input.length ? searchGroups : groups).map(group => <Group key={group.id} group={group} />)}</li>

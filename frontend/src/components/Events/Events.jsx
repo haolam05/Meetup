@@ -1,3 +1,4 @@
+import { setPropertyOnDom } from '../../utils/dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +17,27 @@ function Events() {
   const upcomingEvents = sortAscFuture(Object.values(events));
   const pastEvents = sortDescPast(Object.values(events));
   events = [...upcomingEvents, ...pastEvents];
+
+  const eventsNoOffset = useSelector(eventActions.getEventsNoOffset);
+  const [input, setInput] = useState("");
+  const [searchEvents, setSearchEvents] = useState(events);
+  const setStyleForEventName = (shadowColor, textColor) => {
+    setPropertyOnDom('#event-title', 'textShadow', `var(--${shadowColor}) 1px 0 10px`);
+    setPropertyOnDom('#event-title', 'color', `var(--${textColor})`);
+  }
+
+  // The search is extended to other pages IIF that page is already loaded from DB to React Store
+  // Only the results found on current page will be highlighted. The results from other pages will not be highlighted.
+  // The results come before the first hightlight are from previous page(s)
+  // The results come after the last hightlight are from next page(s)
+  const handleSearch = e => {
+    const substring = e.target.value;
+    const results = eventsNoOffset.filter(event => event.name.includes(substring));
+    setInput(substring);
+    setStyleForEventName('white', 'black');
+    setSearchEvents(results);
+    if (substring.length) setStyleForEventName('teal', 'white');
+  }
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -37,15 +59,19 @@ function Events() {
           list={events}
           page={page}
           setPage={setPage}
+          searchMode={input.length}
         />
+        {events.length ? <input spellCheck="false" id="search-box" type="text" value={input} onChange={handleSearch} placeholder='Search box' /> : ''}
       </div>
     </div>
     <li>
-      {events.map(event => (
+      {(input.length ? searchEvents : events).map(event =>
         <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
-          <Event event={event} />
+          <Event key={event.id} event={event} />
         </div>
-      ))}
+      )}
+    </li>
+    <li>
     </li>
   </>;
 }
