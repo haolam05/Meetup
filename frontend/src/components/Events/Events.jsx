@@ -31,11 +31,15 @@ function Events() {
   if (!isLoaded) return <Loading />;
 
   return <>
-    <Pagination
-      list={events}
-      page={page}
-      setPage={setPage}
-    />
+    <div id="pagination">
+      <div id="pagination-btns">
+        <Pagination
+          list={events}
+          page={page}
+          setPage={setPage}
+        />
+      </div>
+    </div>
     <li>
       {events.map(event => (
         <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>

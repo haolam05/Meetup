@@ -122,3 +122,22 @@ a:hover {
   text-decoration: underline;
   font-size: 20px;
 }
+
+#search-box {
+  align-self: flex-start;
+  flex-grow: 1;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  background-color: var(--teal);
+  color: var(--white);
+  text-align: center;
+}
+
+#search-box::placeholder {
+  color: var(--white);
+}
+
+#search-box:focus {
+  outline: none;
+}

@@ -1,8 +1,8 @@
 import "./Pagination.css";
 
-function Pagination({ list, page, setPage }) {
+function Pagination({ list, page, setPage, searchMode }) {
   const handlePrevPageClick = () => {
-    if (page > 1) {
+    if (!searchMode && page > 1) {
       setPage(page - 1);
       document.querySelector(".page-prev").setAttribute("disabled", "");
       document.querySelector(".page-next").setAttribute("disabled", "");
@@ -10,7 +10,7 @@ function Pagination({ list, page, setPage }) {
   }
 
   const handleNextPageClick = () => {
-    if (page > 0 && list.length) {
+    if (!searchMode && page > 0 && list.length) {
       setPage(page + 1);
       document.querySelector(".page-prev").setAttribute("disabled", "");
       document.querySelector(".page-next").setAttribute("disabled", "");
@@ -19,15 +19,11 @@ function Pagination({ list, page, setPage }) {
 
   return (
     <>
-      <div id="pagination">
-        <div id="pagination-btns">
-          <button className="btn-accent page-prev" onClick={handlePrevPageClick}>Prev Page</button>
-          <button className="btn-teal page-curr">Page {page}</button>
-          <button className="btn-accent page-next" onClick={handleNextPageClick}>Next Page</button>
-        </div>
-      </div>
+      <button className="btn-accent page-prev" onClick={handlePrevPageClick}>Prev Page</button>
+      <button className="btn-teal page-curr">Page {page}</button>
+      <button className="btn-accent page-next" onClick={handleNextPageClick}>Next Page</button>
       {
-        !list.length && (
+        !searchMode && !list.length && (
           <h2 className="subheading no-results">
             No results found on this page <i className="fa-regular fa-face-frown"></i>
           </h2>

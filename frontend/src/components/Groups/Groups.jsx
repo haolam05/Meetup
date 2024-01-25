@@ -1,3 +1,4 @@
+import { setPropertyOnDom } from '../../utils/dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../Pagination';
@@ -10,6 +11,27 @@ function Groups() {
   const [page, setPage] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
   const groups = useSelector(groupActions.getGroups);
+
+  const groupsNoOffset = useSelector(groupActions.getGroupsNoOffset);
+  const [input, setInput] = useState("");
+  const [searchGroups, setSearchGroups] = useState(groups);
+  const setStyleForGroupName = (shadowColor, textColor) => {
+    setPropertyOnDom('.group-name', 'textShadow', `var(--${shadowColor}) 1px 0 10px`);
+    setPropertyOnDom('.group-name', 'color', `var(--${textColor})`);
+  }
+
+  // The search is extended to other pages IIF that page is already loaded from DB to React Store
+  // Only the results found on current page will be highlighted. The results from other pages will not be highlighted.
+  // The results come before the first hightlight are from previous page(s)
+  // The results come after the last hightlight are from next page(s)
+  const handleSearch = e => {
+    const substring = e.target.value;
+    const results = groupsNoOffset.filter(group => group.name.includes(substring));
+    setInput(substring);
+    setStyleForGroupName('white', 'black');
+    setSearchGroups(results);
+    if (substring.length) setStyleForGroupName('teal', 'white');
+  }
 
   useEffect(() => {
     const loadGroups = async () => {
@@ -25,12 +47,18 @@ function Groups() {
   if (!isLoaded) return <Loading />;
 
   return <>
-    <Pagination
-      list={groups}
-      page={page}
-      setPage={setPage}
-    />
-    <li>{groups.map(group => <Group key={group.id} group={group} />)}</li>
+    <div id="pagination">
+      <div id="pagination-btns">
+        <Pagination
+          list={groups}
+          page={page}
+          setPage={setPage}
+          searchMode={input.length}
+        />
+        {groups.length ? <input id="search-box" type="text" value={input} onChange={handleSearch} placeholder='Search box' /> : ''}
+      </div>
+    </div>
+    <li>{(input.length ? searchGroups : groups).map(group => <Group key={group.id} group={group} />)}</li>
   </>
 }
 

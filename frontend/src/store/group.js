@@ -283,6 +283,11 @@ export const getGroups = createSelector(
   (size, offset, groups) => Object.values(groups).slice(offset, offset + size)
 );
 
+export const getGroupsNoOffset = createSelector(
+  state => state.group.groups,
+  groups => Object.values(groups)
+);
+
 export const getGroupById = groupId => createSelector(
   state => state.group.groupDetails,
   groups => groups ? groups[groupId] : {}
