@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import Loading from '../Loading';
+import NoResultsFound from '../NoResultsFound';
 import ManageEvent from '../ManageEvent/ManageEvent';
 import * as sessionActions from '../../store/session';
 import * as eventActions from '../../store/event';
@@ -30,6 +31,7 @@ function ManageEvents() {
   }, [dispatch, navigate, setModalContent]);
 
   if (!isLoaded) return <Loading />;
+  if (!events.length) return <NoResultsFound />;
 
   return <li>{events.map(event => <ManageEvent key={event.id} event={event} user={user} />)}</li>;
 }

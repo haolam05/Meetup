@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import Loading from '../Loading';
 import ManageGroup from '../ManageGroup/ManageGroup';
+import NoResultsFound from '../NoResultsFound';
 import * as groupActions from '../../store/group';
 import * as sessionActions from '../../store/session';
 
@@ -30,6 +31,7 @@ function ManageGroups() {
   }, [dispatch, navigate, setModalContent]);
 
   if (!isLoaded) return <Loading />;
+  if (!groups.length) return <NoResultsFound />;
 
   return <li>{groups.map(group => <ManageGroup key={group.id} group={group} user={user} />)}</li>;
 }
