@@ -69,7 +69,7 @@ export const loadCurrentUserEvents = () => async (dispatch, getState) => {
     if (response2.ok) {
       const eventDetail = await response2.json();
       const previewImage = eventDetail.EventImages.find(image => image.preview);
-      eventDetail.previewImage = previewImage ? previewImage.url : "Previwe Image Not Found";
+      eventDetail.previewImage = previewImage ? previewImage.url : "Preview Image Not Found";
       eventDetails[eventDetail.id] = { ...event, ...eventDetail };
     }
   }
@@ -165,6 +165,10 @@ export const createEvent = (groupId, payload, organizerId) => async (dispatch, g
     const event = await response3.json();
     dispatch(addUserEvent({ ...event, previewImage: eventData.previewImage, hostId: organizerId }));
   }
+
+  // group details page -> list events
+  // ---> force remove to update accordingly
+  dispatch(groupActions.removeGroupDetails(eventData.groupId));
 
   // only add to store if current numEvents < size, otherwise, force reload
   const state = getState();
