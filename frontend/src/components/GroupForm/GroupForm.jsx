@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
+import { hasError } from '../../utils/errorChecker';
 import * as groupActions from '../../store/group';
 import "./GroupForm.css";
 
@@ -18,29 +20,24 @@ function GroupForm({ group = {}, title }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    disabledSubmitButton();
 
     let locationArr = location.split(', ');
     locationArr = locationArr.length == 2 ? locationArr : location.split(' ');
     locationArr = locationArr.length == 2 ? locationArr : location.split(',');
-    if (locationArr.length !== 2) {
-      ref1.current.scrollIntoView();
-      return setErrors({ location: `Please enter the location in this format: "City, STATE" or "City STATE" or "City,STATE` });
-    }
-
-    if (name.length === 0) { ref2.current.scrollIntoView(); return setErrors({ name: `Name can not be empty.` }); }
-    if (name.length > 40) { ref2.current.scrollIntoView(); return setErrors({ name: `Name can not have more than 40 characters.` }); }
-    if (about.length === 0) { ref3.current.scrollIntoView(); return setErrors({ about: `Description can not be empty.` }); }
-    if (about.length < 50) { ref3.current.scrollIntoView(); return setErrors({ about: `Description must be at least 50 characters.` }); }
-
     let [city, state] = locationArr;
 
-    if (city.length === 0) { ref1.current.scrollIntoView(); return setErrors({ location: `City can't be empty` }); }
-    if (state.length === 0) { ref1.current.scrollIntoView(); return setErrors({ location: `State can't be empty` }); }
-    if (location.length > 40) { ref1.current.scrollIntoView(); return setErrors({ location: `Location can not have more than 40 characters.` }); }
+    if (hasError(setErrors, locationArr.length !== 2, ref1.current, "location", `Please enter the location in this format: "City, STATE" or "City STATE" or "City,STATE`)) return;
+    if (hasError(setErrors, city.length === 0, ref1.current, "location", `City can't be empty`)) return;
+    if (hasError(setErrors, state.length === 0, ref1.current, "location", `State can't be empty`)) return;
+    if (hasError(setErrors, location.length > 40, ref1.current, "location", `Location can not have more than 40 characters.`)) return;
+    if (hasError(setErrors, name.length === 0, ref2.current, "name", `Name can not be empty.`)) return;
+    if (hasError(setErrors, name.length > 40, ref2.current, "name", `Name can not have more than 40 characters.`)) return;
+    if (hasError(setErrors, about.length === 0, ref3.current, "about", `Description can not be empty.`)) return;
+    if (hasError(setErrors, about.length < 50, ref3.current, "about", `Description must be at least 50 characters.`)) return;
 
     city = city[0].toUpperCase() + city.slice(1).toLowerCase();
     state = state[0].toUpperCase() + state.slice(1).toLowerCase();
-
 
     const payload = {
       name,
@@ -61,6 +58,7 @@ function GroupForm({ group = {}, title }) {
     }
 
     if (groupData?.errors) {
+      enabledSubmitButton();
       setErrors({ ...groupData.errors });
     } else {
       navigate(`/groups/${groupData?.id}`, { replace: true });

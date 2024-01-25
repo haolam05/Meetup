@@ -29,6 +29,7 @@ function GroupDetails() {
   }, [dispatch, groupId]);
 
   if (!isLoaded) return <Loading />;
+  if (!group) return;
 
   return (
     <div id="lists-container">

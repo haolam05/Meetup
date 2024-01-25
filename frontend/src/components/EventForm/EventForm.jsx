@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import { dateToFormat, isValidDateFormat } from '../../utils/dateFormatter';
 import { getLocalTime } from '../../utils/dateConverter';
+import { hasError } from '../../utils/errorChecker';
+import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import * as eventActions from '../../store/event';
 
 function EventForm({ groupId, title, event = {}, organizerId }) {
@@ -23,19 +25,20 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    disabledSubmitButton();
 
-    if (name.length < 5) { ref1.current.scrollIntoView(); return setErrors({ name: "Name must be at least 5 characters" }); }
-    if (name.length > 40) { ref1.current.scrollIntoView(); return setErrors({ name: "`Name can not have more than 40 characters." }); }
-    if (description.length < 30) { ref2.current.scrollIntoView(); return setErrors({ description: "Description needs at least 30 characters" }); }
+    if (hasError(setErrors, name.length < 5, ref1.current, "name", "Name must be at least 5 characters")) return;
+    if (hasError(setErrors, name.length > 40, ref1.current, "name", "`Name can not have more than 40 characters.")) return;
+    if (hasError(setErrors, description.length < 30, ref2.current, "description", "Description needs at least 30 characters")) return;
 
     const startDateValue = isValidDateFormat(startDate, "startDate", setErrors);
-    if (!startDateValue) { ref3.current.scrollIntoView(); return; }
+    if (!startDateValue) { ref3.current.scrollIntoView(); return enabledSubmitButton(); }
 
     const endDateValue = isValidDateFormat(endDate, "endDate", setErrors);
-    if (!endDateValue) { ref3.current.scrollIntoView(); return; }
+    if (!endDateValue) { ref3.current.scrollIntoView(); return enabledSubmitButton(); }
 
-    if (capacity < 1) { ref4.current.scrollIntoView(); return setErrors({ capacity: "Capacity must be greater than 0" }); }
-    if (price < 0) { ref4.current.scrollIntoView(); return setErrors({ price: "Price must be at lest 0" }) }
+    if (hasError(setErrors, capacity < 1, ref4.current, "capacity", "Capacity must be greater than 0")) return;
+    if (hasError(setErrors, price < 0, ref4.current, "price", "Price must be at lest 0")) return;
 
     const payload = {
       venueId: type === "Onine" ? null : 1,   // to be implemented later
@@ -71,6 +74,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
       if (eventData.errors.description) ref2.scrollIntoView();
       if (eventData.errors.startDate || eventData.errors.endDate) ref3.current.scrollIntoView();
       if (eventData.errors.price || eventData, errors.capacity || eventData.errors.type) ref4.current.scrollIntoView();
+      enabledSubmitButton();
     } else {
       navigate(`/events/${eventData?.id}`, { replace: true });
     }
@@ -187,7 +191,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
       </div>
-      <button className="btn-primary">{title}</button>
+      <button type="submit" className="btn-primary">{title}</button>
     </form>
   );
 }
