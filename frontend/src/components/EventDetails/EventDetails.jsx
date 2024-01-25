@@ -27,7 +27,6 @@ function EventDetails() {
   }, [dispatch, eventId]);
 
   if (!isLoaded) return <Loading />;
-  if (!event) return;
 
   return (
     <div id="lists-container">
