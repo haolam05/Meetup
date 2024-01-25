@@ -5,6 +5,8 @@ const eventImagesRouter = require('./eventImages');
 const attendeesRouter = require('./attendees');
 const { requireAuth } = require('../../controller/authController');
 
+router.get('/current', requireAuth, eventController.getCurrentUserEvents);
+
 router
   .route('/')
   .get(eventController.getEventsQueryValidation(), eventController.getEvents)

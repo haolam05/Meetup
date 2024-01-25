@@ -86,7 +86,7 @@ async function getGroups(req, res) {
   res.json({ Groups: await _countNumMembersAndGetPreviewURL(groups) });
 }
 
-async function getGroupsOrganizedByCurrentUser(req, res) {
+async function getCurrentUserGroups(req, res) {
   const groupsOwnByCurrentUser = await req.user.getGroups();
   const groupsCurrentUserIsMember = await req.user.getMemberships();
   const groupsByCurrentUser = [...groupsOwnByCurrentUser, ...groupsCurrentUserIsMember];
@@ -173,7 +173,7 @@ async function _countNumMembersAndGetPreviewURL(groups) {
 module.exports = {
   getGroup,
   getGroups,
-  getGroupsOrganizedByCurrentUser,
+  getCurrentUserGroups,
   createGroupValidation,
   createGroup,
   editGroup,

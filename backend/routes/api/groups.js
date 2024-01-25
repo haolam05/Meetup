@@ -9,7 +9,7 @@ const eventController = require('../../controller/eventController');
 const { requireAuth } = require('../../controller/authController');
 
 router.get('/:groupId/events', eventController.getGroupEvents);
-router.get('/current', requireAuth, groupController.getGroupsOrganizedByCurrentUser);
+router.get('/current', requireAuth, groupController.getCurrentUserGroups);
 
 router.use('/:groupId/images', requireAuth, groupImagesRouter);
 router.use('/:groupId/venues', requireAuth, venuesRouter);

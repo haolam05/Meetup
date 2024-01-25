@@ -1,9 +1,23 @@
-const { Event, Group, Venue } = require('../db/models');
+const { Event, Group, Venue, Attendance } = require('../db/models');
 const { notFoundError } = require('../utils/makeError');
 const { check, query } = require('express-validator');
 const { Op } = require('sequelize');
 const handleValidationErrors = require('../utils/validation');
 const checkUserRole = require('../utils/userRoleAuthorization');
+
+async function getCurrentUserEvents(req, res) {
+  const groupsCreatedByUser = (await req.user.getGroups()).map(group => group.id);
+  let eventsHostedByUser = await Event.findAll({ where: { groupId: groupsCreatedByUser } });
+  eventsHostedByUser = eventsHostedByUser.map(event => ({ ...event.toJSON(), hostId: req.user.id }));
+  const eventsAttendedByUser = (await req.user.getEvents()).filter(event => event.Attendance.status === "attending");
+
+  res.json({
+    Events: [
+      ...eventsHostedByUser,
+      ...eventsAttendedByUser
+    ]
+  });
+}
 
 async function getGroupEvents(req, res, next) {
   const group = await Group.findByPk(req.params.groupId, {
@@ -225,6 +239,7 @@ async function deleteEvent(req, res, next) {
 }
 
 module.exports = {
+  getCurrentUserEvents,
   getGroupEvents,
   getEvents,
   getEvent,
