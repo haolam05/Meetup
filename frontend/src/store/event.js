@@ -166,6 +166,7 @@ export const createEvent = (groupId, payload, organizerId) => async (dispatch, g
     dispatch(addUserEvent({ ...event, previewImage: eventData.previewImage, hostId: organizerId }));
   }
 
+  // only add to store if current numEvents < size, otherwise, force reload
   const state = getState();
   const numEvents = Object.values(state.event.events).length;
   if (numEvents % state.event.size) dispatch(addEvent(eventData));
@@ -214,10 +215,8 @@ export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
   // No pagination on /events/current -> just update to keep data integrity
   dispatch(addUserEvent(eventData));
 
-  // force to load events if no events is loaded yet on /events
-  const state = getState();
-  const numEvents = Object.values(state.event.events).length;
-  if (numEvents !== 0) dispatch(addEvent(eventData));
+  // only updated if event is already in the store
+  if (getState().event.events[eventId]) dispatch(addEvent(eventData));
 
   // event details page -> list group
   // group details page -> list events

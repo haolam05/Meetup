@@ -184,6 +184,7 @@ export const createGroup = payload => async (dispatch, getState) => {
 
   dispatch(addUserGroup(groupData));
 
+  // only add to store if current numGroups < size, otherwise, force reload
   const state = getState();
   const numGroups = Object.values(state.group.groups).length;
   if (numGroups % state.group.size) dispatch(addGroup(groupData));
@@ -237,10 +238,9 @@ export const updateGroup = (payload, groupId) => async (dispatch, getState) => {
   // No pagination on /groups/current -> just update to keep data integrity
   dispatch(addUserGroup(groupData));
 
-  // force to load groups if no groups is loaded yet on /groups
+  // only updated if group is already in the store
   const state = getState();
-  const numGroups = Object.values(state.group.groups).length;
-  if (numGroups !== 0) dispatch(addGroup(groupData));
+  if (state.group.groups[groupId]) dispatch(addGroup(groupData));
 
   // group details page -> list events
   // event details page -> list group
