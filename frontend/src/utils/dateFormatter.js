@@ -24,7 +24,40 @@ export function dateToFormat(date) {
   }
 
   const minutes = `${date.getMinutes()}`.padStart(2, '0');
-  const formattedDate = `${month}/${day}/${year}, ${hours}:${minutes} ${identifier}`;
+  const formattedDate = `${month}/${day}/${year} ${hours}:${minutes} ${identifier}`;
 
   return formattedDate
+}
+
+export const isValidDateFormat = (dateInput, errorName, setErrors) => {
+  const datetimeFormat = document.querySelector(`input[type="datetime-local"]#${errorName}`);
+
+  if (datetimeFormat) {
+    return new Date(dateInput);
+  }
+
+  const [date, time, identifier] = dateInput.split(' ');
+
+  if (!date || !date.length) {
+    setErrors({ [errorName]: "Date is required" });
+    return false;
+  }
+
+  if (!time || !time.length) {
+    setErrors({ [errorName]: "Time is required" });
+    return false;
+  }
+  if (identifier !== "AM" && identifier !== "PM") {
+    setErrors({ [errorName]: "Time identifier must be AM or PM" });
+    return false;
+  }
+
+  const dateValue = new Date(`${date} ${time} ${identifier}`);
+
+  if (dateValue.toString() === 'Invalid Date') {
+    setErrors({ [errorName]: `Invalid Date. Please enter in this format: "MM/DD/YYYY HH:mm ${errorName === 'endDate' ? 'PM' : 'AM'}"` });
+    return false;
+  }
+
+  return dateValue;
 }

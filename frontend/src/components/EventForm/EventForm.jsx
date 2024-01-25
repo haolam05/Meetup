@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
-import { dateToFormat } from '../../utils/dateFormatter';
+import { dateToFormat, isValidDateFormat } from '../../utils/dateFormatter';
+import { getLocalTime } from '../../utils/dateConverter';
 import * as eventActions from '../../store/event';
 
 function EventForm({ groupId, title, event = {}, organizerId }) {
@@ -20,41 +21,6 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
   const [image, setImage] = useState(event?.previewImage || "");
   const [errors, setErrors] = useState({});
 
-  const validateTime = (dateInput, errorName) => {
-    const [date, timeStr] = dateInput.split(', ');
-    const [time, identifier] = timeStr ? timeStr.split(' ') : '';
-
-    if (!date || !timeStr || !time) {
-      setErrors({
-        [errorName]: `Please enter in this format: "MM/DD/YYYY, HH:mm ${errorName === 'endDate' ? 'PM' : 'AM'}"`
-      });
-      return false;
-    }
-
-    if (!date.length) {
-      setErrors({ [errorName]: "Date is required" });
-      return false;
-    }
-
-    if (!time.length) {
-      setErrors({ [errorName]: "Time is required" });
-      return false;
-    }
-    if (identifier !== "AM" && identifier !== "PM") {
-      setErrors({ [errorName]: "Time identifier must be AM or PM" });
-      return false;
-    }
-
-    const dateValue = new Date(`${date} ${time} ${identifier}`);
-
-    if (dateValue.toString() === 'Invalid Date') {
-      setErrors({ [errorName]: "Invalid Date" });
-      return false;
-    }
-
-    return dateValue;
-  }
-
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -62,10 +28,10 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
     if (name.length > 40) { ref1.current.scrollIntoView(); return setErrors({ name: "`Name can not have more than 40 characters." }); }
     if (description.length < 30) { ref2.current.scrollIntoView(); return setErrors({ description: "Description needs at least 30 characters" }); }
 
-    const startDateValue = validateTime(startDate, "startDate");
+    const startDateValue = isValidDateFormat(startDate, "startDate", setErrors);
     if (!startDateValue) { ref3.current.scrollIntoView(); return; }
 
-    const endDateValue = validateTime(endDate, "endDate");
+    const endDateValue = isValidDateFormat(endDate, "endDate", setErrors);
     if (!endDateValue) { ref3.current.scrollIntoView(); return; }
 
     if (capacity < 1) { ref4.current.scrollIntoView(); return setErrors({ capacity: "Capacity must be greater than 0" }); }
@@ -101,6 +67,10 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
         </div>)
       }
       setErrors({ ...eventData.errors });
+      if (eventData.errors.name) ref1.current.scrollIntoView();
+      if (eventData.errors.description) ref2.scrollIntoView();
+      if (eventData.errors.startDate || eventData.errors.endDate) ref3.current.scrollIntoView();
+      if (eventData.errors.price || eventData, errors.capacity || eventData.errors.type) ref4.current.scrollIntoView();
     } else {
       navigate(`/events/${eventData?.id}`, { replace: true });
     }
@@ -150,9 +120,10 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
         <div>
           <label htmlFor="event-startDate">When does your event start?</label>
           <input
-            type="text"
-            placeholder='MM/DD/YYYY, HH:mm AM'
-            value={startDate}
+            id="startDate"
+            type="datetime-local"
+            placeholder='MM/DD/YYYY HH:mm AM'
+            value={startDate ? getLocalTime(startDate) : ''}
             onChange={e => setStartDate(e.target.value)}
           />
           {errors.startDate && <p className="error-message">{errors.startDate}</p>}
@@ -160,9 +131,10 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
         <div>
           <label htmlFor="event-endDate">When does your event end?</label>
           <input
-            type="text"
-            placeholder='MM/DD/YYYY, HH:mm PM'
-            value={endDate}
+            id="endDate"
+            type="datetime-local"
+            placeholder='MM/DD/YYYY HH:mm PM'
+            value={endDate ? getLocalTime(endDate) : ''}
             onChange={e => setEndDate(e.target.value)}
           />
           {errors.endDate && <p className="error-message">{errors.endDate}</p>}
@@ -205,7 +177,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
           {errors.price && <p className="error-message">{errors.price}</p>}
         </div>
         <div>
-          <label htmlFor="event-iamge">Please add an image url for your event below</label>
+          <label htmlFor="event-image">Please add an image url for your event below</label>
           <input
             type="text"
             placeholder="Image URL"

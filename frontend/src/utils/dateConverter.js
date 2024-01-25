@@ -21,3 +21,12 @@ export const sortAscFuture = dates => {
 export const sortDescPast = dates => {
   return sortDesc(pastDates(dates));
 }
+
+export const getLocalTime = date => {
+  const newDate = new Date(date);
+  const currentTime = newDate.getTime();
+  const timezoneOffset = newDate.getTimezoneOffset() * 60 * 1000;
+  const localTime = new Date(currentTime - timezoneOffset);
+  if (localTime.toString() === "Invalid Date") return;
+  return localTime.toISOString().slice(0, 16);
+}
