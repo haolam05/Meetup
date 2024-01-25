@@ -5,7 +5,7 @@ import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
 import "./Group.css";
 
-function Group({ group, user = false, description = true, organizer = false }) {
+function Group({ group, user = false, description = true, organizer = false, userGroups = [] }) {
   const navigate = useNavigate();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
@@ -55,21 +55,16 @@ function Group({ group, user = false, description = true, organizer = false }) {
         </div>
         {user && (
           user.id !== group.organizerId ? (
-            <button
-              id="group-join-btn"
-              className="btn-primary"
-              onClick={() => alert("Feature coming soon")}
-            >
-              Join this group
-            </button>
+            userGroups.find(userGroup => userGroup.id === group.id) ? (
+              <button id="group-join-btn" className="btn-accent" onClick={() => alert("Feature coming soon")}>Unjoin this group</button>
+            ) : (
+              <button id="group-join-btn" className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>
+            )
           ) : (
             <div id="event-btns">
               <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
               <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
-              <OpenModalButton
-                modalComponent={<DeleteGroup groupId={group.id} />}
-                buttonText="Delete"
-              />
+              <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
             </div>
           )
         )

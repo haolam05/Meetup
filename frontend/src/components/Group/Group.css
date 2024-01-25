@@ -35,6 +35,12 @@
   background-color: transparent;
 }
 
+#group-join-btn.btn-accent:hover {
+  border: 1px solid var(--gray);
+  color: var(--gray);
+  background-color: transparent;
+}
+
 .group-image img {
   width: 100%;
   height: 100%;

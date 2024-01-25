@@ -15,10 +15,12 @@ function GroupDetails() {
   const { groupId } = useParams();
   const [isLoaded, setIsLoaded] = useState(false);
   const group = useSelector(groupActions.getGroupById(groupId));
+  const userGroups = useSelector(groupActions.getCurrentUserGroups);
   const user = useSelector(sessionActions.sessionUser);
 
   useEffect(() => {
     const loadGroupDetails = async () => {
+      await dispatch(groupActions.loadCurrentUserGroups());
       await dispatch(groupActions.loadGroupDetails(groupId));
       await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);
@@ -35,6 +37,7 @@ function GroupDetails() {
         <Group
           group={group}
           user={user}
+          userGroups={userGroups}
           description={false}
           organizer={true}
         />
