@@ -31,7 +31,7 @@ function ManageGroups() {
   }, [dispatch, navigate, setModalContent]);
 
   if (!isLoaded) return <Loading />;
-  if (!groups.length) return <NoResultsFound />;
+  if (!groups.length) return <div className="no-results-wrapper"><NoResultsFound /></div>;
 
   return <li>{groups.map(group => <ManageGroup key={group.id} group={group} user={user} />)}</li>;
 }

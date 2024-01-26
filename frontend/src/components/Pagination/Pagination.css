@@ -25,3 +25,8 @@
   gap: 20px;
   width: 550px;
 }
+
+.no-results-wrapper {
+  display: flex;
+  justify-content: center;
+}

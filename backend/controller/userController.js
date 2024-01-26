@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../db/models');
 const { check } = require('express-validator');
 const { setTokenCookie } = require('./authController');
+const { singleFileUpload } = require('../awsS3');
 const handleValidationErrors = require('../utils/validation');
 
 function validateSignup() {
@@ -35,14 +36,17 @@ function validateSignup() {
 async function signUp(req, res) {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
-  const user = await User.create({ email, username, hashedPassword, firstName, lastName });
+  console.log(req.file);
+  const profileImageUrl = req.file ? await singleFileUpload({ file: req.file, public: true }) : null
+  const user = await User.create({ email, username, hashedPassword, firstName, lastName, profileImageUrl });
 
   const safeUser = {
     id: user.id,
     email: user.email,
     username: user.username,
     firstName: user.firstName,
-    lastName: user.lastName
+    lastName: user.lastName,
+    profileImageUrl: user.profileImageUrl
   };
 
   setTokenCookie(res, safeUser);

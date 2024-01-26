@@ -6,6 +6,7 @@ import * as sessionActions from '../../store/session';
 
 function SignupFormPage() {
   const dispatch = useDispatch();
+  // const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -19,6 +20,11 @@ function SignupFormPage() {
     e.preventDefault();
     disabledSubmitButton();
 
+    // if (image && image.name && !['png', 'jpeg', 'jpg'].includes(image.name.split('.')[1])) {
+    //   enabledSubmitButton();
+    //   return setErrors({ image: "Invalid file. Only .png, .jpg and .jpeg files can be uploaded" });
+    // }
+
     if (password !== confirmPassword) {
       enabledSubmitButton();
       return setErrors({ confirmPassword: "Confirm Password field must be the same as the Password field" });
@@ -30,7 +36,8 @@ function SignupFormPage() {
         username,
         firstName,
         lastName,
-        password
+        password,
+        // image
       })
     );
 
@@ -52,6 +59,11 @@ function SignupFormPage() {
       !confirmPassword.length
     );
   }
+
+  // const updateFile = e => {
+  //   const file = e.target.files[0];
+  //   if (file) setImage(file);
+  // };
 
   return (
     <>
@@ -105,6 +117,11 @@ function SignupFormPage() {
           required
         />
         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+        {/* <label>
+          Avatar
+          <input type="file" onChange={updateFile} />
+        </label>
+        {errors.image && <p className="error-message">{errors.image}</p>} */}
         <button
           className={`btn-primary ${inputIsInValid() ? '' : 'enabled'}`}
           type="submit"

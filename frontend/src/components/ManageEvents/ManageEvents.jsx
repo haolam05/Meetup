@@ -31,7 +31,7 @@ function ManageEvents() {
   }, [dispatch, navigate, setModalContent]);
 
   if (!isLoaded) return <Loading />;
-  if (!events.length) return <NoResultsFound />;
+  if (!events.length) return <div className="no-results-wrapper"><NoResultsFound /></div>;
 
   return <li>{events.map(event => <ManageEvent key={event.id} event={event} user={user} />)}</li>;
 }

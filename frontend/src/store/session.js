@@ -27,6 +27,26 @@ export const login = credential => async dispatch => {
   dispatch(createSession(data));
 };
 
+// export const signup = user => async dispatch => {
+//   const { email, username, firstName, lastName, password, image } = user;
+//   const formData = new FormData();
+//   formData.append("email", email);
+//   formData.append("username", username);
+//   formData.append("firstName", firstName);
+//   formData.append("lastName", lastName);
+//   formData.append("password", password);
+
+//   if (image) formData.append("image", image);
+
+//   const response = await csrfFetch("/api/users", {
+//     method: "POST",
+//     body: formData
+//   });
+
+//   const data = await response.json();
+//   if (!response.ok) return data.errors ? data : { errors: data };
+//   dispatch(createSession(data));
+// };
 export const signup = user => async dispatch => {
   const response = await csrfFetch("/api/users", {
     method: "POST",

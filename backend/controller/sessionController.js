@@ -70,7 +70,8 @@ function restoreSession(req, res) {
     email: user.email,
     username: user.username,
     firstName: user.firstName,
-    lastName: user.lastName
+    lastName: user.lastName,
+    profileImageUrl: user.profileImageUrl
   };
 
   return res.json({
