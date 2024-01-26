@@ -27,9 +27,9 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
     e.preventDefault();
     disabledSubmitButton();
 
-    if (hasError(setErrors, name.length < 5, ref1.current, "name", "Name must be at least 5 characters")) return;
-    if (hasError(setErrors, name.length > 40, ref1.current, "name", "`Name can not have more than 40 characters.")) return;
-    if (hasError(setErrors, description.length < 30, ref2.current, "description", "Description needs at least 30 characters")) return;
+    if (hasError(setErrors, name.length < 5, "name", "Name must be at least 5 characters", ref1.current)) return;
+    if (hasError(setErrors, name.length > 40, "name", "`Name can not have more than 40 characters.", ref1.current)) return;
+    if (hasError(setErrors, description.length < 30, "description", "Description needs at least 30 characters", ref2.current)) return;
 
     const startDateValue = isValidDateFormat(startDate, "startDate", setErrors);
     if (!startDateValue) { ref3.current.scrollIntoView(); return enabledSubmitButton(); }
@@ -37,8 +37,8 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
     const endDateValue = isValidDateFormat(endDate, "endDate", setErrors);
     if (!endDateValue) { ref3.current.scrollIntoView(); return enabledSubmitButton(); }
 
-    if (hasError(setErrors, capacity < 1, ref4.current, "capacity", "Capacity must be greater than 0")) return;
-    if (hasError(setErrors, price < 0, ref4.current, "price", "Price must be at lest 0")) return;
+    if (hasError(setErrors, capacity < 1, "capacity", "Capacity must be greater than 0", ref4.current)) return;
+    if (hasError(setErrors, price < 0, "price", "Price must be at lest 0", ref4.current)) return;
 
     const payload = {
       venueId: type === "Onine" ? null : 1,   // to be implemented later

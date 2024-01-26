@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
+import { inValidImage, invalidPassword } from '../../utils/errorChecker';
 import * as sessionActions from '../../store/session';
 
 function SignupFormPage() {
@@ -20,15 +21,8 @@ function SignupFormPage() {
     e.preventDefault();
     disabledSubmitButton();
 
-    if (image && image.name && !['png', 'jpeg', 'jpg'].includes(image.name.split('.')[1])) {
-      enabledSubmitButton();
-      return setErrors({ image: "Invalid file. Only .png, .jpg and .jpeg files can be uploaded" });
-    }
-
-    if (password !== confirmPassword) {
-      enabledSubmitButton();
-      return setErrors({ confirmPassword: "Confirm Password field must be the same as the Password field" });
-    }
+    if (inValidImage(setErrors, image)) return;
+    if (invalidPassword(setErrors, password, confirmPassword)) return;
 
     const data = await dispatch(
       sessionActions.signup({

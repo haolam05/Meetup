@@ -29,14 +29,14 @@ function GroupForm({ group = {}, title }) {
     locationArr = locationArr.length == 2 ? locationArr : location.split(',');
     let [city, state] = locationArr;
 
-    if (hasError(setErrors, locationArr.length !== 2, ref1.current, "location", `Please enter the location in this format: "City, STATE" or "City STATE" or "City,STATE`)) return;
-    if (hasError(setErrors, city.length === 0, ref1.current, "location", `City can't be empty`)) return;
-    if (hasError(setErrors, state.length === 0, ref1.current, "location", `State can't be empty`)) return;
-    if (hasError(setErrors, location.length > 40, ref1.current, "location", `Location can not have more than 40 characters.`)) return;
-    if (hasError(setErrors, name.length === 0, ref2.current, "name", `Name can not be empty.`)) return;
-    if (hasError(setErrors, name.length > 40, ref2.current, "name", `Name can not have more than 40 characters.`)) return;
-    if (hasError(setErrors, about.length === 0, ref3.current, "about", `Description can not be empty.`)) return;
-    if (hasError(setErrors, about.length < 50, ref3.current, "about", `Description must be at least 50 characters.`)) return;
+    if (hasError(setErrors, locationArr.length !== 2, "location", `Please enter the location in this format: "City, STATE" or "City STATE" or "City,STATE`, ref1.current)) return;
+    if (hasError(setErrors, city.length === 0, "location", `City can't be empty`, ref1.current)) return;
+    if (hasError(setErrors, state.length === 0, "location", `State can't be empty`, ref1.current)) return;
+    if (hasError(setErrors, location.length > 40, "location", `Location can not have more than 40 characters.`, ref1.current)) return;
+    if (hasError(setErrors, name.length === 0, "name", `Name can not be empty.`, ref2.current)) return;
+    if (hasError(setErrors, name.length > 40, "name", `Name can not have more than 40 characters.`, ref2.current)) return;
+    if (hasError(setErrors, about.length === 0, "about", `Description can not be empty.`, ref3.current)) return;
+    if (hasError(setErrors, about.length < 50, "about", `Description must be at least 50 characters.`, ref3.current)) return;
 
     city = city[0].toUpperCase() + city.slice(1).toLowerCase();
     state = state[0].toUpperCase() + state.slice(1).toLowerCase();
@@ -149,7 +149,7 @@ function GroupForm({ group = {}, title }) {
         <div>
           <label htmlFor="group-image">Please add an image URL for your group below</label>
           <input
-            type="text"
+            type="file"
             placeholder="Image Url"
             value={image}
             onChange={e => setImage(e.target.value)}
