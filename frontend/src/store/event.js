@@ -7,11 +7,12 @@ const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const ADD_USER_EVENT = '/events/ADD_USER_EVENT';
-const REMOVE_EVENT = '/events/REMOVE_EVENT';
-const REMOVE_USER_EVENT = '/groups/REMOVE_USER_EVENT';
+// const REMOVE_EVENT = '/events/REMOVE_EVENT';
+// const REMOVE_USER_EVENT = '/groups/REMOVE_USER_EVENT';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
 const SET_PAGINATION = '/events/SET_PAGINATION';
 const RESET = '/events/RESET';
+const RESET_USER_EVENTS = '/groups/RESET_USER_EVENTS';
 
 // POJO action creators
 const getUserEvents = events => ({
@@ -39,15 +40,15 @@ const addUserEvent = event => ({
   event
 });
 
-const removeEvent = eventId => ({
-  type: REMOVE_EVENT,
-  eventId
-});
+// const removeEvent = eventId => ({
+//   type: REMOVE_EVENT,
+//   eventId
+// });
 
-const removeUserEvent = eventId => ({
-  type: REMOVE_USER_EVENT,
-  eventId
-});
+// const removeUserEvent = eventId => ({
+//   type: REMOVE_USER_EVENT,
+//   eventId
+// });
 
 export const removeEventDetails = eventId => ({
   type: REMOVE_EVENT_DETAILS,
@@ -62,6 +63,10 @@ const setPagination = (page, size) => ({
 
 const reset = () => ({
   type: RESET
+});
+
+export const resetUserEvents = () => ({
+  type: RESET_USER_EVENTS
 });
 
 export const loadCurrentUserEvents = () => async (dispatch, getState) => {
@@ -332,16 +337,16 @@ function eventReducer(state = initialState, action) {
           }
         }
       }
-    case REMOVE_EVENT: {
-      const newState = { ...state };
-      delete newState.events[action.eventId];
-      return newState;
-    }
-    case REMOVE_USER_EVENT: {
-      const newState = { ...state };
-      delete newState.userEvents[action.eventId];
-      return newState;
-    }
+    // case REMOVE_EVENT: {
+    //   const newState = { ...state };
+    //   delete newState.events[action.eventId];
+    //   return newState;
+    // }
+    // case REMOVE_USER_EVENT: {
+    //   const newState = { ...state };
+    //   delete newState.userEvents[action.eventId];
+    //   return newState;
+    // }
     case REMOVE_EVENT_DETAILS: {
       const newState = { ...state };
       delete newState.eventDetails[action.eventId];
@@ -355,6 +360,11 @@ function eventReducer(state = initialState, action) {
       }
     case RESET:
       return { ...initialState };
+    case RESET_USER_EVENTS:
+      return {
+        ...state,
+        userEvents: {}
+      }
     default:
       return state;
   }

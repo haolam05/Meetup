@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 import * as sessionActions from '../../store/session';
+import * as groupActions from '../../store/group';
+import * as eventActions from '../../store/event';
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
@@ -22,8 +24,10 @@ function ProfileButton({ user }) {
   const logout = async e => {
     e.preventDefault();
     await dispatch(sessionActions.logout());
+    await dispatch(groupActions.resetUserGroups());
+    await dispatch(eventActions.resetUserEvents());
     closeMenu();
-    window.location.href = "/"; // force refresh to clear store
+    navigate("/", { replace: true });
   }
 
   useEffect(() => {

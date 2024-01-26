@@ -8,11 +8,12 @@ const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
-const REMOVE_GROUP = '/groups/REMOVE_GROUP';
-const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
+// const REMOVE_GROUP = '/groups/REMOVE_GROUP';
+// const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 const RESET = '/groups/RESET';
+const RESET_USER_GROUPS = '/groups/RESET_USER_GROUPS';
 
 // POJO action creators
 const getUserGroups = groups => ({
@@ -40,15 +41,15 @@ const addUserGroup = group => ({
   group
 });
 
-const removeGroup = groupId => ({
-  type: REMOVE_GROUP,
-  groupId
-});
+// const removeGroup = groupId => ({
+//   type: REMOVE_GROUP,
+//   groupId
+// });
 
-const removeUserGroup = groupId => ({
-  type: REMOVE_USER_GROUP,
-  groupId
-});
+// const removeUserGroup = groupId => ({
+//   type: REMOVE_USER_GROUP,
+//   groupId
+// });
 
 export const removeGroupDetails = groupId => ({
   type: REMOVE_GROUP_DETAILS,
@@ -63,6 +64,10 @@ const setPagination = (page, size) => ({
 
 const reset = () => ({
   type: RESET
+});
+
+export const resetUserGroups = () => ({
+  type: RESET_USER_GROUPS
 });
 
 // Thunk action creators
@@ -342,16 +347,16 @@ function groupReducer(state = initialState, action) {
           [action.group.id]: action.group
         }
       };
-    case REMOVE_GROUP: {
-      const newState = { ...state };
-      delete newState.groups[action.groupId];
-      return newState;
-    }
-    case REMOVE_USER_GROUP: {
-      const newState = { ...state };
-      delete newState.userGroups[action.groupId];
-      return newState;
-    }
+    // case REMOVE_GROUP: {
+    //   const newState = { ...state };
+    //   delete newState.groups[action.groupId];
+    //   return newState;
+    // }
+    // case REMOVE_USER_GROUP: {
+    //   const newState = { ...state };
+    //   delete newState.userGroups[action.groupId];
+    //   return newState;
+    // }
     case REMOVE_GROUP_DETAILS: {
       const newState = { ...state };
       delete newState.groupDetails[action.groupId];
@@ -365,6 +370,11 @@ function groupReducer(state = initialState, action) {
       }
     case RESET:
       return { ...initialState };
+    case RESET_USER_GROUPS:
+      return {
+        ...state,
+        userGroups: {}
+      }
     default:
       return state;
   }
