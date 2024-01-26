@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
-import { hasError } from '../../utils/errorChecker';
+import { hasError, inValidImage } from '../../utils/errorChecker';
 import { useModal } from '../../context/Modal';
 import * as groupActions from '../../store/group';
 import "./GroupForm.css";
@@ -37,6 +37,7 @@ function GroupForm({ group = {}, title }) {
     if (hasError(setErrors, name.length > 40, "name", `Name can not have more than 40 characters.`, ref2.current)) return;
     if (hasError(setErrors, about.length === 0, "about", `Description can not be empty.`, ref3.current)) return;
     if (hasError(setErrors, about.length < 50, "about", `Description must be at least 50 characters.`, ref3.current)) return;
+    if (inValidImage(setErrors, image)) return;
 
     city = city[0].toUpperCase() + city.slice(1).toLowerCase();
     state = state[0].toUpperCase() + state.slice(1).toLowerCase();
@@ -67,6 +68,11 @@ function GroupForm({ group = {}, title }) {
       setModalContent(<h2 className="subheading alert-success">Successully {verb} Group!</h2>)
       navigate(`/groups/${groupData?.id}`, { replace: true });
     }
+  };
+
+  const updateFile = e => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
   };
 
   return (
@@ -148,12 +154,7 @@ function GroupForm({ group = {}, title }) {
         </div>
         <div>
           <label htmlFor="group-image">Please add an image URL for your group below</label>
-          <input
-            type="file"
-            placeholder="Image Url"
-            value={image}
-            onChange={e => setImage(e.target.value)}
-          />
+          <input type="file" onChange={updateFile} />
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
         {/* <div>

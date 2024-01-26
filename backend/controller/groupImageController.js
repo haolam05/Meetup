@@ -1,3 +1,4 @@
+const { singleFileUpload } = require('../awsS3');
 const { GroupImage, Group } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const checkUserRole = require('../utils/userRoleAuthorization');
@@ -29,7 +30,10 @@ async function createGroupImage(req, res, next) {
     return next(err);
   }
 
-  const newImage = await group.createGroupImage(req.body);
+  const { preview } = req.body;
+  const url = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
+  const newImage = await group.createGroupImage({ url, preview });
+
   res.json({
     id: newImage.id,
     url: newImage.url,

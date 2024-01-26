@@ -47,18 +47,6 @@ export const signup = user => async dispatch => {
   if (!response.ok) return data.errors ? data : { errors: data };
   dispatch(createSession(data));
 };
-// export const signup = user => async dispatch => {
-//   const response = await csrfFetch("/api/users", {
-//     method: "POST",
-//     body: JSON.stringify({
-//       ...user
-//     })
-//   });
-
-//   const data = await response.json();
-//   if (!response.ok) return data.errors ? data : { errors: data };
-//   dispatch(createSession(data));
-// };
 
 export const logout = () => async dispatch => {
   await csrfFetch('/api/session', {

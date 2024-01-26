@@ -177,12 +177,13 @@ export const createGroup = payload => async (dispatch, getState) => {
   }
 
   if (payload.image) {
+    const formData = new FormData();
+    formData.append("image", payload.image);
+    formData.append("preview", true);
+
     const response3 = await csrfFetch(`/api/groups/${groupData.id}/images`, {
       method: 'POST',
-      body: JSON.stringify({
-        url: payload.image,
-        preview: true
-      })
+      body: formData
     });
 
     if (response3.ok) {

@@ -15,7 +15,7 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
+  const { setModalContent } = useModal();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -39,7 +39,7 @@ function SignupFormPage() {
       enabledSubmitButton();
       setErrors(data.errors);
     } else {
-      closeModal();
+      setModalContent(<h2 className="subheading alert-success">Successully Sign Up!</h2>)
     }
   };
 

@@ -36,7 +36,6 @@ function validateSignup() {
 async function signUp(req, res) {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
-  console.log(req.file);
   const profileImageUrl = req.file ? await singleFileUpload({ file: req.file, public: true }) : null
   const user = await User.create({ email, username, hashedPassword, firstName, lastName, profileImageUrl });
 
