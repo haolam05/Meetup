@@ -90,6 +90,24 @@ form input {
   padding: 10px;
 }
 
+form input[type="file"] {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+form input[type="file"]::file-selector-button {
+  color: var(--white);
+  font-style: italic;
+  font-size: 11px;
+  background-color: var(--teal);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-shadow: var(--light-yellow) 1px 0 10px;
+}
+
 form select {
   padding: 10px;
 }

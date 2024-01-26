@@ -41,7 +41,8 @@ async function login(req, res, next) {
     email: user.email,
     username: user.username,
     firstName: user.firstName,
-    lastName: user.lastName
+    lastName: user.lastName,
+    profileImageUrl: user.profileImageUrl
   };
 
   setTokenCookie(res, safeUser);

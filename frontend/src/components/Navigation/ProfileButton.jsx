@@ -47,9 +47,15 @@ function ProfileButton({ user }) {
 
   return (
     <div id="profile-btns">
-      <button id="userMenu" onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
+      {user && user.profileImageUrl ? (
+        <div id="userMenu" className="avatar" onClick={toggleMenu}>
+          <img src={user.profileImageUrl} alt="avater" />
+        </div>
+      ) : (
+        <button id="userMenu" onClick={toggleMenu}>
+          <i className="fas fa-user-circle" />
+        </button>
+      )}
       <ul className={ulClassName} ref={ulRef}>
         {user && (
           <>
