@@ -12,6 +12,7 @@ const REMOVE_GROUP = '/groups/REMOVE_GROUP';
 const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
+const RESET = '/groups/RESET';
 
 // POJO action creators
 const getUserGroups = groups => ({
@@ -58,6 +59,10 @@ const setPagination = (page, size) => ({
   type: SET_PAGINATION,
   page,
   size
+});
+
+const reset = () => ({
+  type: RESET
 });
 
 // Thunk action creators
@@ -262,8 +267,7 @@ export const deleteGroup = groupId => async dispatch => {
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(removeGroup(groupId));
-    dispatch(removeUserGroup(groupId))
+    dispatch(reset());
     return data;
   }
 };
@@ -359,6 +363,8 @@ function groupReducer(state = initialState, action) {
         page: action.page,
         size: action.size
       }
+    case RESET:
+      return { ...initialState };
     default:
       return state;
   }

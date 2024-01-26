@@ -1,6 +1,6 @@
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import { Provider } from 'react-redux';
-import { Modal, ModalProvider } from './context/Modal';
+import { ModalProvider } from './context/Modal';
 import configureStore from './store';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -23,7 +23,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ModalProvider>
       <Provider store={store}>
         <App />
-        <Modal />
       </Provider>
     </ModalProvider>
   </React.StrictMode>

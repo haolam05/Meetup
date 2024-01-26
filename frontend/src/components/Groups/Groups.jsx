@@ -54,6 +54,7 @@ function Groups() {
   }, [dispatch, page]);
 
   if (!isLoaded) return <Loading />;
+  if (!groups) return;
 
   return <>
     <div id="pagination">

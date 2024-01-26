@@ -8,8 +8,10 @@ const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const ADD_USER_EVENT = '/events/ADD_USER_EVENT';
 const REMOVE_EVENT = '/events/REMOVE_EVENT';
+const REMOVE_USER_EVENT = '/groups/REMOVE_USER_EVENT';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
-const SET_PAGINATION = '/groups/SET_PAGINATION';
+const SET_PAGINATION = '/events/SET_PAGINATION';
+const RESET = '/events/RESET';
 
 // POJO action creators
 const getUserEvents = events => ({
@@ -42,6 +44,11 @@ const removeEvent = eventId => ({
   eventId
 });
 
+const removeUserEvent = eventId => ({
+  type: REMOVE_USER_EVENT,
+  eventId
+});
+
 export const removeEventDetails = eventId => ({
   type: REMOVE_EVENT_DETAILS,
   eventId
@@ -51,6 +58,10 @@ const setPagination = (page, size) => ({
   type: SET_PAGINATION,
   page,
   size
+});
+
+const reset = () => ({
+  type: RESET
 });
 
 export const loadCurrentUserEvents = () => async (dispatch, getState) => {
@@ -230,14 +241,15 @@ export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
   return eventData;
 }
 
-export const deleteEvent = eventId => async disptach => {
+export const deleteEvent = (eventId, groupId) => async disptach => {
   const response = await csrfFetch(`/api/events/${eventId}`, {
     method: 'DELETE'
   });
 
   if (response.ok) {
     const data = await response.json();
-    disptach(removeEvent(eventId));
+    disptach(reset());
+    disptach(groupActions.removeGroupDetails(groupId));
     return data;
   }
 };
@@ -325,6 +337,11 @@ function eventReducer(state = initialState, action) {
       delete newState.events[action.eventId];
       return newState;
     }
+    case REMOVE_USER_EVENT: {
+      const newState = { ...state };
+      delete newState.userEvents[action.eventId];
+      return newState;
+    }
     case REMOVE_EVENT_DETAILS: {
       const newState = { ...state };
       delete newState.eventDetails[action.eventId];
@@ -336,6 +353,8 @@ function eventReducer(state = initialState, action) {
         page: action.page,
         size: action.size
       }
+    case RESET:
+      return { ...initialState };
     default:
       return state;
   }

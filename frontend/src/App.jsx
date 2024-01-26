@@ -1,3 +1,4 @@
+import { Modal } from './context/Modal';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
@@ -27,6 +28,7 @@ function Layout() {
 
   return (
     <>
+      <Modal />
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
     </>
