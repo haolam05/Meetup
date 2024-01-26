@@ -4,7 +4,8 @@
 
 ![meetup-database-schema]
 
-[meetup-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png
+<!-- [meetup-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png -->
+[meetup-database-schema]: https://meetup2024.s3.us-west-2.amazonaws.com/public/meet-up-database-schema.png
 [meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
 
 ## API Documentation
@@ -69,7 +70,8 @@ Returns the information about the current user that is logged in.
         "firstName": "John",
         "lastName": "Smith",
         "email": "john.smith@gmail.com",
-        "username": "JohnSmith"
+        "username": "JohnSmith",
+        "profileImageUrl": null
       }
     }
     ```
@@ -119,7 +121,8 @@ information.
         "firstName": "John",
         "lastName": "Smith",
         "email": "john.smith@gmail.com",
-        "username": "JohnSmith"
+        "username": "JohnSmith",
+        "profileImageUrl": null
       }
     }
     ```
@@ -171,7 +174,8 @@ user's information.
       "lastName": "Smith",
       "email": "john.smith@gmail.com",
       "username": "JohnSmith",
-      "password": "secret password"
+      "password": "secret password",
+      "profileImageUrl": "Image File"
     }
     ```
 
@@ -188,7 +192,8 @@ user's information.
         "firstName": "John",
         "lastName": "Smith",
         "email": "john.smith@gmail.com",
-        "username": "JohnSmith"
+        "username": "JohnSmith",
+        "profileImageUrl": "Image URL"
       }
     }
     ```
