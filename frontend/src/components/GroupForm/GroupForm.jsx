@@ -157,16 +157,6 @@ function GroupForm({ group = {}, title }) {
           <input type="file" onChange={updateFile} />
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
-        {/* <div>
-          <label htmlFor="group-image">Please add an image URL for your group below</label>
-          <input
-            type="text"
-            placeholder="Image Url"
-            value={image}
-            onChange={e => setImage(e.target.value)}
-          />
-          {errors.image && <p className="error-message">{errors.image}</p>}
-        </div> */}
       </div>
       <button type="submit" className="btn-primary">{title}</button>
     </form>

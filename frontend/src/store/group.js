@@ -221,6 +221,10 @@ export const updateGroup = (payload, groupId) => async (dispatch, getState) => {
   }
   if (payload.image) {
     let response3, url, method;
+    const formData = new FormData();
+    formData.append("image", payload.image);
+    formData.append("preview", true);
+
     if (payload.imageId) { // update image
       url = `/api/group-images/${payload.imageId}`;
       method = 'PUT';
@@ -230,10 +234,7 @@ export const updateGroup = (payload, groupId) => async (dispatch, getState) => {
     }
     response3 = await csrfFetch(url, {
       method,
-      body: JSON.stringify({
-        url: payload.image,
-        preview: true
-      })
+      body: formData
     });
 
     if (response3.ok) {

@@ -8,7 +8,7 @@ router.post('/', singleMulterUpload("image"), requireAuth, groupImageController.
 
 router
   .route('/:imageId')
-  .put(requireAuth, groupImageController.editGroupImage)
+  .put(requireAuth, singleMulterUpload("image"), groupImageController.editGroupImage)
   .delete(requireAuth, groupImageController.deleteGroupImage);
 
 module.exports = router;
