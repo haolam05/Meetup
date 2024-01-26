@@ -273,6 +273,7 @@ export const deleteGroup = groupId => async dispatch => {
   if (response.ok) {
     const data = await response.json();
     dispatch(reset());
+    dispatch(eventActions.reset());
     return data;
   }
 };
