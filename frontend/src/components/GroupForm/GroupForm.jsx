@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import { hasError } from '../../utils/errorChecker';
+import { useModal } from '../../context/Modal';
 import * as groupActions from '../../store/group';
 import "./GroupForm.css";
 
@@ -17,6 +18,7 @@ function GroupForm({ group = {}, title }) {
   const [type, setType] = useState(group.type || "In person");
   const [image, setImage] = useState(group.previewImage || "");
   const [errors, setErrors] = useState({});
+  const { setModalContent } = useModal();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -61,6 +63,8 @@ function GroupForm({ group = {}, title }) {
       enabledSubmitButton();
       setErrors({ ...groupData.errors });
     } else {
+      const verb = Object.values(group).length ? 'Updated' : 'Created';
+      setModalContent(<h2 className="subheading alert-success">Successully {verb} Group!</h2>)
       navigate(`/groups/${groupData?.id}`, { replace: true });
     }
   };
@@ -152,6 +156,16 @@ function GroupForm({ group = {}, title }) {
           />
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
+        {/* <div>
+          <label htmlFor="group-image">Please add an image URL for your group below</label>
+          <input
+            type="text"
+            placeholder="Image Url"
+            value={image}
+            onChange={e => setImage(e.target.value)}
+          />
+          {errors.image && <p className="error-message">{errors.image}</p>}
+        </div> */}
       </div>
       <button type="submit" className="btn-primary">{title}</button>
     </form>

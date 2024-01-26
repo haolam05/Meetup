@@ -1,3 +1,4 @@
+import { useModal } from '../../context/Modal';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
@@ -13,6 +14,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const { setModalContent } = useModal();
 
   const toggleMenu = e => {
     e.stopPropagation();
@@ -27,6 +29,7 @@ function ProfileButton({ user }) {
     await dispatch(groupActions.resetUserGroups());
     await dispatch(eventActions.resetUserEvents());
     closeMenu();
+    setModalContent(<h2 className="subheading alert-success">Successully Logged Out!</h2>)
     navigate("/", { replace: true });
   }
 

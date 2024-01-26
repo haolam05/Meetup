@@ -159,3 +159,7 @@ a:hover {
 #search-box:focus {
   outline: none;
 }
+
+.alert-success {
+  color: teal;
+}

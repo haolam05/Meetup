@@ -9,7 +9,7 @@ function LoginFormPage() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
+  const { setModalContent } = useModal();
 
   const handleSubmit = async (e, loginAsDemoUser) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ function LoginFormPage() {
       enabledSubmitButton();
       setErrors({ credential: "The provided credentials were invalid" });
     } else {
-      closeModal();
+      setModalContent(<h2 className="subheading alert-success">Successully Logged In!</h2>)
     }
   };
 

@@ -65,9 +65,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
       const { message } = eventData.errors;
       if (message) {
         setOnModalClose(() => navigate("/", { replace: true }));
-        setModalContent(<div>
-          <h2 className="subheading">{message}</h2>
-        </div>)
+        setModalContent(<div><h2 className="subheading">{message}</h2></div>)
       }
       setErrors({ ...eventData.errors });
       if (eventData.errors.name) ref1.current.scrollIntoView();
@@ -76,6 +74,8 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
       if (eventData.errors.price || eventData, errors.capacity || eventData.errors.type) ref4.current.scrollIntoView();
       enabledSubmitButton();
     } else {
+      const verb = Object.values(event).length ? 'Updated' : 'Create';
+      setModalContent(<h2 className="subheading alert-success">Successully {verb} Event!</h2>)
       navigate(`/events/${eventData?.id}`, { replace: true });
     }
   }
