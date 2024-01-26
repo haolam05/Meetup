@@ -112,7 +112,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
           </div>
         </div>
         <textarea
-          placeholder="Please include at least 30 characters."
+          placeholder="Please include at least 30 characters"
           value={description}
           onChange={e => setDescription(e.target.value)}
         />

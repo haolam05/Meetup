@@ -74,13 +74,22 @@
   color: var(--gray);
 }
 
-#event-price,
-#event-type,
-#event-capacity,
 #event-description {
   display: flex;
   color: var(--gray);
   gap: 20px;
+}
+
+#event-info-wrapper {
+  display: flex;
+  gap: 17px;
+  color: var(--gray);
+}
+
+#event-price-type-capacity-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #event-capacity {
@@ -121,5 +130,5 @@
 .event-type.event-type.event-capacity {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
