@@ -92,19 +92,21 @@ function Event({ event, user = false, details = false, userEvents = [] }) {
             <p>{`${event.description.slice(0, 50)}...`}</p>
           </div>
         </div>
-        {user && user.id === event.Group.Organizer.id ? (
-          <>
-            <div id="event-line-break"></div>
-            <div id="event-btns">
-              <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/edit`)}>Update</button>
-              <OpenModalButton modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />} buttonText="Delete" />
-            </div>
-          </>
-        ) : (
-          userEvents.find(userEvent => userEvent.id === event.id) ? (
-            <button id="group-join-btn" className="btn-accent" onClick={() => alert(`Feature coming soon`)}>Unattend this event</button>
+        {user && (
+          user.id === event.Group.Organizer.id ? (
+            <>
+              <div id="event-line-break"></div>
+              <div id="event-btns">
+                <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/edit`)}>Update</button>
+                <OpenModalButton modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />} buttonText="Delete" />
+              </div>
+            </>
           ) : (
-            <button id="group-join-btn" className="btn-primary" onClick={() => alert(`Feature coming soon`)}>Attend this event</button>
+            userEvents.find(userEvent => userEvent.id === event.id) ? (
+              <button id="group-join-btn" className="btn-accent" onClick={() => alert(`Feature coming soon`)}>Unattend this event</button>
+            ) : (
+              <button id="group-join-btn" className="btn-primary" onClick={() => alert(`Feature coming soon`)}>Attend this event</button>
+            )
           )
         )}
       </div>
