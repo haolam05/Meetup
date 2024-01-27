@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import { hasError, inValidImage } from '../../utils/errorChecker';
 import { useModal } from '../../context/Modal';
+import { updateFile } from '../../utils/images';
 import * as groupActions from '../../store/group';
 import "./GroupForm.css";
 
@@ -68,11 +69,6 @@ function GroupForm({ group = {}, title }) {
       setModalContent(<h2 className="subheading alert-success">Successully {verb} Group!</h2>)
       navigate(`/groups/${groupData?.id}`, { replace: true });
     }
-  };
-
-  const updateFile = e => {
-    const file = e.target.files[0];
-    if (file) setImage(file);
   };
 
   return (
@@ -154,7 +150,7 @@ function GroupForm({ group = {}, title }) {
         </div>
         <div>
           <label htmlFor="group-image">Please add an image URL for your group below</label>
-          <input type="file" onChange={updateFile} />
+          <input type="file" onChange={e => updateFile(e, setImage)} />
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
       </div>

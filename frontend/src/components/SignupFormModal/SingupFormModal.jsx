@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import { inValidImage, invalidPassword } from '../../utils/errorChecker';
+import { updateFile } from '../../utils/images';
 import * as sessionActions from '../../store/session';
 
 function SignupFormPage() {
@@ -53,11 +54,6 @@ function SignupFormPage() {
       !confirmPassword.length
     );
   }
-
-  const updateFile = e => {
-    const file = e.target.files[0];
-    if (file) setImage(file);
-  };
 
   return (
     <>
@@ -112,7 +108,7 @@ function SignupFormPage() {
         />
         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
         <label>Avatar</label>
-        <input type="file" onChange={updateFile} />
+        <input type="file" onChange={e => updateFile(e, setImage)} />
         {errors.image && <p className="error-message">{errors.image}</p>}
         <button
           className={`btn-primary ${inputIsInValid() ? '' : 'enabled'}`}

@@ -161,12 +161,13 @@ export const createEvent = (groupId, payload, organizerId) => async (dispatch, g
   if (!response1.ok) return eventData.errors ? eventData : { errors: eventData };
 
   if (payload.image) {
+    const formData = new FormData();
+    formData.append("image", payload.image);
+    formData.append("preview", true);
+
     const response2 = await csrfFetch(`/api/events/${eventData.id}/images`, {
       method: 'POST',
-      body: JSON.stringify({
-        url: payload.image,
-        preview: true
-      })
+      body: formData
     });
 
     if (response2.ok) {
@@ -207,6 +208,10 @@ export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
 
   if (payload.image) {
     let response2, url, method;
+    const formData = new FormData();
+    formData.append("image", payload.image);
+    formData.append("preview", true);
+
     if (payload.imageId) { // update image
       url = `/api/event-images/${payload.imageId}`;
       method = 'PUT';
@@ -216,10 +221,7 @@ export const updateEvent = (eventId, payload) => async (dispatch, getState) => {
     }
     response2 = await csrfFetch(url, {
       method,
-      body: JSON.stringify({
-        url: payload.image,
-        preview: true
-      })
+      body: formData
     });
 
     if (response2.ok) {

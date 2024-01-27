@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const { Event, Group, EventImage, Attendance } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
+const { singleFileUpload } = require('../awsS3');
 const checkUserRole = require('../utils/userRoleAuthorization');
 
 async function createEventImage(req, res, next) {
@@ -27,10 +28,13 @@ async function createEventImage(req, res, next) {
     return next(err);
   }
 
-  const newEventImage = await event.createEventImage(req.body);
+  const { preview } = req.body;
+  const url = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
+  const newEventImage = await event.createEventImage({ url, preview });
+
   res.json({
     id: newEventImage.id,
-    url: newEventImage.url,
+    url: retrievePrivateFile(newEventImage.url),
     preview: newEventImage.preview
   });
 }
@@ -50,7 +54,9 @@ async function editEventImage(req, res, next) {
     return next(err);
   }
 
-  const updatedEventImage = await eventImage.update(req.body);
+  const { preview } = req.body;
+  const url = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
+  const updatedEventImage = await eventImage.update({ url, preview });
   res.json({
     id: updatedEventImage.id,
     url: updatedEventImage.url,

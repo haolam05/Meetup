@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import { dateToFormat, isValidDateFormat } from '../../utils/dateFormatter';
 import { getLocalTime } from '../../utils/dateConverter';
-import { hasError } from '../../utils/errorChecker';
+import { hasError, inValidImage } from '../../utils/errorChecker';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
+import { updateFile } from '../../utils/images';
 import * as eventActions from '../../store/event';
 
 function EventForm({ groupId, title, event = {}, organizerId }) {
@@ -39,6 +40,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
 
     if (hasError(setErrors, capacity < 1, "capacity", "Capacity must be greater than 0", ref4.current)) return;
     if (hasError(setErrors, price < 0, "price", "Price must be at lest 0", ref4.current)) return;
+    if (inValidImage(setErrors, image)) return;
 
     const payload = {
       venueId: type === "Onine" ? null : 1,   // to be implemented later
@@ -182,6 +184,11 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
         </div>
         <div>
           <label htmlFor="event-image">Please add an image url for your event below</label>
+          <input type="file" onChange={e => updateFile(e, setImage)} />
+          {errors.image && <p className="error-message">{errors.image}</p>}
+        </div>
+        {/* <div>
+          <label htmlFor="event-image">Please add an image url for your event below</label>
           <input
             type="text"
             placeholder="Image URL"
@@ -189,7 +196,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
             onChange={e => setImage(e.target.value)}
           />
           {errors.image && <p className="error-message">{errors.image}</p>}
-        </div>
+        </div> */}
       </div>
       <button type="submit" className="btn-primary">{title}</button>
     </form>
