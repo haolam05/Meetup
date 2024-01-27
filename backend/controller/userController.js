@@ -3,6 +3,7 @@ const { User } = require('../db/models');
 const { check } = require('express-validator');
 const { setTokenCookie } = require('./authController');
 const { singleFileUpload } = require('../awsS3');
+const { Op } = require('sequelize');
 const handleValidationErrors = require('../utils/validation');
 
 function validateSignup() {
@@ -33,10 +34,26 @@ function validateSignup() {
   ];
 }
 
+function validateEdit() {
+  return [
+    check('password')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 6 })
+      .withMessage('Password is required (minimum of 6 characters)'),
+    check('firstName')
+      .exists({ checkFalsy: true })
+      .withMessage('First Name is required'),
+    check('lastName')
+      .exists({ checkFalsy: true })
+      .withMessage('First Name is required'),
+    handleValidationErrors
+  ];
+}
+
 async function signUp(req, res) {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
-  const profileImageUrl = req.file ? await singleFileUpload({ file: req.file, public: true }) : null
+  const profileImageUrl = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
   const user = await User.create({ email, username, hashedPassword, firstName, lastName, profileImageUrl });
 
   const safeUser = {
@@ -55,7 +72,46 @@ async function signUp(req, res) {
   });
 };
 
+async function editUser(req, res, next) {
+  const { email, username, firstName, lastName, password } = req.body;
+  const user = await User.findOne({
+    attributes: {
+      include: ['hashedPassword']
+    },
+    where: {
+      [Op.and]: [
+        { id: req.user.id },
+        { email },
+        { username }
+      ]
+    }
+  });
+
+  if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+    const err = new Error('Invalid credentials');
+    err.status = 401;
+    return next(err);
+  }
+
+  let profileImageUrl
+  if (req.file) profileImageUrl = await singleFileUpload({ file: req.file, public: true });
+  const updatedUser = await user.update({ firstName, lastName, profileImageUrl: profileImageUrl });
+
+  return res.json({
+    user: {
+      id: updatedUser.id,
+      email,
+      username,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      profileImageUrl: updatedUser.profileImageUrl
+    }
+  });
+}
+
 module.exports = {
   validateSignup,
-  signUp
+  validateEdit,
+  signUp,
+  editUser
 }

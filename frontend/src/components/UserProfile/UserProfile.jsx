@@ -5,6 +5,8 @@ import Loading from "../Loading";
 import BackButton from "../BackButton";
 import ManageGroup from "../ManageGroup/ManageGroup";
 import ManageEvent from "../ManageEvent/ManageEvent";
+import OpenModalButton from "../OpenModalButton";
+import EditUserForm from "../EditUserForm/EditUserform";
 import * as sessionActions from "../../store/session";
 import * as eventActions from "../../store/event";
 import * as groupActions from "../../store/group";
@@ -81,7 +83,10 @@ function UserProfile() {
             </div>
             <div id="event-line-break"></div>
             <div id="user-btns">
-              <button className="btn-accent">Update</button>
+              <OpenModalButton
+                buttonText="Update"
+                modalComponent={<EditUserForm user={user} />}
+              />
               <button className="btn-accent">Delete</button>
             </div>
           </div>

@@ -59,7 +59,28 @@ export const restoreSession = () => async (dispatch, getState) => {
   if (getState().session.user !== null) return;
 
   const response = await csrfFetch("/api/session");
+  const user = await response.json();
+  dispatch(createSession(user));
+};
+
+export const updateUser = payload => async dispatch => {
+  const { email, username, firstName, lastName, password, image } = payload;
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("username", username);
+  formData.append("firstName", firstName);
+  formData.append("lastName", lastName);
+  formData.append("password", password);
+
+  if (image) formData.append("image", image);
+
+  const response = await csrfFetch(`/api/users`, {
+    method: 'PUT',
+    body: formData
+  });
+
   const data = await response.json();
+  if (!response.ok) return data.errors ? data : { errors: data };
   dispatch(createSession(data));
 };
 
@@ -74,7 +95,7 @@ function sessionReducer(state = initialState, action) {
     case CREATE_SESSION:
       return { ...action.payload };
     case DELETE_SESSION:
-      return { user: null };
+      return { ...initialState };
     default:
       return state;
   }
