@@ -68,6 +68,15 @@ function ProfileButton({ user }) {
             <li className="greet-user">
               <button className="btn-accent">{user.email}</button>
             </li>
+            <li className="user-profile">
+              <button className="btn-accent" onClick={() => navigate("/me")}>Your Profile</button>
+            </li>
+            <li className="user-profile">
+              <button className="btn-accent" onClick={() => navigate("groups/current")}>Your groups</button>
+            </li>
+            <li className="user-profile">
+              <button className="btn-accent" onClick={() => navigate("events/current")}>Your events</button>
+            </li>
           </>
         )}
         <li>
@@ -78,13 +87,7 @@ function ProfileButton({ user }) {
         </li>
         {
           user ? (<>
-            <li>
-              <button className="btn-accent" onClick={() => navigate("groups/current")}>Your groups</button>
-            </li>
-            <li>
-              <button className="btn-accent" onClick={() => navigate("events/current")}>Your events</button>
-            </li>
-            <li>
+            <li className="logout-btn">
               <button className="btn-accent" onClick={logout}>Log Out</button>
             </li>
           </>

@@ -267,6 +267,16 @@ export const getCurrentUserEvents = createSelector(
   events => Object.values(events)
 );
 
+export const getCurrentUserHostedEvents = createSelector(
+  state => state.event.userEvents,
+  events => Object.values(events).filter(event => event.hostId)
+);
+
+export const getCurrentUserAttendedEvents = createSelector(
+  state => state.event.userEvents,
+  events => Object.values(events).filter(event => !event.hostId)
+);
+
 export const getEvents = createSelector(
   [
     state => state.event.size,

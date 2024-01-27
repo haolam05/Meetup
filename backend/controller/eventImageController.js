@@ -34,7 +34,7 @@ async function createEventImage(req, res, next) {
 
   res.json({
     id: newEventImage.id,
-    url: retrievePrivateFile(newEventImage.url),
+    url: newEventImage.url,
     preview: newEventImage.preview
   });
 }

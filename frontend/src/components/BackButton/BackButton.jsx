@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import "./BackButton.css";
 
-function BackButton({ url }) {
+function BackButton({ url, btnText = url.slice(1) }) {
   const navigate = useNavigate();
 
   const addBackBtnText = () => {
     const span = document.createElement('span');
-    span.innerText = url[1].toUpperCase() + url.slice(2).toLowerCase();
+    span.innerText = btnText[0].toUpperCase() + btnText.slice(1).toLowerCase();
     document.querySelector('#back-to-list').appendChild(span);
   }
 

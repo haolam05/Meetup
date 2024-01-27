@@ -1,0 +1,58 @@
+#user-wrapper-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+#user-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  cursor: auto;
+}
+
+#user-info {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  color: var(--gray);
+}
+
+#user-icons,
+#user-titles,
+#user-data {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+#user-btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  justify-self: flex-end;
+}
+
+#user-btns button {
+  border: none;
+  flex-grow: 1;
+}
+
+#user-btns button:hover {
+  background-color: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray);
+}
+
+#user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.subheading.gray {
+  color: var(--gray);
+}

@@ -286,6 +286,16 @@ export const getCurrentUserGroups = createSelector(
   groups => Object.values(groups)
 );
 
+export const getCurrentUserOwnedGroups = userId => createSelector(
+  state => state.group.userGroups,
+  groups => Object.values(groups).filter(group => group.organizerId === userId)
+);
+
+export const getCurrentUserJoinedGroups = userId => createSelector(
+  state => state.group.userGroups,
+  groups => Object.values(groups).filter(group => group.organizerId !== userId)
+);
+
 export const getGroups = createSelector(
   [
     state => state.group.size,

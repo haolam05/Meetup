@@ -38,10 +38,6 @@
   color: var(--gray);
 }
 
-#event-description {
-  font-style: italic;
-}
-
 #event-text {
   display: flex;
   justify-content: center;
@@ -78,6 +74,8 @@
   display: flex;
   color: var(--gray);
   gap: 20px;
+  font-style: italic;
+  line-break: anywhere;
 }
 
 #event-info-wrapper {

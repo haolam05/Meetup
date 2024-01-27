@@ -13,6 +13,7 @@ import CreateGroup from './components/CreateGroup';
 import EditGroup from './components/EditGroup';
 import CreateEvent from './components/CreateEvent';
 import EditEvent from './components/EditEvent';
+import UserProfile from './components/UserProfile/UserProfile';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <LandingPage />
+      },
+      {
+        path: 'me',
+        element: <UserProfile />
       },
       {
         path: 'groups',
