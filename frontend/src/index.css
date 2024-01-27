@@ -163,3 +163,11 @@ a:hover {
 .alert-success {
   color: teal;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  text-decoration: underline;
+}
