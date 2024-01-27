@@ -8,9 +8,12 @@ import * as groupActions from '../../store/group';
 
 function Groups() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const [isLoaded, setIsLoaded] = useState(false);
   const groups = useSelector(groupActions.getGroups);
+  const currentPage = useSelector(groupActions.getGroupPage);
+  const currentSize = useSelector(groupActions.getGroupSize);
+  const [page, setPage] = useState(currentPage || 1);
+  const [size, setSize] = useState(currentSize || 5);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const groupsNoOffset = useSelector(groupActions.getGroupsNoOffset);
   const [input, setInput] = useState("");
@@ -44,14 +47,17 @@ function Groups() {
 
   useEffect(() => {
     const loadGroups = async () => {
-      await dispatch(groupActions.loadGroups(page, 5));
+      await dispatch(groupActions.loadGroups(page, size));
       setIsLoaded(true);
 
       document.querySelector(".page-prev")?.removeAttribute("disabled");
       document.querySelector(".page-next")?.removeAttribute("disabled");
+      document.querySelector(".input-page")?.removeAttribute("disabled");
+      document.querySelector(".input-size")?.removeAttribute("disabled");
+      document.querySelector(".page-load")?.removeAttribute("disabled");
     }
     loadGroups();
-  }, [dispatch, page]);
+  }, [dispatch, page, size]);
 
   if (!isLoaded) return <Loading />;
   if (!groups) return;
@@ -62,7 +68,9 @@ function Groups() {
         <Pagination
           list={groups}
           page={page}
+          size={size}
           setPage={setPage}
+          setSize={(setSize)}
           searchMode={input.length}
         />
         {groups.length ? <input spellCheck="false" id="search-box" type="text" value={input} onChange={handleSearch} placeholder='Search box' /> : ''}

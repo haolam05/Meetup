@@ -23,10 +23,42 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  width: 550px;
+  width: 350px;
+}
+
+.subheading.no-results {
+  font-size: 12pt;
 }
 
 .no-results-wrapper {
   display: flex;
   justify-content: center;
+}
+
+.input-page,
+.input-size {
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 10px;
+  width: 35px;
+}
+
+.input-page:focus,
+.input-size:focus {
+  outline: none;
+}
+
+.page-load {
+  background-color: var(--white);
+  color: var(--gray);
+  font-style: italic;
+  text-decoration: none;
+  padding: 0 10px;
+  margin: 0 10px;
+  border-radius: 5px;
+}
+
+.page-load:hover {
+  text-decoration: none;
+  font-size: 12pt;
 }

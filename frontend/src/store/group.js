@@ -14,6 +14,7 @@ const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 const RESET = '/groups/RESET';
 const RESET_USER_GROUPS = '/groups/RESET_USER_GROUPS';
+const RESET_GROUPS = '/groups/RESET_GROUPS';
 
 // POJO action creators
 const getUserGroups = groups => ({
@@ -70,6 +71,10 @@ export const resetUserGroups = () => ({
   type: RESET_USER_GROUPS
 });
 
+const resetGroups = () => ({
+  type: RESET_GROUPS
+});
+
 // Thunk action creators
 export const loadCurrentUserGroups = () => async (dispatch, getState) => {
   if (Object.values(getState().group.userGroups).length) return;
@@ -95,10 +100,19 @@ export const loadCurrentUserGroups = () => async (dispatch, getState) => {
 export const loadGroups = (page, size) => async (dispatch, getState) => {
   const state = getState();
   const groupPage = state.group.page;
+  const groupSize = state.group.size;
   const numGroups = Object.values(state.group.groups).length;
 
-  if (groupPage !== page) dispatch(setPagination(page, size));
-  if (numGroups > (page - 1) * size || (numGroups % size !== 0)) return;
+  if (groupSize !== size) {
+    // groups is reset to empty --> if we are on page n, we want (n * size) items
+    dispatch(resetGroups());
+    dispatch(setPagination(page, size));
+    size = page * size;
+    page = 1;
+  } else {
+    if (groupPage !== page || groupSize !== size) dispatch(setPagination(page, size));
+    if (numGroups > (page - 1) * size || (numGroups % size !== 0)) return;
+  }
 
   const response = await csrfFetch(`/api/groups?page=${page}&size=${size}`);
 
@@ -315,6 +329,16 @@ export const getGroupById = groupId => createSelector(
   groups => groups ? groups[groupId] : {}
 );
 
+export const getGroupPage = createSelector(
+  state => state.group,
+  group => group.page
+);
+
+export const getGroupSize = createSelector(
+  state => state.group,
+  group => group.size
+);
+
 // Reducer
 const initialState = { userGroups: {}, groups: {}, groupDetails: {}, page: 0, size: 0 };
 
@@ -383,6 +407,11 @@ function groupReducer(state = initialState, action) {
       }
     case RESET:
       return { ...initialState };
+    case RESET_GROUPS:
+      return {
+        ...state,
+        groups: {}
+      }
     case RESET_USER_GROUPS:
       return {
         ...state,

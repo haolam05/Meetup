@@ -13,6 +13,7 @@ const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
 const SET_PAGINATION = '/events/SET_PAGINATION';
 const RESET = '/events/RESET';
 const RESET_USER_EVENTS = '/groups/RESET_USER_EVENTS';
+const RESET_EVENTS = '/groups/RESET_EVENTS';
 
 // POJO action creators
 const getUserEvents = events => ({
@@ -49,6 +50,10 @@ const addUserEvent = event => ({
 //   type: REMOVE_USER_EVENT,
 //   eventId
 // });
+
+const resetEvents = () => ({
+  type: RESET_EVENTS
+});
 
 export const removeEventDetails = eventId => ({
   type: REMOVE_EVENT_DETAILS,
@@ -96,10 +101,19 @@ export const loadCurrentUserEvents = () => async (dispatch, getState) => {
 export const loadEvents = (page, size) => async (dispatch, getState) => {
   const state = getState();
   const eventPage = state.event.page;
+  const eventSize = state.event.size;
   const numEvents = Object.values(state.event.events).length;
 
-  if (eventPage !== page) dispatch(setPagination(page, size));
-  if (numEvents > (page - 1) * size || (numEvents % size !== 0)) return;
+  if (eventSize !== size) {
+    // events is reset to empty --> if we are on page n, we want (n * size) items
+    dispatch(resetEvents());
+    dispatch(setPagination(page, size));
+    size = page * size;
+    page = 1;
+  } else {
+    if (eventPage !== page || eventSize !== size) dispatch(setPagination(page, size));
+    if (numEvents > (page - 1) * size || (numEvents % size !== 0)) return;
+  }
 
   const response1 = await csrfFetch(`/api/events?page=${page}&size=${size}`);
 
@@ -301,6 +315,16 @@ export const getEventsByUserId = userId => createSelector(
   events => Object.values(events).filter(event => event.organizerId === userId)
 );
 
+export const getEventPage = createSelector(
+  state => state.event,
+  event => event.page
+);
+
+export const getEventSize = createSelector(
+  state => state.event,
+  event => event.size
+);
+
 // Reducer
 const initialState = { userEvents: {}, events: {}, eventDetails: {}, page: 0, size: 0 };
 
@@ -372,6 +396,11 @@ function eventReducer(state = initialState, action) {
       }
     case RESET:
       return { ...initialState };
+    case RESET_EVENTS:
+      return {
+        ...state,
+        events: {}
+      }
     case RESET_USER_EVENTS:
       return {
         ...state,

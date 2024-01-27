@@ -11,9 +11,12 @@ import * as eventActions from '../../store/event';
 function Events() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const [isLoaded, setIsLoaded] = useState(false);
   let events = useSelector(eventActions.getEvents);
+  const currentPage = useSelector(eventActions.getEventPage);
+  const currentSize = useSelector(eventActions.getEventSize);
+  const [page, setPage] = useState(currentPage || 1);
+  const [size, setSize] = useState(currentSize || 5);
+  const [isLoaded, setIsLoaded] = useState(false);
   const upcomingEvents = sortAscFuture(Object.values(events));
   const pastEvents = sortDescPast(Object.values(events));
   events = [...upcomingEvents, ...pastEvents];
@@ -38,14 +41,17 @@ function Events() {
 
   useEffect(() => {
     const loadEvents = async () => {
-      await dispatch(eventActions.loadEvents(page, 5));
+      await dispatch(eventActions.loadEvents(page, size));
       setIsLoaded(true);
 
       document.querySelector(".page-prev")?.removeAttribute("disabled");
       document.querySelector(".page-next")?.removeAttribute("disabled");
+      document.querySelector(".input-page")?.removeAttribute("disabled");
+      document.querySelector(".input-size")?.removeAttribute("disabled");
+      document.querySelector(".page-load")?.removeAttribute("disabled");
     }
     loadEvents();
-  }, [dispatch, page]);
+  }, [dispatch, page, size]);
 
   if (!isLoaded) return <Loading />;
 
@@ -55,7 +61,9 @@ function Events() {
         <Pagination
           list={events}
           page={page}
+          size={size}
           setPage={setPage}
+          setSize={setSize}
           searchMode={input.length}
         />
         {events.length ? <input spellCheck="false" id="search-box" type="text" value={input} onChange={handleSearch} placeholder='Search box' /> : ''}
