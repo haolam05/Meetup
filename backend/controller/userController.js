@@ -34,22 +34,6 @@ function validateSignup() {
   ];
 }
 
-function validateEdit() {
-  return [
-    check('password')
-      .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
-      .withMessage('Password is required (minimum of 6 characters)'),
-    check('firstName')
-      .exists({ checkFalsy: true })
-      .withMessage('First Name is required'),
-    check('lastName')
-      .exists({ checkFalsy: true })
-      .withMessage('First Name is required'),
-    handleValidationErrors
-  ];
-}
-
 async function signUp(req, res) {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
@@ -109,15 +93,17 @@ async function editUser(req, res, next) {
   });
 }
 
-async function deleteUser(req, res) {
-  const user = await User.findByPk(req.user.id);
-  if (!user) {
+async function deleteUser(req, res, next) {
+  const { userId } = req.params;
+  const user = await User.findByPk(userId);
+  if (!user || +userId !== req.user.id) {
     const err = new Error('Invalid credentials');
     err.status = 401;
     return next(err);
   }
 
   await user.destroy();
+  res.clearCookie('token');
 
   return res.json({
     message: "Successully deleted"
@@ -126,7 +112,6 @@ async function deleteUser(req, res) {
 
 module.exports = {
   validateSignup,
-  validateEdit,
   signUp,
   editUser,
   deleteUser
