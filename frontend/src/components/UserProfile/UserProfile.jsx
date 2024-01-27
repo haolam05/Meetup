@@ -7,6 +7,7 @@ import ManageGroup from "../ManageGroup/ManageGroup";
 import ManageEvent from "../ManageEvent/ManageEvent";
 import OpenModalButton from "../OpenModalButton";
 import EditUserForm from "../EditUserForm/EditUserform";
+import DeleteUser from "../DeleteUser";
 import * as sessionActions from "../../store/session";
 import * as eventActions from "../../store/event";
 import * as groupActions from "../../store/group";
@@ -87,7 +88,10 @@ function UserProfile() {
                 buttonText="Update"
                 modalComponent={<EditUserForm user={user} />}
               />
-              <button className="btn-accent">Delete</button>
+              <OpenModalButton
+                buttonText="Delete"
+                modalComponent={<DeleteUser />}
+              />
             </div>
           </div>
         </div>

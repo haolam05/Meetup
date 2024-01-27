@@ -109,9 +109,25 @@ async function editUser(req, res, next) {
   });
 }
 
+async function deleteUser(req, res) {
+  const user = await User.findByPk(req.user.id);
+  if (!user) {
+    const err = new Error('Invalid credentials');
+    err.status = 401;
+    return next(err);
+  }
+
+  await user.destroy();
+
+  return res.json({
+    message: "Successully deleted"
+  });
+}
+
 module.exports = {
   validateSignup,
   validateEdit,
   signUp,
-  editUser
+  editUser,
+  deleteUser
 }

@@ -7,6 +7,7 @@ const { requireAuth } = require('../../controller/authController');
 router
   .route('/')
   .post(singleMulterUpload("image"), userController.validateSignup(), userController.signUp)
-  .put(requireAuth, singleMulterUpload("image"), userController.validateEdit(), userController.editUser);
+  .put(requireAuth, singleMulterUpload("image"), userController.validateEdit(), userController.editUser)
+  .delete(requireAuth, userController.deleteUser);
 
 module.exports = router;
