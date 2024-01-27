@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { sortAscFuture, sortDescPast } from "../../utils/dateConverter";
 import Loading from "../Loading";
 import BackButton from "../BackButton";
+import ManageGroup from "../ManageGroup/ManageGroup";
+import ManageEvent from "../ManageEvent/ManageEvent";
 import * as sessionActions from "../../store/session";
 import * as eventActions from "../../store/event";
 import * as groupActions from "../../store/group";
 import "./UserProfile.css";
-import ManageGroup from "../ManageGroup/ManageGroup";
-import ManageEvent from "../ManageEvent/ManageEvent";
-import { sortAscFuture, sortDescPast } from "../../utils/dateConverter";
 
 function UserProfile() {
   const dispatch = useDispatch();
