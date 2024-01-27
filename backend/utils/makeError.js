@@ -10,7 +10,14 @@ function forbiddenError() {
   return err;
 }
 
+function authenticateError(message) {
+  const err = new Error(message);
+  err.status = 401;
+  return err;
+}
+
 module.exports = {
   notFoundError,
-  forbiddenError
+  forbiddenError,
+  authenticateError
 }

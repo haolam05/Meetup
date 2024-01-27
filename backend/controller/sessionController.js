@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 const { setTokenCookie } = require('./authController');
 const { User } = require('../db/models');
 const { check } = require('express-validator');
+const { authenticateError } = require('../utils/makeError');
 const handleValidationErrors = require('../utils/validation');
 
 function validateLogin() {
@@ -31,8 +32,7 @@ async function login(req, res, next) {
   });
 
   if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-    const err = new Error('Invalid credentials');
-    err.status = 401;
+    const err = authenticateError('Invalid credentials');
     return next(err);
   }
 

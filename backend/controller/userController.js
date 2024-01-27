@@ -4,6 +4,7 @@ const { check } = require('express-validator');
 const { setTokenCookie } = require('./authController');
 const { singleFileUpload } = require('../awsS3');
 const { Op } = require('sequelize');
+const { forbiddenError, authenticateError } = require('../utils/makeError');
 const handleValidationErrors = require('../utils/validation');
 
 function validateSignup() {
@@ -72,8 +73,7 @@ async function editUser(req, res, next) {
   });
 
   if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-    const err = new Error('Invalid credentials');
-    err.status = 401;
+    const err = authenticateError('Invalid credentials');
     return next(err);
   }
 
@@ -95,10 +95,15 @@ async function editUser(req, res, next) {
 
 async function deleteUser(req, res, next) {
   const { userId } = req.params;
+
+  if (+userId !== req.user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
   const user = await User.findByPk(userId);
-  if (!user || +userId !== req.user.id) {
-    const err = new Error('Invalid credentials');
-    err.status = 401;
+  if (!user) {
+    const err = authenticateError('Invalid credentials');
     return next(err);
   }
 
