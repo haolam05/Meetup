@@ -187,16 +187,6 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
           <input type="file" onChange={e => updateFile(e, setImage)} />
           {errors.image && <p className="error-message">{errors.image}</p>}
         </div>
-        {/* <div>
-          <label htmlFor="event-image">Please add an image url for your event below</label>
-          <input
-            type="text"
-            placeholder="Image URL"
-            value={image}
-            onChange={e => setImage(e.target.value)}
-          />
-          {errors.image && <p className="error-message">{errors.image}</p>}
-        </div> */}
       </div>
       <button type="submit" className="btn-primary">{title}</button>
     </form>
