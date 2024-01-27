@@ -84,8 +84,8 @@ export const updateUser = payload => async dispatch => {
   dispatch(createSession(data));
 };
 
-export const deleteUser = () => async dispatch => {
-  const response = await csrfFetch(`/api/users`, {
+export const deleteUser = userId => async dispatch => {
+  const response = await csrfFetch(`/api/users/${userId}`, {
     method: 'DELETE'
   });
 
