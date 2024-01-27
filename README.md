@@ -313,7 +313,7 @@ Edits an existing user, returns the current user's updated information. Note tha
 Deletes an existing user.
 
 * Require Authentication: true
-* Require proper authorization: User must be logged in
+* Require proper authorization: User can't delete other users (userId must matched the current user's id)
 * Request
   * Method: DELETE
   * URL: /api/users/:userId
