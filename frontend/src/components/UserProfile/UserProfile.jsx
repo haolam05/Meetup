@@ -8,6 +8,7 @@ import ManageEvent from "../ManageEvent/ManageEvent";
 import OpenModalButton from "../OpenModalButton";
 import EditUserForm from "../EditUserForm/EditUserform";
 import DeleteUser from "../DeleteUser";
+import EditUserPasswordForm from "../EditUserPasswordForm";
 import * as sessionActions from "../../store/session";
 import * as eventActions from "../../store/event";
 import * as groupActions from "../../store/group";
@@ -85,6 +86,10 @@ function UserProfile() {
             </div>
             <div id="event-line-break"></div>
             <div id="user-btns">
+              {/* <OpenModalButton
+                buttonText="Change Password"
+                modalComponent={<EditUserPasswordForm user={user} />}
+              /> */}
               <OpenModalButton
                 buttonText="Update"
                 modalComponent={<EditUserForm user={user} ownedGroups={ownedGroups} hostedEvents={hostedEvents} />}

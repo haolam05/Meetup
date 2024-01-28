@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import * as sessionActions from '../../store/session';
+import "./LoginFormModal.css";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -58,9 +59,14 @@ function LoginFormPage() {
         >
           Log in
         </button>
-        <a type="submit" onClick={e => handleSubmit(e, true)}>
-          Login in as Demo User
-        </a>
+        <div id="login-form-links">
+          <a type="submit" onClick={() => alert("Feature coming soon")}>
+            Forgot password?
+          </a>
+          <a type="submit" onClick={e => handleSubmit(e, true)}>
+            Login in as Demo User
+          </a>
+        </div>
       </form>
     </>
   );
