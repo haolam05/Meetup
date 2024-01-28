@@ -91,7 +91,7 @@ function UserProfile() {
               />
               <OpenModalButton
                 buttonText="Delete"
-                modalComponent={<DeleteUser userId={user.id} />}
+                modalComponent={<DeleteUser userId={user.id} title="Account" />}
               />
             </div>
           </div>

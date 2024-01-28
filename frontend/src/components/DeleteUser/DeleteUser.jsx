@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
 import * as sessionActions from "../../store/session";
 
-function DeleteUser({ userId }) {
+function DeleteUser({ userId, title }) {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function DeleteUser({ userId }) {
     navigate(`/`, { replace: true });
   }
 
-  return <ConfirmDeleteForm text="User" deleteCb={e => deleteUser(e) && closeModal()} cancelDeleteCb={closeModal} />;
+  return <ConfirmDeleteForm text="User" deleteCb={e => deleteUser(e) && closeModal()} cancelDeleteCb={closeModal} title={title} />;
 }
 
 export default DeleteUser;
