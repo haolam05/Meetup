@@ -23,13 +23,13 @@ const groupNames = [
 ];
 
 const userEmails = [
-  'demo@user.io',
-  'user1@user.io',
-  'user2@user.io',
-  'user3@user.io',
-  'user4@user.io',
-  'user5@user.io',
-  'user6@user.io'
+  'luffy@user.io',
+  'zoro@user.io',
+  'sanji@user.io',
+  'ace@user.io',
+  'robin@user.io',
+  'chopper@user.io',
+  'mihawk@user.io'
 ];
 
 const status = [

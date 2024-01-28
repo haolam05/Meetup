@@ -17,8 +17,8 @@ function LoginFormPage() {
 
     const data = await dispatch(
       sessionActions.login({
-        credential: loginAsDemoUser ? "demo@user.io" : credential,
-        password: loginAsDemoUser ? "password" : password
+        credential: loginAsDemoUser ? "luffy@user.io" : credential,
+        password: loginAsDemoUser ? "luffyPassword" : password
       })
     );
 
