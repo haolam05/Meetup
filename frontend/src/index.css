@@ -150,6 +150,7 @@ a:hover {
   background-color: var(--teal);
   color: var(--white);
   text-align: center;
+  height: 25px;
 }
 
 #search-box::placeholder {

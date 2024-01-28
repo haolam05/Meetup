@@ -103,7 +103,8 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
   const groupSize = state.group.size;
   const numGroups = Object.values(state.group.groups).length;
 
-  if (groupSize !== size) {
+  // when the size changes, or when the user jump 1+ pages
+  if ((groupSize !== size) || (numGroups + size < page * size)) {
     // groups is reset to empty --> if we are on page n, we want (n * size) items
     dispatch(resetGroups());
     dispatch(setPagination(page, size));

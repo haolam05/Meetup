@@ -104,7 +104,8 @@ export const loadEvents = (page, size) => async (dispatch, getState) => {
   const eventSize = state.event.size;
   const numEvents = Object.values(state.event.events).length;
 
-  if (eventSize !== size) {
+  // when the size changes, or when the user jump 1+ pages
+  if ((eventSize !== size) || (numEvents + size < page * size)) {
     // events is reset to empty --> if we are on page n, we want (n * size) items
     dispatch(resetEvents());
     dispatch(setPagination(page, size));
