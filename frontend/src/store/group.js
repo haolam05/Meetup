@@ -111,8 +111,8 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
     size = page * size;
     page = 1;
   } else {
-    if (groupPage !== page || groupSize !== size) dispatch(setPagination(page, size));
-    if (numGroups > (page - 1) * size || (numGroups % size !== 0)) return;
+    if (groupPage !== page) dispatch(setPagination(page, size));
+    if ((numGroups > (page - 1) * size) || (numGroups % size !== 0)) return;
   }
 
   const response = await csrfFetch(`/api/groups?page=${page}&size=${size}`);

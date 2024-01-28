@@ -112,8 +112,8 @@ export const loadEvents = (page, size) => async (dispatch, getState) => {
     size = page * size;
     page = 1;
   } else {
-    if (eventPage !== page || eventSize !== size) dispatch(setPagination(page, size));
-    if (numEvents > (page - 1) * size || (numEvents % size !== 0)) return;
+    if (eventPage !== page) dispatch(setPagination(page, size));
+    if ((numEvents > (page - 1) * size) || (numEvents % size !== 0)) return;
   }
 
   const response1 = await csrfFetch(`/api/events?page=${page}&size=${size}`);
