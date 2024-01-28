@@ -58,7 +58,7 @@
 
 .group-name {
   font-size: 17px;
-  line-break: anywhere;
+  word-break: break-word;
 }
 
 .group-text {

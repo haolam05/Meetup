@@ -26,13 +26,13 @@ html {
 .heading {
   font-size: 25pt;
   font-weight: bold;
-  line-break: anywhere;
+  word-break: break-word;
 }
 
 .subheading {
   font-size: 17pt;
   font-weight: bold;
-  line-break: anywhere;
+  word-break: break-word;
 }
 
 button {
