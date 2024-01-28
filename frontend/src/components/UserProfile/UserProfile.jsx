@@ -87,7 +87,7 @@ function UserProfile() {
             <div id="user-btns">
               <OpenModalButton
                 buttonText="Update"
-                modalComponent={<EditUserForm user={user} />}
+                modalComponent={<EditUserForm user={user} ownedGroups={ownedGroups} hostedEvents={hostedEvents} />}
               />
               <OpenModalButton
                 buttonText="Delete"

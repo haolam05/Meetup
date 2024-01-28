@@ -28,6 +28,7 @@
   height: 40px;
   position: relative;
   bottom: 5px;
+  border-radius: 10px;
 }
 
 .event-avatar-container {

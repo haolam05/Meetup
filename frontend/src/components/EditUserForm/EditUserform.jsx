@@ -5,8 +5,10 @@ import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import { inValidImage } from '../../utils/errorChecker';
 import { updateFile } from '../../utils/images';
 import * as sessionActions from '../../store/session';
+import * as groupActions from '../../store/group';
+import * as eventActions from '../../store/event';
 
-function EditUserForm({ user }) {
+function EditUserForm({ user, ownedGroups, hostedEvents }) {
   const dispatch = useDispatch();
   const [image, setImage] = useState(user.profileImageUrl);
   const [firstName, setFirstName] = useState(user.firstName);
@@ -36,6 +38,8 @@ function EditUserForm({ user }) {
       enabledSubmitButton();
       setErrors({ password: "The provided credentials were invalid" });
     } else {
+      ownedGroups.forEach(group => dispatch(groupActions.removeGroupDetails(group.id)));
+      hostedEvents.forEach(event => dispatch(eventActions.removeEventDetails(event.id)));
       setModalContent(<h2 className="subheading alert-success">Successully Updated!</h2>);
     }
   };

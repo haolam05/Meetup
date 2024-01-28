@@ -95,6 +95,7 @@
   height: 40px;
   position: relative;
   bottom: 20px;
+  border-radius: 10px;
 }
 
 .group-avatar-container {
