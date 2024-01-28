@@ -55,7 +55,7 @@ async function editGroupImage(req, res, next) {
 
   const { preview } = req.body;
   const url = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
-  const updatedImage = await groupImage.update({ url, preview });
+  const updatedImage = await groupImage.update({ url: url ? url : groupImage.url, preview });
 
   res.json({
     id: updatedImage.id,

@@ -56,7 +56,7 @@ async function editEventImage(req, res, next) {
 
   const { preview } = req.body;
   const url = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
-  const updatedEventImage = await eventImage.update({ url, preview });
+  const updatedEventImage = await eventImage.update({ url: url ? url : eventImage.url, preview });
   res.json({
     id: updatedEventImage.id,
     url: updatedEventImage.url,

@@ -52,7 +52,7 @@ function ProfileButton({ user }) {
     <div id="profile-btns">
       {user && user.profileImageUrl ? (
         <div id="userMenu" className="avatar" onClick={toggleMenu}>
-          <img src={user.profileImageUrl} alt="avater" />
+          <img src={user.profileImageUrl} alt="avatar" />
         </div>
       ) : (
         <button id="userMenu" onClick={toggleMenu}>
