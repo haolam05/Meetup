@@ -93,6 +93,42 @@ async function editUser(req, res, next) {
   });
 }
 
+function validateEditUserPassword() {
+  return [
+    check('password')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 6 })
+      .withMessage('Password is required (minimum of 6 characters)'),
+    check('newPassword')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 6 })
+      .withMessage('New Password is required (minimum of 6 characters)'),
+    handleValidationErrors
+  ];
+}
+
+async function editUserPassword(req, res, next) {
+  const { password, newPassword } = req.body;
+
+  const user = await User.findByPk(req.user.id, {
+    attributes: {
+      include: ['hashedPassword']
+    }
+  });
+
+  if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+    const err = authenticateError('Invalid credentials');
+    return next(err);
+  }
+
+  await user.update({ hashedPassword: bcrypt.hashSync(newPassword) });
+
+  res.clearCookie('token');
+  res.json({
+    message: "Successfully updated"
+  });
+}
+
 async function deleteUser(req, res, next) {
   const { userId } = req.params;
 
@@ -117,7 +153,9 @@ async function deleteUser(req, res, next) {
 
 module.exports = {
   validateSignup,
+  validateEditUserPassword,
   signUp,
   editUser,
+  editUserPassword,
   deleteUser
 }

@@ -86,10 +86,10 @@ function UserProfile() {
             </div>
             <div id="event-line-break"></div>
             <div id="user-btns">
-              {/* <OpenModalButton
+              <OpenModalButton
                 buttonText="Change Password"
-                modalComponent={<EditUserPasswordForm user={user} />}
-              /> */}
+                modalComponent={<EditUserPasswordForm />}
+              />
               <OpenModalButton
                 buttonText="Update"
                 modalComponent={<EditUserForm user={user} ownedGroups={ownedGroups} hostedEvents={hostedEvents} />}

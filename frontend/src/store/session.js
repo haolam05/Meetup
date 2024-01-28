@@ -86,6 +86,20 @@ export const updateUser = payload => async dispatch => {
   dispatch(createSession(data));
 };
 
+export const updateUserPassword = payload => async dispatch => {
+  const response = await csrfFetch(`/api/users/password`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const data = await response.json();
+  if (!response.ok) return data.errors ? data : { errors: data };
+
+  dispatch(deleteSession());
+};
+
 export const deleteUser = userId => async dispatch => {
   const response = await csrfFetch(`/api/users/${userId}`, {
     method: 'DELETE'

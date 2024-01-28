@@ -9,6 +9,7 @@ router
   .post(singleMulterUpload("image"), userController.validateSignup(), userController.signUp)
   .put(requireAuth, singleMulterUpload("image"), userController.validateSignup(), userController.editUser);
 
+router.put('/password', requireAuth, userController.validateEditUserPassword(), userController.editUserPassword);
 router.delete('/:userId', requireAuth, userController.deleteUser);
 
 module.exports = router;
