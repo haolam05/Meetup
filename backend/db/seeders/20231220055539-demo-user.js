@@ -32,13 +32,13 @@ const emails = [
 const location = 'https://meetup2024.s3.us-west-2.amazonaws.com/public/';
 
 const profileImageUrls = [
-  location + 'avatar1.png',
-  location + 'avatar2.png',
-  location + 'avatar3.png',
-  location + 'avatar4.png',
-  location + 'avatar5.png',
-  location + 'avatar6.png',
-  location + 'avatar7.png'
+  location + 'luffy-avatar.png',
+  location + 'zoro-avatar.jpg',
+  location + 'sanji-avatar.png',
+  location + 'ace-avatar.png',
+  location + 'robin-avatar.jpg',
+  location + 'chopper-avatar.png',
+  location + 'mihawk-avatar.png'
 ]
 
 module.exports = {
