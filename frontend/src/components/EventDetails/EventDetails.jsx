@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { getProfileImageUrl } from '../../utils/images';
 import Loading from '../Loading';
 import Event from '../Event';
 import BackButton from '../BackButton';
@@ -37,7 +38,7 @@ function EventDetails() {
           <h1 className="heading">{event.name}</h1>
           <div className="event-avatar-container">
             <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
-            <div className="event-host-avatar"><img src={event.Group.Organizer.profileImageUrl} alt="avatar" /></div>
+            <div className="event-host-avatar"><img src={getProfileImageUrl(event.Group.Organizer.profileImageUrl)} alt="avatar" /></div>
           </div>
         </div>
         <Event event={event} user={user} details={true} userEvents={userEvents} />

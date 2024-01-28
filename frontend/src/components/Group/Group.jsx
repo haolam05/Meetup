@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPreviewImageUrl } from '../../utils/images';
+import { getPreviewImageUrl, getProfileImageUrl } from '../../utils/images';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
 import "./Group.css";
@@ -50,7 +50,7 @@ function Group({ group, user = false, description = true, organizer = false, use
           {organizer && (
             <div id="group-organizer" className="group-avatar-container">
               <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
-              <div className="group-organizer-avatar" ><img src={group?.Organizer.profileImageUrl} alt="avatar" /></div>
+              <div className="group-organizer-avatar" ><img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" /></div>
             </div>
           )}
         </div>
