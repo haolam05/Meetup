@@ -63,7 +63,7 @@ const setPagination = (page, size) => ({
   size
 });
 
-const reset = () => ({
+export const reset = () => ({
   type: RESET
 });
 

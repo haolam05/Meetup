@@ -1,4 +1,6 @@
 import { csrfFetch } from './csrf';
+import * as groupActions from './group';
+import * as eventActions from './event';
 
 const CREATE_SESSION = '/session/CREATE_SESSION';
 const DELETE_SESSION = '/session/DELETE_SESSION';
@@ -92,6 +94,8 @@ export const deleteUser = userId => async dispatch => {
   if (response.ok) {
     const data = await response.json();
     dispatch(deleteSession());
+    dispatch(groupActions.reset());
+    dispatch(eventActions.reset());
     return data;
   }
 };
