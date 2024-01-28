@@ -48,8 +48,9 @@ function Group({ group, user = false, description = true, organizer = false, use
             <span className="group-status">{group.private ? "Private" : "Public"}</span>
           </div>
           {organizer && (
-            <div id="group-organizer">
-              Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}
+            <div id="group-organizer" className="group-avatar-container">
+              <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
+              <div className="group-organizer-avatar" ><img src={group?.Organizer.profileImageUrl} alt="avatar" /></div>
             </div>
           )}
         </div>

@@ -22,3 +22,16 @@
 #event-header span {
   color: var(--gray)
 }
+
+.event-host-avatar>img {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  bottom: 5px;
+}
+
+.event-avatar-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

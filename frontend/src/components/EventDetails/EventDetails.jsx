@@ -35,7 +35,10 @@ function EventDetails() {
         <BackButton url="/events" />
         <div id="event-header">
           <h1 className="heading">{event.name}</h1>
-          <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
+          <div className="event-avatar-container">
+            <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
+            <div className="event-host-avatar"><img src={event.Group.Organizer.profileImageUrl} alt="avatar" /></div>
+          </div>
         </div>
         <Event event={event} user={user} details={true} userEvents={userEvents} />
         <div id="event-details-wrapper">
