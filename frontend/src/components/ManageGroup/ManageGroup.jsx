@@ -38,6 +38,8 @@ function ManageGroup({ group, user }) {
             <span className="group-num-events">{group.numEvents} event{group.numEvents > 1 ? 's' : ''}</span>
             <span className="group-dot">.</span>
             <span className="group-status">{group.private ? "Private" : "Public"}</span>
+            <span className="group-dot">.</span>
+            <span>{group.type}</span>
           </div>
         </div>
         {user && (
