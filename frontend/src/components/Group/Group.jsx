@@ -46,6 +46,8 @@ function Group({ group, user = false, description = true, organizer = false, use
             <span className="group-num-events">{group.numEvents} event{group.numEvents > 1 ? 's' : ''}</span>
             <span className="group-dot">.</span>
             <span className="group-status">{group.private ? "Private" : "Public"}</span>
+            <span className="group-dot">.</span>
+            <span>{group.type}</span>
           </div>
           {organizer && (
             <div id="group-organizer" className="group-avatar-container">
