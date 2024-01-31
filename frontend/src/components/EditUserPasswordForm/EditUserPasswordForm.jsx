@@ -77,7 +77,7 @@ function EditUserPasswordForm() {
         />
         {errors.confirmNewPassword && <p className="error-message">{errors.confirmNewPassword}</p>}
         <button
-          className={`btn-primary ${inputIsInValid() ? '' : 'enabled'}`}
+          className={`btn-primary ${inputIsInValid() ? 'disabled' : 'enabled'}`}
           type="submit"
           disabled={inputIsInValid()}
         >

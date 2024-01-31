@@ -111,7 +111,7 @@ function SignupFormPage() {
         <input type="file" onChange={e => updateFile(e, setImage)} />
         {errors.image && <p className="error-message">{errors.image}</p>}
         <button
-          className={`btn-primary ${inputIsInValid() ? '' : 'enabled'}`}
+          className={`btn-primary ${inputIsInValid() ? 'disabled' : 'enabled'}`}
           type="submit"
           disabled={inputIsInValid()}
         >

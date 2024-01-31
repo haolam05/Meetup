@@ -53,7 +53,7 @@ function LoginFormPage() {
         />
         {errors.credential && <p className="error-message">{errors.credential}</p>}
         <button
-          className={`btn-primary ${inputIsInValid() ? '' : 'enabled'}`}
+          className={`btn-primary ${inputIsInValid() ? 'disabled' : 'enabled'}`}
           type="submit"
           disabled={inputIsInValid()}
         >
