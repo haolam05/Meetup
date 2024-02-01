@@ -1,12 +1,15 @@
+import { useState } from "react";
 import "./ImageSlider.css";
 
-function ImageSlider({ images, slide, setSlide }) {
+function ImageSlider({ images }) {
+  const [slide, setSlide] = useState(0);
+
   const handleClick = () => {
     const image = document.querySelector('.slider-image>img');
-    if (!image.classList.contains("slide-up")) {
+    if (!image.classList.contains("fade")) {
       nextSlide(image);
-      image.classList.add("slide-up");
-      setTimeout(() => image.classList.remove("slide-up"), 1500);
+      image.classList.add("fade");
+      setTimeout(() => image.classList.remove("fade"), 1500);
     }
   }
 
@@ -17,16 +20,11 @@ function ImageSlider({ images, slide, setSlide }) {
   }
 
   return (
-    <>
-      <div className="group-thumbnail slider-image">
-        <img
-          src={images[slide].url}
-          alt="image"
-          className="fade"
-          onClick={handleClick}
-        />
-      </div>
-    </>
+    <img
+      src={images[slide].url}
+      alt="image"
+      onClick={handleClick}
+    />
   );
 }
 

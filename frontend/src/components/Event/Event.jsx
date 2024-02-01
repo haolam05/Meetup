@@ -4,9 +4,10 @@ import { getPreviewImageUrl } from "../../utils/images";
 import { formatPrice } from "../../utils/priceFormatter";
 import OpenModalButton from '../OpenModalButton';
 import DeleteEvent from '../DeleteEvent';
+import ImageSlider from '../ImageSlider';
 import "./Event.css";
 
-function Event({ event, user = false, details = false, userEvents = [] }) {
+function Event({ event, user = false, details = false, userEvents = [], showSlider = false }) {
   const navigate = useNavigate();
 
   if (!details) return (
@@ -30,7 +31,13 @@ function Event({ event, user = false, details = false, userEvents = [] }) {
   return (
     <div id="event" className="event">
       <div id="event-image">
-        <img src={getPreviewImageUrl(event)} alt="preview-image" />
+        {showSlider ? (
+          <span className="slider-image">
+            <ImageSlider images={event.EventImages} />
+          </span>
+        ) : (
+          <img src={getPreviewImageUrl(event)} alt="preview-image" />
+        )}
       </div>
       <div id="event-text">
         <div className="group details" onClick={() => navigate(`/groups/${event.Group.id}`)}>

@@ -11,7 +11,6 @@ function Group({ group, user = false, description = true, organizer = false, use
   const navigate = useNavigate();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
-  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     if (updateGroupBtn) {
@@ -30,11 +29,9 @@ function Group({ group, user = false, description = true, organizer = false, use
     >
       <div className="group-image">
         {showSlider ? (
-          <ImageSlider
-            images={group.GroupImages}
-            slide={slide}
-            setSlide={setSlide}
-          />
+          <div className="group-thumbnail slider-image">
+            <ImageSlider images={group.GroupImages} />
+          </div>
         ) : (
           <img
             className="group-thumbnail"

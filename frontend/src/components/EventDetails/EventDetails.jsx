@@ -5,6 +5,7 @@ import { getProfileImageUrl } from '../../utils/images';
 import Loading from '../Loading';
 import Event from '../Event';
 import BackButton from '../BackButton';
+import AttendanceStatus from '../AttendanceStatus';
 import * as sessionActions from '../../store/session';
 import * as eventActions from '../../store/event';
 import './EventDetails.css';
@@ -35,13 +36,24 @@ function EventDetails() {
       <div id="lists">
         <BackButton url="/events" />
         <div id="event-header">
-          <h1 className="heading">{event.name}</h1>
+          <h1 className="heading">{event.name} {<AttendanceStatus user={user} event={event} />}</h1>
           <div className="event-avatar-container">
             <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
             <div className="event-host-avatar"><img src={getProfileImageUrl(event.Group.Organizer.profileImageUrl)} alt="avatar" /></div>
           </div>
         </div>
-        <Event event={event} user={user} details={true} userEvents={userEvents} />
+        <Event
+          event={event}
+          user={user}
+          details={true}
+          userEvents={userEvents}
+          showSlider={  // only show event images if group is public, or user is host/co-host, or user is an attendee (not pending or waitlist)
+            !event.Group.private || (user &&                                  // group is public
+              (event.Group.organizerId === user.id) ||                        // user is host
+              event.Group.members.find(m => m.id === user.id && m.Membership.status === 'co-host') ||    // user is a co-host
+              event.attendees.find(attendee => attendee.id === user.id))      // user is an attendee
+          }
+        />
         <div id="event-details-wrapper">
           <h2 className="subheading">Details</h2>
           <p>{event.description}</p>

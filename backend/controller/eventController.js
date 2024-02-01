@@ -112,12 +112,13 @@ async function getEvent(req, res, next) {
     return next(err);
   }
 
-  const numAttending = (await event.getUsers()).length;
+  const attendees = (await event.getUsers()).filter(attendee => attendee.Attendance.status === 'attending');
+  const numAttending = attendees.length;
   const group = await Group.findByPk(event.groupId, { attributes: ['id', 'name', 'private', 'city', 'state'] });
   const venue = await Venue.findByPk(event.venueId, { attributes: { exclude: ['groupId'] } });
   const images = await event.getEventImages({ attributes: ['id', 'url', 'preview'] });
 
-  res.json({ ...event.toJSON(), numAttending, Group: group, Venue: venue, EventImages: images });
+  res.json({ ...event.toJSON(), numAttending, attendees, Group: group, Venue: venue, EventImages: images });
 }
 
 function createEventValidation() {
