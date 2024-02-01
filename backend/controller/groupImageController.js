@@ -64,7 +64,21 @@ async function editGroupImage(req, res, next) {
   });
 }
 
+async function getGroupImages(req, res, next) {
+  const group = await Group.findByPk(req.params.groupId);
+  if (group.organizerId !== req.user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  const images = await GroupImage.findAll({ where: { groupId: req.params.groupId } });
+  res.json({
+    Images: images,
+  });
+}
+
 module.exports = {
+  getGroupImages,
   createGroupImage,
   editGroupImage,
   deleteGroupImage

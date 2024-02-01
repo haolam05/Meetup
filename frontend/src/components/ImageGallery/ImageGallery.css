@@ -1,0 +1,15 @@
+.gallery-header {
+  color: var(--teal);
+  padding: 20px 0;
+}
+
+.gallery-caption {
+  align-self: flex-start;
+  color: var(--gray);
+  text-shadow: var(--light-yellow) 1px 0 10px;
+  font-style: italic;
+}
+
+.group.details.gallery {
+  grid-template-columns: 1fr;
+}

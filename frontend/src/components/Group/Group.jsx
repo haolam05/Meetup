@@ -11,6 +11,7 @@ function Group({ group, user = false, description = true, organizer = false, use
   const navigate = useNavigate();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
+  const [viewGalleryBtn, setViewGalleryBtn] = useState(false);
 
   useEffect(() => {
     if (updateGroupBtn) {
@@ -20,7 +21,11 @@ function Group({ group, user = false, description = true, organizer = false, use
     if (createEventBtn) {
       navigate(`/groups/${group.id}/events/new`, { replace: true });
     }
-  }, [updateGroupBtn, createEventBtn, group.id, navigate]);
+
+    if (viewGalleryBtn) {
+      navigate(`/groups/${group.id}/images`, { replace: true });
+    }
+  }, [updateGroupBtn, createEventBtn, viewGalleryBtn, group.id, navigate]);
 
   return (
     <div
@@ -76,6 +81,7 @@ function Group({ group, user = false, description = true, organizer = false, use
               <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
               <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
               <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
+              <button className="btn-accent" onClick={() => setViewGalleryBtn(true)}>Gallery</button>
             </div>
           )
         )

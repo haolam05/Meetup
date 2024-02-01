@@ -5,6 +5,7 @@ import * as eventActions from './event';
 
 const LOAD_USER_GROUPS = '/groups/LOAD_USER_GROUPS';
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
+const LOAD_GROUP_IMAGES = '/groups/LOAD_GROUP_IMAGES';
 const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
@@ -55,6 +56,12 @@ const addUserGroup = group => ({
 export const removeGroupDetails = groupId => ({
   type: REMOVE_GROUP_DETAILS,
   groupId
+});
+
+const getGroupImages = (groupId, images) => ({
+  type: LOAD_GROUP_IMAGES,
+  groupId,
+  images
 });
 
 const setPagination = (page, size) => ({
@@ -135,7 +142,8 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
 };
 
 export const loadGroupDetails = groupId => async (dispatch, getState) => {
-  if (getState().group.groupDetails[groupId]) return;
+  // if no id exists, it means groupDetails on have groupImages loaded from loadGroupImages
+  if (getState().group.groupDetails[groupId]?.id) return;
 
   const response1 = await csrfFetch(`/api/groups/${groupId}`);
 
@@ -295,7 +303,22 @@ export const deleteGroup = groupId => async dispatch => {
   }
 };
 
+export const loadGroupImages = groupId => async (dispatch, getState) => {
+  if (getState().group.groupDetails[groupId]) return;
+
+  const response = await csrfFetch(`/api/groups/${groupId}/images`);
+  if (response.ok) {
+    const images = await response.json();
+    dispatch(getGroupImages(groupId, images.Images));
+  }
+};
+
 // Custom selectors
+export const getCurrentGroupImages = groupId => createSelector(
+  state => state.group.groupDetails,
+  group => group[groupId]?.GroupImages
+);
+
 export const getCurrentUserGroups = createSelector(
   state => state.group.userGroups,
   groups => Object.values(groups)
@@ -361,6 +384,17 @@ function groupReducer(state = initialState, action) {
           ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {})
         }
       };
+    case LOAD_GROUP_IMAGES:
+      return {
+        ...state,
+        groupDetails: {
+          ...state.groupDetails,
+          [action.groupId]: {
+            ...state.groupDetails[action.groupId],
+            GroupImages: action.images
+          }
+        }
+      }
     case ADD_GROUP_DETAILS:
       return {
         ...state,
