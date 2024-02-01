@@ -17,7 +17,7 @@ function GroupImages() {
       setIsLoaded(true);
     }
     loadGroupImages();
-  }, [dispatch]);
+  }, [dispatch, groupId]);
 
   if (!isLoaded) return <Loading />;
   if (!images) return;

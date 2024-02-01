@@ -602,6 +602,47 @@ Creates and returns a new group.
     }
     ```
 
+### Get all Images of a Group based on the Group's id
+
+Get and return a all images for a group specified by id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must be the organizer for the group
+* Request
+  * Method: GET
+  * URL: /api/groups/:groupId/images
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Images": [
+        "id": 1,
+        "url": "image url",
+        "preview": true
+      ]
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
+    }
+    ```
+
 ### Add an Image to a Group based on the Group's id
 
 Create and return a new image for a group specified by id.

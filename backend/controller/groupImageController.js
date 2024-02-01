@@ -66,6 +66,12 @@ async function editGroupImage(req, res, next) {
 
 async function getGroupImages(req, res, next) {
   const group = await Group.findByPk(req.params.groupId);
+
+  if (!group) {
+    const err = notFoundError("Group couldn't be found");
+    return next(err);
+  }
+
   if (group.organizerId !== req.user.id) {
     const err = forbiddenError();
     return next(err);
