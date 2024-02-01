@@ -40,7 +40,8 @@ function GroupDetails() {
           user={user}
           userGroups={userGroups}
           description={false}
-          organizer={true}
+          organizer={true}  // only show group images if group is public, or user is organizer, or user is a member (not pending)
+          showSlider={!group.private || (user && (group.organizerId == user.id || group.members.find(member => member.id === user.id)))}
         />
         <div id="group-details">
           <div id="group-details-header">

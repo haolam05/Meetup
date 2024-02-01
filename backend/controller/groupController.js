@@ -26,8 +26,9 @@ async function getGroup(req, res, next) {
     return next(err);
   }
 
-  const numMembers = (await group.getMembers()).length;
-  group = { ...group.toJSON(), numMembers };
+  const members = (await group.getMembers()).filter(member => ['co-host', 'member'].includes(member.Membership.status));
+  const numMembers = members.length;
+  group = { ...group.toJSON(), numMembers, members };
 
   res.json(group);
 }

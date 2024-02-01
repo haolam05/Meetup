@@ -1,0 +1,20 @@
+.label-breakdown {
+  display: flex;
+  gap: 20px;
+}
+
+.label-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+  text-shadow: var(--light-yellow) 1px 0 10px;
+  color: var(--gray);
+  font-style: italic;
+}

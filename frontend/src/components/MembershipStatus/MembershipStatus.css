@@ -1,0 +1,14 @@
+.owner i {
+  font-size: xx-large;
+  color: var(--green);
+}
+
+.co-host i {
+  font-size: xx-large;
+  color: var(--yellow);
+}
+
+.member i {
+  font-size: xx-large;
+  color: var(--blue);
+}

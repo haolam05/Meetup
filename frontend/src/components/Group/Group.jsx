@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { getPreviewImageUrl, getProfileImageUrl } from '../../utils/images';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
+import ImageSlider from '../ImageSlider';
+import MembershipStatus from '../MembershipStatus';
 import "./Group.css";
 
-function Group({ group, user = false, description = true, organizer = false, userGroups = [] }) {
+function Group({ group, user = false, description = true, organizer = false, userGroups = [], showSlider = false }) {
   const navigate = useNavigate();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
+  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     if (updateGroupBtn) {
@@ -26,16 +29,24 @@ function Group({ group, user = false, description = true, organizer = false, use
       onClick={() => navigate(`/groups/${group.id}`, { replace: true })}
     >
       <div className="group-image">
-        <img
-          className="group-thumbnail"
-          src={getPreviewImageUrl(group)}
-          alt="preview-image"
-        />
+        {showSlider ? (
+          <ImageSlider
+            images={group.GroupImages}
+            slide={slide}
+            setSlide={setSlide}
+          />
+        ) : (
+          <img
+            className="group-thumbnail"
+            src={getPreviewImageUrl(group)}
+            alt="preview-image"
+          />
+        )}
       </div>
       <div id="group-text-wrapper">
         <div className="group-text">
           {organizer ?
-            <h1 className="group-name heading">{group.name}</h1> :
+            <h1 className="group-name heading">{group.name} {<MembershipStatus user={user} group={group} />}</h1> :
             <h2 className="group-name subheading">{group.name}</h2>
           }
           <div className="group-location">{group.city}, {group.state}</div>

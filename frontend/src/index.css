@@ -8,6 +8,9 @@
   --teal: #00525E;
   --light-teal: #E8F0FE;
   --light-yellow: #DEC963;
+  --yellow: rgb(171, 150, 2);
+  --green: rgb(0, 150, 0);
+  --blue: rgb(0, 150, 188);
   --brown: rgb(122, 43, 29);
   --dark-brown: rgb(110, 75, 75);
 }
@@ -44,8 +47,12 @@ button {
   border-radius: 5px;
 }
 
-button.disabled {
-  background-color: var(--light-gray);
+button.disabled:hover {
+  opacity: .5;
+  background-color: var(--white);
+  color: var(--red);
+  border: 1px solid var(--red);
+  cursor: not-allowed;
 }
 
 .btn-accent {
