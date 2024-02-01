@@ -9,9 +9,11 @@ const LOAD_GROUP_IMAGES = '/groups/LOAD_GROUP_IMAGES';
 const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
+const ADD_GROUP_IMAGE = '/groups/ADD_GROUP_IMAGE';
 // const REMOVE_GROUP = '/groups/REMOVE_GROUP';
 // const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
+const REMOVE_GROUP_IMAGE = '/groups/REMOVE_GROUP_IMAGE';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 const RESET = '/groups/RESET';
 const RESET_USER_GROUPS = '/groups/RESET_USER_GROUPS';
@@ -43,6 +45,12 @@ const addUserGroup = group => ({
   group
 });
 
+const addGroupImage = (groupId, image) => ({
+  type: ADD_GROUP_IMAGE,
+  groupId,
+  image
+})
+
 // const removeGroup = groupId => ({
 //   type: REMOVE_GROUP,
 //   groupId
@@ -62,6 +70,12 @@ const getGroupImages = (groupId, images) => ({
   type: LOAD_GROUP_IMAGES,
   groupId,
   images
+});
+
+const removeGroupImage = (groupId, imageId) => ({
+  type: REMOVE_GROUP_IMAGE,
+  groupId,
+  imageId
 });
 
 const setPagination = (page, size) => ({
@@ -313,6 +327,36 @@ export const loadGroupImages = groupId => async (dispatch, getState) => {
   }
 };
 
+export const loadGroupImage = payload => async dispatch => {
+  const { image, groupId } = payload;
+  const formData = new FormData();
+  formData.append("image", image);
+  formData.append("preview", true);
+
+  const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (response.ok) {
+    const image = await response.json();
+    dispatch(addGroupImage(groupId, image));
+    return image;
+  }
+}
+
+export const deleteGroupImage = (groupId, imageId) => async dispatch => {
+  const response = await csrfFetch(`/api/group-images/${imageId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(removeGroupImage(groupId, imageId));
+    return data;
+  }
+};
+
 // Custom selectors
 export const getCurrentGroupImages = groupId => createSelector(
   state => state.group.groupDetails,
@@ -419,6 +463,20 @@ function groupReducer(state = initialState, action) {
           [action.group.id]: action.group
         }
       };
+    case ADD_GROUP_IMAGE:
+      return {
+        ...state,
+        groupDetails: {
+          ...state.groupDetails,
+          [action.groupId]: {
+            ...state.groupDetails[action.groupId],
+            GroupImages: [
+              ...state.groupDetails[action.groupId].GroupImages,
+              action.image
+            ]
+          }
+        }
+      }
     // case REMOVE_GROUP: {
     //   const newState = { ...state };
     //   delete newState.groups[action.groupId];
@@ -432,6 +490,12 @@ function groupReducer(state = initialState, action) {
     case REMOVE_GROUP_DETAILS: {
       const newState = { ...state };
       delete newState.groupDetails[action.groupId];
+      return newState;
+    }
+    case REMOVE_GROUP_IMAGE: {
+      const newState = { ...state };
+      const images = newState.groupDetails[action.groupId].GroupImages;
+      newState.groupDetails[action.groupId].GroupImages = images.filter(image => image.id !== action.imageId);
       return newState;
     }
     case SET_PAGINATION:

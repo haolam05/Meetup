@@ -1,0 +1,15 @@
+.gallery-btn {
+  border: none;
+}
+
+.gallery-btn:hover {
+  background-color: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray);
+}
+
+.gallery-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}

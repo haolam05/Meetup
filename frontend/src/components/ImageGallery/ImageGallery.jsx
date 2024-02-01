@@ -1,7 +1,11 @@
+import { useModal } from "../../context/Modal";
 import BackButton from "../BackButton";
+import ImageActionsModal from "../ImageActionsModal/ImageActionsModal";
 import "./ImageGallery.css";
 
 function ImageGallery({ groupId, images }) {
+  const { setModalContent } = useModal();
+
   return (
     <div id="lists-container">
       <div id="lists">
@@ -13,7 +17,11 @@ function ImageGallery({ groupId, images }) {
           {images.map(image => (
             <div className="group-image gallery-image" key={image.id}>
               <div className="group-thumbnail gallery-thumbnail">
-                <img src={image.url} alt="gallery-image" />
+                <img
+                  src={image.url}
+                  alt="gallery-image"
+                  onClick={() => setModalContent(<ImageActionsModal groupId={groupId} imageId={image.id} />)}
+                />
               </div>
             </div>
           ))}

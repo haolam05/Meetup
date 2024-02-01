@@ -1,0 +1,14 @@
+.image-form-modal form {
+  margin: 20px 0;
+}
+
+.image-form-modal form button {
+  margin: 0;
+  margin-top: 20px;
+}
+
+.image-form-modal form button:hover {
+  background-color: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
