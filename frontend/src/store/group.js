@@ -394,7 +394,8 @@ export const deleteMember = (groupId, memberId, status) => async dispatch => {
 
   if (response.ok) {
     const data = await response.json();
-    status === "co-host" ? dispatch(resetMembers()) : dispatch(removeMember(groupId, memberId));
+    dispatch(removeMember(groupId, memberId));
+    if (status === "co-host") dispatch(resetMembers());
     dispatch(resetGroupDetails());
     dispatch(resetUserGroups());
     dispatch(eventActions.resetEventDetails());

@@ -2,7 +2,6 @@ import { getPreviewImageUrl } from "../../utils/images";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useModal } from "../../context/Modal";
 import OpenModalButton from "../OpenModalButton";
 import DeleteGroup from "../DeleteGroup";
 import Loading from "../Loading";
@@ -14,7 +13,6 @@ import "./ManageGroup.css";
 function ManageGroup({ group, user }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setModalContent } = useModal();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const userGroups = useSelector(groupActions.getCurrentUserGroups);
@@ -33,17 +31,10 @@ function ManageGroup({ group, user }) {
     loadInfo();
   }, [dispatch, user])
 
-  const removeMember = status => async e => {
-    e.preventDefault();
-    await dispatch(groupActions.deleteMember(group.id, user.id, status));
-    setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
-    navigate(`/groups`, { replace: true });
-  }
-
   function RegularButtons() {
-    const user = userGroups.find(userGroup => userGroup.id === group.id);
-    if (user.Membership.status === "pending") return <PendingBtn />
-    return <UnjoinGroupBtn removeMember={removeMember(user.Membership.status)} />;
+    const userGroup = userGroups.find(userGroup => userGroup.id === group.id);
+    if (userGroup.Membership.status === "pending") return <PendingBtn />
+    return <UnjoinGroupBtn group={group} user={user} status={userGroup.Membership.status} />;
   }
 
   function OwnerButtons() {

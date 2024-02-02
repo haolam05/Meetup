@@ -1,8 +1,6 @@
-import { useModal } from '../../context/Modal';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPreviewImageUrl, getProfileImageUrl } from '../../utils/images';
-import { useDispatch } from 'react-redux';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
 import ImageSlider from '../ImageSlider';
@@ -10,29 +8,24 @@ import MembershipStatus from '../MembershipStatus';
 import UnjoinGroupBtn from '../UnjoinGroupBtn';
 import PendingBtn from '../PendingBtn';
 import JoinGroupBtn from '../JoinGroupBtn';
-import * as groupActions from "../../store/group";
 import "./Group.css";
 
 function Group({ group, user = false, description = true, organizer = false, userGroups = [], showSlider = false }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { setModalContent } = useModal();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
   const [viewGalleryBtn, setViewGalleryBtn] = useState(false);
 
-  const removeMember = status => async e => {
-    e.preventDefault();
-    await dispatch(groupActions.deleteMember(group.id, user.id, status));
-    setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
-    navigate(`/groups`, { replace: true });
-  }
-
   function RegularButtons() {
-    const user = userGroups.find(userGroup => userGroup.id === group.id);
-    if (!user) return <JoinGroupBtn />
-    if (user.Membership.status === "pending") return <PendingBtn />
-    if (['member', 'co-host'].includes(user.Membership.status)) return <UnjoinGroupBtn removeMember={removeMember(user.Membership.status)} />;
+    const userGroup = userGroups.find(userGroup => userGroup.id === group.id);
+
+    if (!userGroup) return <JoinGroupBtn />
+    if (userGroup.Membership.status === "pending") return <PendingBtn />
+    if (['member', 'co-host'].includes(userGroup.Membership.status)) return <UnjoinGroupBtn
+      group={group}
+      user={user}
+      status={userGroup.Membership.status}
+    />;
   }
 
   function OwnerButtons() {
