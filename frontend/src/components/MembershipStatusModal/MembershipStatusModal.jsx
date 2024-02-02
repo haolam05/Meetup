@@ -1,6 +1,16 @@
+import { useNavigate } from "react-router-dom";
+import { useModal } from "../../context/Modal";
 import "./MembershipStatusModal.css";
+function MembershipStatusModal({ groupId }) {
 
-function MembershipStatusModal() {
+  const navigate = useNavigate();
+  const { closeModal } = useModal();
+
+  const viewMembers = () => {
+    closeModal();
+    navigate(`/groups/${groupId}/members`, { replace: true });
+  }
+
   return (
     <>
       <h2 className="subheading">Membership status</h2>
@@ -16,6 +26,7 @@ function MembershipStatusModal() {
           <div>Member</div>
         </div>
       </div>
+      <button className="btn-primary view-members-btn" onClick={viewMembers}>View Members</button>
     </>
   );
 }

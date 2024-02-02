@@ -14,7 +14,7 @@ async function getGroupMembers(req, res, next) {
   }
 
   let members = await group.getMembers({ attributes: { exclude: ['username'] } });
-  members = members.map(m => ({ id: m.id, firstName: m.firstName, lastName: m.lastName, Membership: { status: m.Membership.status } }));
+  members = members.map(m => ({ id: m.id, firstName: m.firstName, lastName: m.lastName, profileImageUrl: m.profileImageUrl, Membership: { status: m.Membership.status } }));
   if (req.user) {
     const notAuthorized = await checkUserRole(group, req.user.id);
     if (notAuthorized) members = members.filter(member => member.Membership.status != 'pending')

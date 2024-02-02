@@ -83,7 +83,6 @@ function Group({ group, user = false, description = true, organizer = false, use
                 <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
                 <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
                 <button className="btn-accent" onClick={() => setViewGalleryBtn(true)}>Gallery</button>
-                {/* <button className="btn-accent"></button> */}
               </>
             )
           )}

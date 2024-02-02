@@ -16,6 +16,7 @@ import EditEvent from './components/EditEvent';
 import UserProfile from './components/UserProfile/UserProfile';
 import GroupImages from './components/GroupImages';
 import EventImages from './components/EventImages';
+import GroupMembers from './components/GroupMembers';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: 'groups/:groupId/images',
         element: <GroupImages />
+      },
+      {
+        path: 'groups/:groupId/members',
+        element: <GroupMembers />
       },
       {
         path: 'events',

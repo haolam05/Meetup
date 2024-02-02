@@ -1,0 +1,53 @@
+.member-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 5fr;
+  grid-gap: 30px;
+  border-top: 3px solid var(--light-gray);
+  padding: 20px 0;
+}
+
+.member-avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+.member-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: gray;
+}
+
+.membership.member {
+  display: flex;
+  gap: 40px;
+}
+
+.membership-labels,
+.membership-data {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.membership-btns {
+  display: flex;
+}
+
+.membership-btns button {
+  border: none;
+  flex-grow: 1;
+}
+
+.membership-btns button:hover {
+  background-color: transparent;
+  color: var(--dark-gray);
+  border: 1px solid var(--dark-gray);
+}

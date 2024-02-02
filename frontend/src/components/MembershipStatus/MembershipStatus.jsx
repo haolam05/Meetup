@@ -9,7 +9,7 @@ function MembershipStatus({ user, group }) {
     if (group.organizerId === user.id) {
       return <span
         className="owner"
-        onClick={() => setModalContent(<MembershipStatusModal />)}
+        onClick={() => setModalContent(<MembershipStatusModal groupId={group.id} />)}
       >
         <i className="fa-solid fa-user-check"></i>
       </span>
@@ -19,7 +19,7 @@ function MembershipStatus({ user, group }) {
     if (member.Membership.status === 'co-host') {
       return <span
         className="co-host"
-        onClick={() => setModalContent(<MembershipStatusModal />)}
+        onClick={() => setModalContent(<MembershipStatusModal groupId={group.id} />)}
       >
         <i className="fa-solid fa-user-check"></i>
       </span>
@@ -27,7 +27,7 @@ function MembershipStatus({ user, group }) {
     if (member.Membership.status === 'member') {
       return <span
         className="member"
-        onClick={() => setModalContent(<MembershipStatusModal />)}
+        onClick={() => setModalContent(<MembershipStatusModal groupId={group.id} />)}
       >
         <i className="fa-solid fa-user-check"></i>
       </span>

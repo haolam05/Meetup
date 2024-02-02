@@ -6,6 +6,7 @@ import * as eventActions from './event';
 const LOAD_USER_GROUPS = '/groups/LOAD_USER_GROUPS';
 const LOAD_GROUPS = '/groups/LOAD_GROUPS';
 const LOAD_GROUP_IMAGES = '/groups/LOAD_GROUP_IMAGES';
+const LOAD_GROUP_MEMBERS = '/groups/LOAD_GROUP_MEMBERS';
 const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
@@ -28,6 +29,12 @@ const getUserGroups = groups => ({
 const getAllGroups = groups => ({
   type: LOAD_GROUPS,
   groups
+});
+
+const getAllGroupMembers = (groupId, members) => ({
+  type: LOAD_GROUP_MEMBERS,
+  groupId,
+  members
 });
 
 const getAllGroupDetails = group => ({
@@ -357,7 +364,22 @@ export const deleteGroupImage = (groupId, imageId) => async dispatch => {
   }
 };
 
+export const loadGroupMembers = groupId => async (dispatch, getState) => {
+  if (getState().group.groupMembers[groupId]) return;
+  const response = await csrfFetch(`/api/groups/${groupId}/members`);
+
+  if (response.ok) {
+    const members = await response.json();
+    dispatch(getAllGroupMembers(groupId, members.Members));
+  }
+};
+
 // Custom selectors
+export const getGroupMembers = groupId => createSelector(
+  state => state.group.groupMembers,
+  members => members[groupId]
+);
+
 export const getCurrentGroupImages = groupId => createSelector(
   state => state.group.groupDetails,
   group => group[groupId]?.GroupImages
@@ -408,7 +430,7 @@ export const getGroupSize = createSelector(
 );
 
 // Reducer
-const initialState = { userGroups: {}, groups: {}, groupDetails: {}, page: 0, size: 0 };
+const initialState = { userGroups: {}, groups: {}, groupDetails: {}, groupMembers: {}, page: 0, size: 0 };
 
 function groupReducer(state = initialState, action) {
   switch (action.type) {
@@ -428,6 +450,14 @@ function groupReducer(state = initialState, action) {
           ...action.groups.reduce((state, group) => (state[group.id] = group) && state, {})
         }
       };
+    case LOAD_GROUP_MEMBERS:
+      return {
+        ...state,
+        groupMembers: {
+          ...state.groupMembers,
+          [action.groupId]: action.members
+        }
+      }
     case LOAD_GROUP_IMAGES:
       return {
         ...state,

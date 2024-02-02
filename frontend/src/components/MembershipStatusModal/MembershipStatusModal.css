@@ -18,3 +18,13 @@
   color: var(--gray);
   font-style: italic;
 }
+
+.view-members-btn {
+  border: none;
+}
+
+.view-members-btn:hover {
+  border: 1px solid var(--red);
+  color: var(--red);
+  background-color: transparent;
+}
