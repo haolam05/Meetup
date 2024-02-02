@@ -7,14 +7,16 @@ import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
 import ImageSlider from '../ImageSlider';
 import MembershipStatus from '../MembershipStatus';
-import ConfirmDeleteForm from '../ConfirmDeleteForm';
+import UnjoinGroupBtn from '../UnjoinGroupBtn';
+import PendingBtn from '../PendingBtn';
+import JoinGroupBtn from '../JoinGroupBtn';
 import * as groupActions from "../../store/group";
 import "./Group.css";
 
 function Group({ group, user = false, description = true, organizer = false, userGroups = [], showSlider = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { closeModal, setModalContent } = useModal();
+  const { setModalContent } = useModal();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
   const [viewGalleryBtn, setViewGalleryBtn] = useState(false);
@@ -26,28 +28,11 @@ function Group({ group, user = false, description = true, organizer = false, use
     navigate(`/groups`, { replace: true });
   }
 
-  function JoinGroupBtn() {
-    return <button id="group-join-btn" className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>;
-  }
-
-  function PendingBtn() {
-    return <button id="group-join-btn" className="btn-accent" onClick={() => setModalContent(<div>
-      <h2 className="subheading alert-success">Your request will be reviewed shortly!</h2>
-    </div>)}>Pending</button>;
-  }
-
-  function UnjoinGroupBtn() {
-    return <OpenModalButton
-      buttonText="Unjoin this group"
-      modalComponent={<ConfirmDeleteForm unjoinGroup={true} deleteCb={removeMember} cancelDeleteCb={closeModal} />}
-    />;
-  }
-
   function RegularButtons() {
     const user = userGroups.find(userGroup => userGroup.id === group.id);
     if (!user) return <JoinGroupBtn />
     if (user.Membership.status === "pending") return <PendingBtn />
-    if (['member', 'co-host'].includes(user.Membership.status)) return <UnjoinGroupBtn />;
+    if (['member', 'co-host'].includes(user.Membership.status)) return <UnjoinGroupBtn removeMember={removeMember} />;
   }
 
   function OwnerButtons() {
