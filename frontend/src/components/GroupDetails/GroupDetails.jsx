@@ -26,7 +26,7 @@ function GroupDetails() {
       setIsLoaded(true);
     }
     loadGroupDetails();
-  }, [dispatch, groupId]);
+  }, [dispatch, groupId, user]);
 
   if (!isLoaded) return <Loading />;
   if (!group) return;

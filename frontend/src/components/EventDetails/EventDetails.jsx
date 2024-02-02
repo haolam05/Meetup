@@ -26,7 +26,7 @@ function EventDetails() {
       setIsLoaded(true);
     }
     loadEventDetails();
-  }, [dispatch, eventId]);
+  }, [dispatch, eventId, user]);
 
   if (!isLoaded) return <Loading />;
   if (!event) return;
