@@ -19,7 +19,7 @@ function GroupForm({ group = {}, title }) {
   const [type, setType] = useState(group.type || "In person");
   const [image, setImage] = useState(group.previewImage || "");
   const [errors, setErrors] = useState({});
-  const { setModalContent } = useModal();
+  const { setModalContent, setOnModalClose } = useModal();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -62,8 +62,13 @@ function GroupForm({ group = {}, title }) {
     }
 
     if (groupData?.errors) {
-      enabledSubmitButton();
+      const { message } = groupData.errors;
+      if (message) {
+        setOnModalClose(() => navigate("/", { replace: true }));
+        setModalContent(<div><h2 className="subheading modal-errors">{message}</h2></div>)
+      }
       setErrors({ ...groupData.errors });
+      enabledSubmitButton();
     } else {
       const verb = Object.values(group).length ? 'Updated' : 'Created';
       setModalContent(<h2 className="subheading alert-success">Successully {verb} Group!</h2>)

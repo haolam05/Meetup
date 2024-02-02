@@ -67,7 +67,7 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
       const { message } = eventData.errors;
       if (message) {
         setOnModalClose(() => navigate("/", { replace: true }));
-        setModalContent(<div><h2 className="subheading">{message}</h2></div>)
+        setModalContent(<div><h2 className="subheading modal-errors">{message}</h2></div>)
       }
       setErrors({ ...eventData.errors });
       if (eventData.errors.name) ref1.current.scrollIntoView();

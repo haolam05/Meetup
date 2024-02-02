@@ -39,7 +39,6 @@ function UserProfile() {
   }, [dispatch]);
 
   if (!isLoaded) return <Loading />
-  if (!user) return;
 
   return (
     <div id="lists-container">

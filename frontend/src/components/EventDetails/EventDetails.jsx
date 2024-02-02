@@ -29,7 +29,6 @@ function EventDetails() {
   }, [dispatch, eventId, user]);
 
   if (!isLoaded) return <Loading />;
-  if (!event) return;
 
   const isPublic = !event.Group.private;
   const isHost = user && event.Group.organizerId === user.id;
