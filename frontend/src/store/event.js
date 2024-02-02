@@ -327,7 +327,7 @@ export const loadEventImage = payload => async dispatch => {
   }
 }
 
-export const deleteEventImage = (eventId, imageId) => async (dispatch, getState) => {
+export const deleteEventImage = (eventId, imageId) => async dispatch => {
   const response = await csrfFetch(`/api/event-images/${imageId}`, {
     method: 'DELETE'
   });
