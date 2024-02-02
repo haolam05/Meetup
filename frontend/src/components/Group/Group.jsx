@@ -69,23 +69,25 @@ function Group({ group, user = false, description = true, organizer = false, use
             </div>
           )}
         </div>
-        {user && (
-          user.id !== group.organizerId ? (
-            userGroups.find(userGroup => userGroup.id === group.id) ? (
-              <button id="group-join-btn" className="btn-accent" onClick={() => alert("Feature coming soon")}>Unjoin this group</button>
+        <div id="event-btns">
+          {user && (
+            user.id !== group.organizerId ? (
+              userGroups.find(userGroup => userGroup.id === group.id) ? (
+                <button id="group-join-btn" className="btn-accent" onClick={() => alert("Feature coming soon")}>Unjoin this group</button>
+              ) : (
+                <button id="group-join-btn" className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>
+              )
             ) : (
-              <button id="group-join-btn" className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>
+              <>
+                <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
+                <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
+                <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
+                <button className="btn-accent" onClick={() => setViewGalleryBtn(true)}>Gallery</button>
+                {/* <button className="btn-accent"></button> */}
+              </>
             )
-          ) : (
-            <div id="event-btns">
-              <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
-              <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
-              <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
-              <button className="btn-accent" onClick={() => setViewGalleryBtn(true)}>Gallery</button>
-            </div>
-          )
-        )
-        }
+          )}
+        </div>
       </div>
     </div>
   );

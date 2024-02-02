@@ -11,7 +11,7 @@ function AttendanceStatus({ user, event }) {
         className="owner"
         onClick={() => setModalContent(<AttendanceStatusModal />)}
       >
-        <i className="fa-solid fa-square-check"></i>
+        <i className="fa-solid fa-user-check"></i>
       </span>
     }
 
@@ -21,7 +21,7 @@ function AttendanceStatus({ user, event }) {
         className="co-host"
         onClick={() => setModalContent(<AttendanceStatusModal />)}
       >
-        <i className="fa-solid fa-square-check"></i>
+        <i className="fa-solid fa-user-check"></i>
       </span>
     }
 
@@ -31,7 +31,7 @@ function AttendanceStatus({ user, event }) {
         className="member"
         onClick={() => setModalContent(<AttendanceStatusModal />)}
       >
-        <i className="fa-solid fa-square-check"></i>
+        <i className="fa-solid fa-user-check"></i>
       </span>
     }
   }

@@ -184,7 +184,14 @@ a:hover {
   text-decoration: underline;
 }
 
-.fa-solid.fa-square-check:hover {
+.fa-solid.fa-user-check {
+  font-size: x-large;
+  position: relative;
+  left: 10px;
+  bottom: 3px;
+}
+
+.fa-solid.fa-user-check:hover {
   cursor: pointer;
-  font-size: xxx-large;
+  font-size: xx-large;
 }

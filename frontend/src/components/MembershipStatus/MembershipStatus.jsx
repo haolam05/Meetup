@@ -11,7 +11,7 @@ function MembershipStatus({ user, group }) {
         className="owner"
         onClick={() => setModalContent(<MembershipStatusModal />)}
       >
-        <i className="fa-solid fa-square-check"></i>
+        <i className="fa-solid fa-user-check"></i>
       </span>
     }
     const member = group.members.find(member => member.id === user.id);
@@ -21,7 +21,7 @@ function MembershipStatus({ user, group }) {
         className="co-host"
         onClick={() => setModalContent(<MembershipStatusModal />)}
       >
-        <i className="fa-solid fa-square-check"></i>
+        <i className="fa-solid fa-user-check"></i>
       </span>
     }
     if (member.Membership.status === 'member') {
@@ -29,7 +29,7 @@ function MembershipStatus({ user, group }) {
         className="member"
         onClick={() => setModalContent(<MembershipStatusModal />)}
       >
-        <i className="fa-solid fa-square-check"></i>
+        <i className="fa-solid fa-user-check"></i>
       </span>
     }
   }
