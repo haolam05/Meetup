@@ -19,11 +19,13 @@ function MembershipStatusModal({ groupId }) {
           <span className="owner"><i className="fa-solid fa-user-check"></i></span>
           <span className="co-host"> <i className="fa-solid fa-user-check"></i></span>
           <span className="member"> <i className="fa-solid fa-user-check"></i></span>
+          <span className="stranger"> <i className="fa-solid fa-user-check"></i></span>
         </div>
         <div className="label-text">
           <div>Owner</div>
           <div>Co-host</div>
           <div>Member</div>
+          <div>Stranger</div>
         </div>
       </div>
       <button className="btn-primary view-members-btn" onClick={viewMembers}>View Members</button>

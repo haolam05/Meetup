@@ -4,7 +4,7 @@ import MembershipStatusForm from "../MembershipStatusForm";
 import OpenModalButton from "../OpenModalButton";
 import "./Member.css";
 
-function Member({ member }) {
+function Member({ member, status }) {
   const { closeModal } = useModal();
 
   const removeMember = e => {
@@ -33,10 +33,16 @@ function Member({ member }) {
             </div>
           </div>
         </div>
-        <div className="membership-btns">
+        {(status === "owner" || status === "co-host") && <div className="membership-btns">
           <OpenModalButton buttonText="Update status" modalComponent={<MembershipStatusForm member={member} />} />
           <OpenModalButton buttonText="Remove member" modalComponent={<ConfirmDeleteForm title="Member" deleteCb={removeMember} cancelDeleteCb={closeModal} />} />
-        </div>
+        </div>}
+        {status === "stranger" && <div className="membership-btns">
+          <button className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>
+        </div>}
+        {status === "member" && <div className="membership-btns">
+          <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Unjoin this group</button>
+        </div>}
       </div>
     </div>
   );

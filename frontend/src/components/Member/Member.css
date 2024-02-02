@@ -51,3 +51,9 @@
   color: var(--dark-gray);
   border: 1px solid var(--dark-gray);
 }
+
+.membership-btns button.btn-primary:hover {
+  background-color: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}

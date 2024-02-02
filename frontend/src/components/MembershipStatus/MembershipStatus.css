@@ -12,3 +12,8 @@
   font-size: xx-large;
   color: var(--blue);
 }
+
+.stranger i {
+  font-size: xx-large;
+  color: var(--gray);
+}

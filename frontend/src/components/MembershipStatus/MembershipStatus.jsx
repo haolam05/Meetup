@@ -14,8 +14,18 @@ function MembershipStatus({ user, group }) {
         <i className="fa-solid fa-user-check"></i>
       </span>
     }
+
     const member = group.members.find(member => member.id === user.id);
-    if (!member) return;
+
+    if (!member) {
+      return <span
+        className="stranger"
+        onClick={() => setModalContent(<MembershipStatusModal groupId={group.id} />)}
+      >
+        <i className="fa-solid fa-user-check"></i>
+      </span>
+    };
+
     if (member.Membership.status === 'co-host') {
       return <span
         className="co-host"

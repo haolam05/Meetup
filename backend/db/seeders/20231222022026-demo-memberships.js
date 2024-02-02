@@ -96,6 +96,11 @@ const memberships = [
   },
   {
     userEmail: userEmails[4],
+    groupName: groupNames[1],
+    status: status[1]
+  },
+  {
+    userEmail: userEmails[4],
     groupName: groupNames[6],
     status: status[1]
   },

@@ -16,6 +16,18 @@ function GroupMembers() {
   const members = useSelector(groupActions.getGroupMembers(groupId));
   const [isLoaded, setIsLoaded] = useState(false);
 
+
+  const getStatus = () => {
+    if (user) {
+      if (group.organizerId === user.id) return "owner";
+      const member = group.members.find(member => member.id === user.id);
+      if (!member) return "stranger";
+      if (member.Membership.status === 'co-host') return 'co-host';
+      if (member.Membership.status === 'member') return 'member';
+    }
+    return false;
+  }
+
   function MembershipHeader() {
     return <h1 className="heading membership">Memberships <MembershipStatus user={user} group={group} /></h1>;
   }
@@ -29,11 +41,11 @@ function GroupMembers() {
   }
 
   function PendingMembers() {
-    if (pendingMembers.length) return pendingMembers.map(m => <Member member={m} key={m.id} />);
+    if (pendingMembers.length) return pendingMembers.map(m => <Member member={m} status={getStatus()} key={m.id} />);
   }
 
   function RealMembers() {
-    if (realMembers.length) return realMembers.map(m => <Member member={m} key={m.id} />);
+    if (realMembers.length) return realMembers.map(m => <Member member={m} status={getStatus()} key={m.id} />);
   }
 
   function NoMembers() {
