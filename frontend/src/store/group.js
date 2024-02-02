@@ -15,6 +15,7 @@ const ADD_GROUP_IMAGE = '/groups/ADD_GROUP_IMAGE';
 // const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const REMOVE_GROUP_IMAGE = '/groups/REMOVE_GROUP_IMAGE';
+const REMOVE_MEMBER = '/groups/REMOVE_MEMBER';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 const RESET = '/groups/RESET';
 const RESET_USER_GROUPS = '/groups/RESET_USER_GROUPS';
@@ -67,6 +68,12 @@ const addGroupImage = (groupId, image) => ({
 //   type: REMOVE_USER_GROUP,
 //   groupId
 // });
+
+const removeMember = (groupId, memberId) => ({
+  type: REMOVE_MEMBER,
+  groupId,
+  memberId
+});
 
 export const removeGroupDetails = groupId => ({
   type: REMOVE_GROUP_DETAILS,
@@ -374,6 +381,18 @@ export const loadGroupMembers = groupId => async (dispatch, getState) => {
   }
 };
 
+export const deleteMember = (groupId, memberId) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${groupId}/membership/${memberId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(removeMember(groupId, memberId));
+    return data;
+  }
+};
+
 // Custom selectors
 export const getGroupMembers = groupId => createSelector(
   state => state.group.groupMembers,
@@ -526,6 +545,12 @@ function groupReducer(state = initialState, action) {
       const newState = { ...state };
       const images = newState.groupDetails[action.groupId].GroupImages;
       newState.groupDetails[action.groupId].GroupImages = images.filter(image => image.id !== action.imageId);
+      return newState;
+    }
+    case REMOVE_MEMBER: {
+      const newState = { ...state };
+      const members = newState.groupMembers[action.groupId];
+      newState.groupMembers[action.groupId] = members.filter(member => member.id !== action.memberId);
       return newState;
     }
     case SET_PAGINATION:

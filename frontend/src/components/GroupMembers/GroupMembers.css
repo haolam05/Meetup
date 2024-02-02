@@ -22,3 +22,8 @@
 .membership-btns {
   gap: 5px;
 }
+
+.membership.subheading.no-members {
+  text-align: center;
+  margin: 40px 0;
+}

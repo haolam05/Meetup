@@ -41,15 +41,15 @@ function GroupMembers() {
   }
 
   function PendingMembers() {
-    if (pendingMembers.length) return pendingMembers.map(m => <Member member={m} status={getStatus()} memberType="pending" key={m.id} />);
+    if (pendingMembers.length) return pendingMembers.map(m => <Member member={m} status={getStatus()} memberType="pending" groupId={group.id} key={m.id} />);
   }
 
   function RealMembers() {
-    if (realMembers.length) return realMembers.map(m => <Member member={m} status={getStatus()} memberType="real" key={m.id} />);
+    if (realMembers.length) return realMembers.map(m => <Member member={m} status={getStatus()} memberType="real" groupId={group.id} key={m.id} />);
   }
 
   function NoMembers() {
-    if (!members.length) return <h2 className="subheading membership">There isn&apos;t any members for this group.</h2>
+    if (!members.length) return <h2 className="subheading membership no-members">There isn&apos;t any members for this group.</h2>
   }
 
   useEffect(() => {

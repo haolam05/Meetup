@@ -1,15 +1,23 @@
 import { useModal } from "../../context/Modal";
 import { capitalize } from "../../utils/capitalize";
+import { useDispatch } from "react-redux";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
 import MembershipStatusForm from "../MembershipStatusForm";
 import OpenModalButton from "../OpenModalButton";
+import * as groupActions from "../../store/group";
 import "./Member.css";
+import { useNavigate } from "react-router-dom";
 
-function Member({ member, status, memberType }) {
-  const { closeModal } = useModal();
+function Member({ member, status, memberType, groupId }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { setModalContent, closeModal } = useModal();
 
-  const removeMember = e => {
+  const removeMember = async e => {
     e.preventDefault();
+    await dispatch(groupActions.deleteMember(groupId, member.id));
+    setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
+    navigate(`/groups/${groupId}`, { replace: true });
   }
 
   return (
