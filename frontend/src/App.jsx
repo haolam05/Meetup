@@ -15,6 +15,7 @@ import CreateEvent from './components/CreateEvent';
 import EditEvent from './components/EditEvent';
 import UserProfile from './components/UserProfile/UserProfile';
 import GroupImages from './components/GroupImages';
+import EventImages from './components/EventImages';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: 'events/:eventId/edit',
         element: <EditEvent />
+      },
+      {
+        path: 'events/:eventId/images',
+        element: <EventImages />
       },
       {
         path: '*',

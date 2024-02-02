@@ -80,7 +80,26 @@ async function deleteEventImage(req, res, next) {
   res.json({ message: 'Successfully deleted' });
 }
 
+async function getEventImages(req, res, next) {
+  const event = await Event.findByPk(req.params.eventId);
+
+  if (!event) {
+    const err = notFoundError("Event couldn't be found");
+    return next(err);
+  }
+
+  const group = await Group.findByPk(event.groupId);
+  const err = await checkUserRole(group, req.user.id);
+  if (err) return next(err);
+
+  const images = await EventImage.findAll({ where: { eventId: req.params.eventId }, attributes: ['id', 'url', 'preview'] });
+  res.json({
+    Images: images,
+  });
+}
+
 module.exports = {
+  getEventImages,
   createEventImage,
   editEventImage,
   deleteEventImage

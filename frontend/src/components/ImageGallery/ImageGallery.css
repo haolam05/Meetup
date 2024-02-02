@@ -13,3 +13,17 @@
 .group.details.gallery {
   grid-template-columns: 1fr;
 }
+
+.gallery-results-not-found {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-header i {
+  font-size: x-large;
+}
+
+.gallery-header i:hover {
+  cursor: pointer;
+  font-size: xx-large;
+}

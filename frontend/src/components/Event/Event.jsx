@@ -2,13 +2,21 @@ import { useNavigate } from 'react-router-dom';
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import { getPreviewImageUrl } from "../../utils/images";
 import { formatPrice } from "../../utils/priceFormatter";
+import { useModal } from '../../context/Modal';
 import OpenModalButton from '../OpenModalButton';
 import DeleteEvent from '../DeleteEvent';
 import ImageSlider from '../ImageSlider';
+import ImageFormModal from '../ImageFormModal';
 import "./Event.css";
 
-function Event({ event, user = false, details = false, userEvents = [], showSlider = false }) {
+function Event({ event, user = false, details = false, userEvents = [], showSlider = false, allowedPost = false, allowedDelete = false }) {
   const navigate = useNavigate();
+  const { setModalContent } = useModal();
+
+  function EventGalleryBtn() {
+    if (allowedDelete && allowedPost) return <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/images`, { replace: true })}>Gallery</button>;
+    else if (allowedPost) return <button id="group-join-btn" className="btn-accent" onClick={() => setModalContent(<ImageFormModal eventId={event.id} />)}>Post Image</button>;
+  }
 
   if (!details) return (
     <div id="event">
@@ -106,13 +114,20 @@ function Event({ event, user = false, details = false, userEvents = [], showSlid
               <div id="event-btns">
                 <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/edit`)}>Update</button>
                 <OpenModalButton modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />} buttonText="Delete" />
+                <EventGalleryBtn />
               </div>
             </>
           ) : (
             userEvents.find(userEvent => userEvent.id === event.id) ? (
-              <button id="group-join-btn" className="btn-accent" onClick={() => alert(`Feature coming soon`)}>Unattend this event</button>
+              <div id="event-btns">
+                <button id="group-join-btn" className="btn-accent" onClick={() => alert(`Feature coming soon`)}>Unattend this event</button>
+                <EventGalleryBtn />
+              </div>
             ) : (
-              <button id="group-join-btn" className="btn-primary" onClick={() => alert(`Feature coming soon`)}>Attend this event</button>
+              <div id="event-btns">
+                <button id="group-join-btn" className="btn-primary" onClick={() => alert(`Feature coming soon`)}>Attend this event</button>
+                <EventGalleryBtn />
+              </div>
             )
           )
         )}

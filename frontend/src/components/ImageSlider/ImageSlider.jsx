@@ -5,11 +5,13 @@ function ImageSlider({ images }) {
   const [slide, setSlide] = useState(0);
 
   const handleClick = () => {
-    const image = document.querySelector('.slider-image>img');
-    if (!image.classList.contains("fade")) {
-      nextSlide(image);
-      image.classList.add("fade");
-      setTimeout(() => image.classList.remove("fade"), 1500);
+    if (images.length) {
+      const image = document.querySelector('.slider-image>img');
+      if (!image.classList.contains("fade")) {
+        nextSlide(image);
+        image.classList.add("fade");
+        setTimeout(() => image.classList.remove("fade"), 1500);
+      }
     }
   }
 
@@ -21,7 +23,7 @@ function ImageSlider({ images }) {
 
   return (
     <img
-      src={images[slide].url}
+      src={images.length ? images[slide].url : '/images/no-preview-available.jpg'}
       alt="image"
       onClick={handleClick}
     />

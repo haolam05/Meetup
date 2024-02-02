@@ -49,7 +49,7 @@ const addGroupImage = (groupId, image) => ({
   type: ADD_GROUP_IMAGE,
   groupId,
   image
-})
+});
 
 // const removeGroup = groupId => ({
 //   type: REMOVE_GROUP,
@@ -156,7 +156,7 @@ export const loadGroups = (page, size) => async (dispatch, getState) => {
 };
 
 export const loadGroupDetails = groupId => async (dispatch, getState) => {
-  // if no id exists, it means groupDetails on have groupImages loaded from loadGroupImages
+  // if no id exists, it means groupDetails only have groupImages loaded from loadGroupImages
   if (getState().group.groupDetails[groupId]?.id) return;
 
   const response1 = await csrfFetch(`/api/groups/${groupId}`);

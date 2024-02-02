@@ -4,7 +4,10 @@ const eventImageController = require('../../controller/eventImageController');
 const { requireAuth } = require('../../controller/authController');
 const { singleMulterUpload } = require('../../awsS3');
 
-router.post('/', singleMulterUpload("image"), requireAuth, eventImageController.createEventImage);
+router
+  .route('/')
+  .get(requireAuth, eventImageController.getEventImages)
+  .post(singleMulterUpload("image"), requireAuth, eventImageController.createEventImage);
 
 router
   .route('/:imageId')

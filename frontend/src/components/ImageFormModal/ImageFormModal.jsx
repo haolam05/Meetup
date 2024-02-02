@@ -4,9 +4,10 @@ import { updateFile } from "../../utils/images";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import * as groupActions from "../../store/group";
+import * as eventActions from "../../store/event";
 import "./ImageFormModal.css";
 
-function ImageFormModal({ groupId }) {
+function ImageFormModal({ eventId, groupId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModalContent } = useModal();
@@ -14,12 +15,22 @@ function ImageFormModal({ groupId }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await dispatch(groupActions.loadGroupImage({
-      groupId,
-      image
-    }));
-    setModalContent(<h2 className="subheading alert-success">Successully Uploaded!</h2>)
-    navigate(`/groups/${groupId}`);
+
+    if (groupId) {
+      await dispatch(groupActions.loadGroupImage({
+        groupId,
+        image
+      }));
+      setModalContent(<h2 className="subheading alert-success">Successully Uploaded!</h2>)
+      navigate(`/groups/${groupId}`);
+    } else if (eventId) {
+      await dispatch(eventActions.loadEventImage({
+        eventId,
+        image
+      }));
+      setModalContent(<h2 className="subheading alert-success">Successully Uploaded!</h2>)
+      navigate(`/events/${eventId}`);
+    }
   }
 
   return (

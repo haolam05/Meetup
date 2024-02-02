@@ -1419,6 +1419,50 @@ Creates and returns a new event for a group specified by its id
     }
     ```
 
+
+### Get all Images of an Event based on the Event's id
+
+Get and return all images for an event specified by id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must be a host, or co-host of the event
+* Request
+  * Method: GET
+  * URL: /api/events/:eventId/images
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Images": [
+        {
+          "id": 5,
+          "url": "image url",
+          "preview": true
+        }
+      ]
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
 ### Add an Image to an Event based on the Event's id
 
 Create and return a new image for an event specified by id.

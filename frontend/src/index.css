@@ -183,3 +183,8 @@ a:hover {
 .clickable:hover {
   text-decoration: underline;
 }
+
+.fa-solid.fa-square-check:hover {
+  cursor: pointer;
+  font-size: xxx-large;
+}

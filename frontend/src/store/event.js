@@ -4,12 +4,15 @@ import * as groupActions from './group';
 
 const LOAD_USER_EVENTS = '/events/LOAD_USER_EVENTS';
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
+const LOAD_EVENT_IMAGES = '/groups/LOAD_EVENT_IMAGES';
 const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const ADD_USER_EVENT = '/events/ADD_USER_EVENT';
+const ADD_EVENT_IMAGE = '/groups/ADD_EVENT_IMAGE';
 // const REMOVE_EVENT = '/events/REMOVE_EVENT';
 // const REMOVE_USER_EVENT = '/groups/REMOVE_USER_EVENT';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
+const REMOVE_EVENT_IMAGE = '/groups/REMOVE_EVENT_IMAGE';
 const SET_PAGINATION = '/events/SET_PAGINATION';
 const RESET = '/events/RESET';
 const RESET_USER_EVENTS = '/groups/RESET_USER_EVENTS';
@@ -41,6 +44,13 @@ const addUserEvent = event => ({
   event
 });
 
+const addEventImage = (eventId, image) => ({
+  type: ADD_EVENT_IMAGE,
+  eventId,
+  image
+});
+
+
 // const removeEvent = eventId => ({
 //   type: REMOVE_EVENT,
 //   eventId
@@ -58,6 +68,18 @@ const resetEvents = () => ({
 export const removeEventDetails = eventId => ({
   type: REMOVE_EVENT_DETAILS,
   eventId
+});
+
+const getEventImages = (eventId, images) => ({
+  type: LOAD_EVENT_IMAGES,
+  eventId,
+  images
+});
+
+const removeEventImage = (eventId, imageId) => ({
+  type: REMOVE_EVENT_IMAGE,
+  eventId,
+  imageId
 });
 
 const setPagination = (page, size) => ({
@@ -137,7 +159,8 @@ export const loadEvents = (page, size) => async (dispatch, getState) => {
 };
 
 export const loadEventDetails = eventId => async (dispatch, getState) => {
-  if (getState().event.eventDetails[eventId]) return;
+  // if no id exists, it means eventDetails only have eventImages loaded from loadEventImages
+  if (getState().event.eventDetails[eventId]?.id) return;
 
   const response1 = await csrfFetch(`/api/events/${eventId}`);
 
@@ -276,7 +299,52 @@ export const deleteEvent = (eventId, groupId) => async disptach => {
   }
 };
 
+export const loadEventImages = eventId => async (dispatch, getState) => {
+  if (getState().event.eventDetails[eventId]) return;
+
+  const response = await csrfFetch(`/api/events/${eventId}/images`);
+  if (response.ok) {
+    const images = await response.json();
+    dispatch(getEventImages(eventId, images.Images));
+  }
+};
+
+export const loadEventImage = payload => async dispatch => {
+  const { image, eventId } = payload;
+  const formData = new FormData();
+  formData.append("image", image);
+  formData.append("preview", true);
+
+  const response = await csrfFetch(`/api/events/${eventId}/images`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (response.ok) {
+    const image = await response.json();
+    dispatch(addEventImage(eventId, image));
+    return image;
+  }
+}
+
+export const deleteEventImage = (eventId, imageId) => async (dispatch, getState) => {
+  const response = await csrfFetch(`/api/event-images/${imageId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(removeEventImage(eventId, imageId));
+    return data;
+  }
+};
+
 // Custom selectors
+export const getCurrentEventImages = eventId => createSelector(
+  state => state.event.eventDetails,
+  event => event[eventId]?.EventImages
+);
+
 export const getCurrentUserEvents = createSelector(
   state => state.event.userEvents,
   events => Object.values(events)
@@ -347,6 +415,17 @@ function eventReducer(state = initialState, action) {
           ...action.events
         }
       };
+    case LOAD_EVENT_IMAGES:
+      return {
+        ...state,
+        eventDetails: {
+          ...state.eventDetails,
+          [action.eventId]: {
+            ...state.eventDetails[action.eventId],
+            EventImages: action.images
+          }
+        }
+      }
     case ADD_EVENT_DETAILS:
       return {
         ...state,
@@ -374,6 +453,20 @@ function eventReducer(state = initialState, action) {
           }
         }
       }
+    case ADD_EVENT_IMAGE:
+      return {
+        ...state,
+        eventDetails: {
+          ...state.eventDetails,
+          [action.eventId]: {
+            ...state.eventDetails[action.eventId],
+            EventImages: [
+              ...state.eventDetails[action.eventId].EventImages,
+              action.image
+            ]
+          }
+        }
+      }
     // case REMOVE_EVENT: {
     //   const newState = { ...state };
     //   delete newState.events[action.eventId];
@@ -387,6 +480,12 @@ function eventReducer(state = initialState, action) {
     case REMOVE_EVENT_DETAILS: {
       const newState = { ...state };
       delete newState.eventDetails[action.eventId];
+      return newState;
+    }
+    case REMOVE_EVENT_IMAGE: {
+      const newState = { ...state };
+      const images = newState.eventDetails[action.eventId].EventImages;
+      newState.eventDetails[action.eventId].EventImages = images.filter(image => image.id !== action.imageId);
       return newState;
     }
     case SET_PAGINATION:
