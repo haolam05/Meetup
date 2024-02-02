@@ -1,10 +1,11 @@
 import { useModal } from "../../context/Modal";
+import { capitalize } from "../../utils/capitalize";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
 import MembershipStatusForm from "../MembershipStatusForm";
 import OpenModalButton from "../OpenModalButton";
 import "./Member.css";
 
-function Member({ member, status }) {
+function Member({ member, status, memberType }) {
   const { closeModal } = useModal();
 
   const removeMember = e => {
@@ -29,20 +30,23 @@ function Member({ member, status }) {
             <div className="membership-data">
               <div>{member.firstName}</div>
               <div>{member.lastName}</div>
-              <div>{member.Membership.status}</div>
+              <div>{capitalize(member.Membership.status)}</div>
             </div>
           </div>
         </div>
-        {(status === "owner" || status === "co-host") && <div className="membership-btns">
-          <OpenModalButton buttonText="Update status" modalComponent={<MembershipStatusForm member={member} />} />
-          <OpenModalButton buttonText="Remove member" modalComponent={<ConfirmDeleteForm title="Member" deleteCb={removeMember} cancelDeleteCb={closeModal} />} />
-        </div>}
-        {status === "stranger" && <div className="membership-btns">
-          <button className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>
-        </div>}
-        {status === "member" && <div className="membership-btns">
-          <button className="btn-accent" onClick={() => alert("Feature coming soon")}>Unjoin this group</button>
-        </div>}
+        {/* Co-host only allowed to accepted new members (pending -> member), and have no right to change current members' status, and can't remove members */}
+        {(status === "owner" || (status === "co-host" && memberType === "pending")) && (
+          <div className="membership-btns">
+            <OpenModalButton
+              buttonText="Update status"
+              modalComponent={<MembershipStatusForm member={member} status={status} />}
+            />
+            {status === "owner" && <OpenModalButton
+              buttonText="Remove member"
+              modalComponent={<ConfirmDeleteForm title="Member" deleteCb={removeMember} cancelDeleteCb={closeModal} />}
+            />}
+          </div>
+        )}
       </div>
     </div>
   );

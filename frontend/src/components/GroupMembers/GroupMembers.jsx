@@ -41,11 +41,11 @@ function GroupMembers() {
   }
 
   function PendingMembers() {
-    if (pendingMembers.length) return pendingMembers.map(m => <Member member={m} status={getStatus()} key={m.id} />);
+    if (pendingMembers.length) return pendingMembers.map(m => <Member member={m} status={getStatus()} memberType="pending" key={m.id} />);
   }
 
   function RealMembers() {
-    if (realMembers.length) return realMembers.map(m => <Member member={m} status={getStatus()} key={m.id} />);
+    if (realMembers.length) return realMembers.map(m => <Member member={m} status={getStatus()} memberType="real" key={m.id} />);
   }
 
   function NoMembers() {
