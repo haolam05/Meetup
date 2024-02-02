@@ -1,17 +1,65 @@
+import { useModal } from '../../context/Modal';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPreviewImageUrl, getProfileImageUrl } from '../../utils/images';
+import { useDispatch } from 'react-redux';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
 import ImageSlider from '../ImageSlider';
 import MembershipStatus from '../MembershipStatus';
+import ConfirmDeleteForm from '../ConfirmDeleteForm';
+import * as groupActions from "../../store/group";
 import "./Group.css";
 
 function Group({ group, user = false, description = true, organizer = false, userGroups = [], showSlider = false }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { closeModal, setModalContent } = useModal();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
   const [viewGalleryBtn, setViewGalleryBtn] = useState(false);
+
+  const removeMember = async e => {
+    e.preventDefault();
+    await dispatch(groupActions.deleteMember(group.id, user.id));
+    setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
+    navigate(`/groups`, { replace: true });
+  }
+
+  function JoinGroupBtn() {
+    return <button id="group-join-btn" className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>;
+  }
+
+  function PendingBtn() {
+    return <button id="group-join-btn" className="btn-accent" onClick={() => setModalContent(<div>
+      <h2 className="subheading alert-success">Your request will be reviewed shortly!</h2>
+    </div>)}>Pending</button>;
+  }
+
+  function UnjoinGroupBtn() {
+    return <OpenModalButton
+      buttonText="Unjoin this group"
+      modalComponent={<ConfirmDeleteForm unjoinGroup={true} deleteCb={removeMember} cancelDeleteCb={closeModal} />}
+    />;
+  }
+
+  function RegularButtons() {
+    const user = userGroups.find(userGroup => userGroup.id === group.id);
+    if (!user) return <JoinGroupBtn />
+    if (user.Membership.status === "pending") return <PendingBtn />
+    if (['member', 'co-host'].includes(user.Membership.status)) return <UnjoinGroupBtn />;
+  }
+
+  function OwnerButtons() {
+    return (
+      <>
+        <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
+        <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
+        <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
+        <button className="btn-accent" onClick={() => setViewGalleryBtn(true)}>Gallery</button>
+      </>
+    );
+  }
 
   useEffect(() => {
     if (updateGroupBtn) {
@@ -70,22 +118,7 @@ function Group({ group, user = false, description = true, organizer = false, use
           )}
         </div>
         <div id="event-btns">
-          {user && (
-            user.id !== group.organizerId ? (
-              userGroups.find(userGroup => userGroup.id === group.id) ? (
-                <button id="group-join-btn" className="btn-accent" onClick={() => alert("Feature coming soon")}>Unjoin this group</button>
-              ) : (
-                <button id="group-join-btn" className="btn-primary" onClick={() => alert("Feature coming soon")}>Join this group</button>
-              )
-            ) : (
-              <>
-                <button className="btn-accent" onClick={() => setCreateEventBtn(true)}>Create event</button>
-                <button className="btn-accent" onClick={() => setUpdateGroupBtn(true)}>Update</button>
-                <OpenModalButton modalComponent={<DeleteGroup groupId={group.id} />} buttonText="Delete" />
-                <button className="btn-accent" onClick={() => setViewGalleryBtn(true)}>Gallery</button>
-              </>
-            )
-          )}
+          {user && (user.id !== group.organizerId ? <RegularButtons /> : <OwnerButtons />)}
         </div>
       </div>
     </div>

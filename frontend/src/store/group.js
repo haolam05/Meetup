@@ -17,6 +17,7 @@ const REMOVE_GROUP_IMAGE = '/groups/REMOVE_GROUP_IMAGE';
 const REMOVE_MEMBER = '/groups/REMOVE_MEMBER';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 const RESET = '/groups/RESET';
+const RESET_GROUP_DETAILS = '/groups/RESET_GROUP_DETAILS';
 const RESET_USER_GROUPS = '/groups/RESET_USER_GROUPS';
 const RESET_GROUPS = '/groups/RESET_GROUPS';
 
@@ -104,6 +105,10 @@ export const resetUserGroups = () => ({
 
 const resetGroups = () => ({
   type: RESET_GROUPS
+});
+
+const resetGroupDetails = () => ({
+  type: RESET_GROUP_DETAILS
 });
 
 // Thunk action creators
@@ -385,6 +390,9 @@ export const deleteMember = (groupId, memberId) => async dispatch => {
   if (response.ok) {
     const data = await response.json();
     dispatch(removeMember(groupId, memberId));
+    dispatch(resetGroupDetails());
+    dispatch(resetUserGroups());
+    dispatch(eventActions.resetEventDetails());
     return data;
   }
 };
@@ -566,7 +574,8 @@ function groupReducer(state = initialState, action) {
     }
     case REMOVE_MEMBER: {
       const newState = { ...state };
-      delete newState.groupMembers[action.groupId][action.memberId];
+      const group = newState.groupMembers[action.groupId]
+      if (group) delete group[action.memberId];
       return newState;
     }
     case SET_PAGINATION:
@@ -586,6 +595,11 @@ function groupReducer(state = initialState, action) {
       return {
         ...state,
         userGroups: {}
+      }
+    case RESET_GROUP_DETAILS:
+      return {
+        ...state,
+        groupDetails: {}
       }
     default:
       return state;

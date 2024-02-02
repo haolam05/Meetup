@@ -4,17 +4,18 @@ import * as groupActions from './group';
 
 const LOAD_USER_EVENTS = '/events/LOAD_USER_EVENTS';
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
-const LOAD_EVENT_IMAGES = '/groups/LOAD_EVENT_IMAGES';
+const LOAD_EVENT_IMAGES = '/events/LOAD_EVENT_IMAGES';
 const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const ADD_USER_EVENT = '/events/ADD_USER_EVENT';
-const ADD_EVENT_IMAGE = '/groups/ADD_EVENT_IMAGE';
+const ADD_EVENT_IMAGE = '/events/ADD_EVENT_IMAGE';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
-const REMOVE_EVENT_IMAGE = '/groups/REMOVE_EVENT_IMAGE';
+const REMOVE_EVENT_IMAGE = '/events/REMOVE_EVENT_IMAGE';
 const SET_PAGINATION = '/events/SET_PAGINATION';
 const RESET = '/events/RESET';
-const RESET_USER_EVENTS = '/groups/RESET_USER_EVENTS';
-const RESET_EVENTS = '/groups/RESET_EVENTS';
+const RESET_USER_EVENTS = '/events/RESET_USER_EVENTS';
+const RESET_EVENTS = '/events/RESET_EVENTS';
+const RESET_EVENT_DETAILS = '/events/RESET_EVENT_DETAILS';
 
 // POJO action creators
 const getUserEvents = events => ({
@@ -81,6 +82,10 @@ export const reset = () => ({
 
 export const resetUserEvents = () => ({
   type: RESET_USER_EVENTS
+});
+
+export const resetEventDetails = () => ({
+  type: RESET_EVENT_DETAILS
 });
 
 export const loadCurrentUserEvents = () => async (dispatch, getState) => {
@@ -482,6 +487,11 @@ function eventReducer(state = initialState, action) {
       return {
         ...state,
         userEvents: {}
+      }
+    case RESET_EVENT_DETAILS:
+      return {
+        ...state,
+        eventDetails: {}
       }
     default:
       return state;

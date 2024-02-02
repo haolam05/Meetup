@@ -7,3 +7,9 @@
   color: var(--gray);
   border: 1px solid var(--gray);
 }
+
+#manage-group button.btn-accent {
+  border: none;
+  padding: 10px 20px;
+  margin: 20px 0;
+}
