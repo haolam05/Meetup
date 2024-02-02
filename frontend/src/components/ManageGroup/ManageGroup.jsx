@@ -5,15 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import OpenModalButton from "../OpenModalButton";
 import DeleteGroup from "../DeleteGroup";
-import ConfirmDeleteForm from "../ConfirmDeleteForm";
+import Loading from "../Loading";
+import UnjoinGroupBtn from "../UnjoinGroupBtn";
+import PendingBtn from "../PendingBtn";
 import * as groupActions from "../../store/group";
 import "./ManageGroup.css";
-import Loading from "../Loading";
 
 function ManageGroup({ group, user }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setModalContent, closeModal } = useModal();
+  const { setModalContent } = useModal();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const userGroups = useSelector(groupActions.getCurrentUserGroups);
@@ -39,23 +40,10 @@ function ManageGroup({ group, user }) {
     navigate(`/groups`, { replace: true });
   }
 
-  function PendingBtn() {
-    return <button id="group-join-btn" className="btn-accent" onClick={() => setModalContent(<div>
-      <h2 className="subheading alert-success">Your request will be reviewed shortly!</h2>
-    </div>)}>Pending</button>;
-  }
-
-  function UnjoinGroupBtn() {
-    return <OpenModalButton
-      buttonText="Unjoin this group"
-      modalComponent={<ConfirmDeleteForm unjoinGroup={true} deleteCb={removeMember} cancelDeleteCb={closeModal} />}
-    />;
-  }
-
   function RegularButtons() {
     const user = userGroups.find(userGroup => userGroup.id === group.id);
     if (user.Membership.status === "pending") return <PendingBtn />
-    return <UnjoinGroupBtn />;
+    return <UnjoinGroupBtn removeMember={removeMember} />;
   }
 
   function OwnerButtons() {
