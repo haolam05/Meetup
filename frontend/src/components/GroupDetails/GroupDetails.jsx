@@ -20,7 +20,7 @@ function GroupDetails() {
 
   useEffect(() => {
     const loadGroupDetails = async () => {
-      await dispatch(groupActions.loadCurrentUserGroups());
+      if (user) await dispatch(groupActions.loadCurrentUserGroups());
       await dispatch(groupActions.loadGroupDetails(groupId));
       await dispatch(sessionActions.restoreSession());
       setIsLoaded(true);

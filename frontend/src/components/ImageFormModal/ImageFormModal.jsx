@@ -40,7 +40,7 @@ function ImageFormModal({ eventId, groupId }) {
       <h2 className="subheading">New Image</h2>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={e => updateFile(e, setImage)} />
-        <button className={`btn-primary ${image ? '' : 'disabled'}`} disabled={!image}>Upload</button>
+        <button type="submit" className={`btn-primary ${image ? '' : 'disabled'}`} disabled={!image}>Upload</button>
       </form>
     </div>
   );

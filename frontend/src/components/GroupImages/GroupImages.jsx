@@ -16,9 +16,9 @@ function GroupImages() {
 
   useEffect(() => {
     const loadGroupImages = async () => {
-      const { errors } = await dispatch(groupActions.loadGroupImages(groupId));
-      if (errors) {
-        setModalContent(<h2 className="subheading modal-errors">{errors.message}</h2>)
+      const data = await dispatch(groupActions.loadGroupImages(groupId));
+      if (data?.errors) {
+        setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>)
         navigate("/", { replace: true });
       }
       setIsLoaded(true);

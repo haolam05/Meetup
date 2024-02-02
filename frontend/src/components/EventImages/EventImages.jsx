@@ -16,9 +16,9 @@ function EventImages() {
 
   useEffect(() => {
     const loadEventImages = async () => {
-      const { errors } = await dispatch(eventActions.loadEventImages(eventId));
-      if (errors) {
-        setModalContent(<h2 className="subheading modal-errors">{errors.message}</h2>)
+      const data = await dispatch(eventActions.loadEventImages(eventId));
+      if (data?.errors) {
+        setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>)
         navigate("/", { replace: true });
       }
       setIsLoaded(true);
