@@ -11,6 +11,7 @@ const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
 const ADD_GROUP_IMAGE = '/groups/ADD_GROUP_IMAGE';
+const ADD_MEMBER = '/groups/ADD_MEMBER';
 const UPDATE_MEMBER = '/groups/UPDATE_MEMBER';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const REMOVE_GROUP_IMAGE = '/groups/REMOVE_GROUP_IMAGE';
@@ -58,6 +59,12 @@ const addGroupImage = (groupId, image) => ({
   type: ADD_GROUP_IMAGE,
   groupId,
   image
+});
+
+const addMember = (groupId, member) => ({
+  type: ADD_MEMBER,
+  groupId,
+  member
 });
 
 const editMember = (groupId, memberId, status) => ({
@@ -387,6 +394,16 @@ export const loadGroupMembers = groupId => async (dispatch, getState) => {
   }
 };
 
+export const loadGroupMember = groupId => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
+    method: "POST"
+  });
+
+  const member = await response.json();
+  if (!response.ok) return member.errors ? member : { errors: member };
+  dispatch(addMember(groupId, member));
+};
+
 export const deleteMember = (groupId, memberId, status) => async dispatch => {
   const response = await csrfFetch(`/api/groups/${groupId}/membership/${memberId}`, {
     method: 'DELETE'
@@ -548,6 +565,17 @@ function groupReducer(state = initialState, action) {
               ...state.groupDetails[action.groupId].GroupImages,
               action.image
             ]
+          }
+        }
+      }
+    case ADD_GROUP_IMAGE:
+      return {
+        ...state,
+        groupMembers: {
+          ...state.groupMembers,
+          [action.groupId]: {
+            ...state.groupMembers[action.groupId],
+            [action.groupId]: action.member
           }
         }
       }

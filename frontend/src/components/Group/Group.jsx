@@ -19,7 +19,7 @@ function Group({ group, user = false, description = true, organizer = false, use
   function RegularButtons() {
     const userGroup = userGroups.find(userGroup => userGroup.id === group.id);
 
-    if (!userGroup) return <JoinGroupBtn />
+    if (!userGroup) return <JoinGroupBtn groupId={group.id} />
     if (userGroup.Membership.status === "pending") return <PendingBtn />
     if (['member', 'co-host'].includes(userGroup.Membership.status)) return <UnjoinGroupBtn
       group={group}
