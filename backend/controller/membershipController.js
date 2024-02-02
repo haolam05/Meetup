@@ -93,6 +93,9 @@ async function updateMember(req, res, next) {
   if (req.body.status === 'co-host' && group.organizerId === req.user.id) {
     updatedMembership = await membership.update({ status: 'co-host' });
   }
+  if (req.body.status === 'member' && membership.status === 'co-host' && group.organizerId === req.user.id) {
+    updatedMembership = await membership.update({ status: 'member' });
+  }
   if (membership.status === 'pending' && req.body.status === 'member') {
     const notAuthorized = await checkUserRole(group, req.user.id);
     if (notAuthorized === null) updatedMembership = await membership.update({ status: 'member' });
@@ -107,7 +110,7 @@ async function updateMember(req, res, next) {
     id: updatedMembership.id,
     groupId: updatedMembership.groupId,
     memberId: updatedMembership.userId,
-    staus: updatedMembership.status
+    status: updatedMembership.status
   });
 }
 

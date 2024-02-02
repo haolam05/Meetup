@@ -9,8 +9,6 @@ const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const ADD_USER_EVENT = '/events/ADD_USER_EVENT';
 const ADD_EVENT_IMAGE = '/groups/ADD_EVENT_IMAGE';
-// const REMOVE_EVENT = '/events/REMOVE_EVENT';
-// const REMOVE_USER_EVENT = '/groups/REMOVE_USER_EVENT';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
 const REMOVE_EVENT_IMAGE = '/groups/REMOVE_EVENT_IMAGE';
 const SET_PAGINATION = '/events/SET_PAGINATION';
@@ -49,17 +47,6 @@ const addEventImage = (eventId, image) => ({
   eventId,
   image
 });
-
-
-// const removeEvent = eventId => ({
-//   type: REMOVE_EVENT,
-//   eventId
-// });
-
-// const removeUserEvent = eventId => ({
-//   type: REMOVE_USER_EVENT,
-//   eventId
-// });
 
 const resetEvents = () => ({
   type: RESET_EVENTS
@@ -467,16 +454,6 @@ function eventReducer(state = initialState, action) {
           }
         }
       }
-    // case REMOVE_EVENT: {
-    //   const newState = { ...state };
-    //   delete newState.events[action.eventId];
-    //   return newState;
-    // }
-    // case REMOVE_USER_EVENT: {
-    //   const newState = { ...state };
-    //   delete newState.userEvents[action.eventId];
-    //   return newState;
-    // }
     case REMOVE_EVENT_DETAILS: {
       const newState = { ...state };
       delete newState.eventDetails[action.eventId];

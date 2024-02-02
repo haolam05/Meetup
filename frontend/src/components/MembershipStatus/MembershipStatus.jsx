@@ -24,7 +24,7 @@ function MembershipStatus({ user, group }) {
       >
         <i className="fa-solid fa-user-check"></i>
       </span>
-    };
+    }
 
     if (member.Membership.status === 'co-host') {
       return <span

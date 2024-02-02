@@ -47,7 +47,7 @@ function Member({ member, status, memberType, groupId }) {
           <div className="membership-btns">
             <OpenModalButton
               buttonText="Update status"
-              modalComponent={<MembershipStatusForm member={member} status={status} />}
+              modalComponent={<MembershipStatusForm groupId={groupId} member={member} status={status} />}
             />
             {status === "owner" && <OpenModalButton
               buttonText="Remove member"

@@ -11,8 +11,7 @@ const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
 const ADD_GROUP_IMAGE = '/groups/ADD_GROUP_IMAGE';
-// const REMOVE_GROUP = '/groups/REMOVE_GROUP';
-// const REMOVE_USER_GROUP = '/groups/REMOVE_USER_GROUP';
+const UPDATE_MEMBER = '/groups/UPDATE_MEMBER';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const REMOVE_GROUP_IMAGE = '/groups/REMOVE_GROUP_IMAGE';
 const REMOVE_MEMBER = '/groups/REMOVE_MEMBER';
@@ -59,15 +58,12 @@ const addGroupImage = (groupId, image) => ({
   image
 });
 
-// const removeGroup = groupId => ({
-//   type: REMOVE_GROUP,
-//   groupId
-// });
-
-// const removeUserGroup = groupId => ({
-//   type: REMOVE_USER_GROUP,
-//   groupId
-// });
+const editMember = (groupId, memberId, status) => ({
+  type: UPDATE_MEMBER,
+  groupId,
+  memberId,
+  status
+});
 
 const removeMember = (groupId, memberId) => ({
   type: REMOVE_MEMBER,
@@ -393,10 +389,23 @@ export const deleteMember = (groupId, memberId) => async dispatch => {
   }
 };
 
+export const updateMember = (groupId, payload) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const membership = await response.json();
+  if (!response.ok) return membership.errors ? membership : { errors: membership };
+  dispatch(editMember(groupId, membership.memberId, membership.status));
+};
+
 // Custom selectors
 export const getGroupMembers = groupId => createSelector(
   state => state.group.groupMembers,
-  members => members[groupId]
+  members => members[groupId] ? Object.values(members[groupId]) : []
 );
 
 export const getCurrentGroupImages = groupId => createSelector(
@@ -474,7 +483,9 @@ function groupReducer(state = initialState, action) {
         ...state,
         groupMembers: {
           ...state.groupMembers,
-          [action.groupId]: action.members
+          [action.groupId]: {
+            ...action.members.reduce((state, member) => (state[member.id] = member) && state, {})
+          }
         }
       }
     case LOAD_GROUP_IMAGES:
@@ -526,16 +537,22 @@ function groupReducer(state = initialState, action) {
           }
         }
       }
-    // case REMOVE_GROUP: {
-    //   const newState = { ...state };
-    //   delete newState.groups[action.groupId];
-    //   return newState;
-    // }
-    // case REMOVE_USER_GROUP: {
-    //   const newState = { ...state };
-    //   delete newState.userGroups[action.groupId];
-    //   return newState;
-    // }
+    case UPDATE_MEMBER:
+      return {
+        ...state,
+        groupMembers: {
+          ...state.groupMembers,
+          [action.groupId]: {
+            ...state.groupMembers[action.groupId],
+            [action.memberId]: {
+              ...state.groupMembers[action.groupId][action.memberId],
+              Membership: {
+                status: action.status
+              }
+            }
+          }
+        }
+      }
     case REMOVE_GROUP_DETAILS: {
       const newState = { ...state };
       delete newState.groupDetails[action.groupId];
@@ -549,8 +566,7 @@ function groupReducer(state = initialState, action) {
     }
     case REMOVE_MEMBER: {
       const newState = { ...state };
-      const members = newState.groupMembers[action.groupId];
-      newState.groupMembers[action.groupId] = members.filter(member => member.id !== action.memberId);
+      delete newState.groupMembers[action.groupId][action.memberId];
       return newState;
     }
     case SET_PAGINATION:
