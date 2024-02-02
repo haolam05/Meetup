@@ -303,10 +303,10 @@ export const loadEventImages = eventId => async (dispatch, getState) => {
   if (getState().event.eventDetails[eventId]) return;
 
   const response = await csrfFetch(`/api/events/${eventId}/images`);
-  if (response.ok) {
-    const images = await response.json();
-    dispatch(getEventImages(eventId, images.Images));
-  }
+  const images = await response.json();
+
+  if (!response.ok) return images.errors ? images : { errors: images };
+  dispatch(getEventImages(eventId, images.Images));
 };
 
 export const loadEventImage = payload => async dispatch => {

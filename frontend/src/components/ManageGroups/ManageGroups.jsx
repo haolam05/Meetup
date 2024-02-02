@@ -20,7 +20,7 @@ function ManageGroups() {
     const loadGroups = async () => {
       const groups = await dispatch(groupActions.loadCurrentUserGroups());
       if (groups?.errors?.message) {
-        setModalContent(<h1 className="heading modal-errors">{groups.errors.message}</h1>)
+        setModalContent(<h2 className="subheading modal-errors">{groups.errors.message}</h2>)
         navigate("/", { replace: true });
       }
 

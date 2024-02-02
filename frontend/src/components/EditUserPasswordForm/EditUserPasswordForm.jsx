@@ -18,7 +18,6 @@ function EditUserPasswordForm() {
     e.preventDefault();
     disabledSubmitButton();
 
-    console.log(newPassword, confirmNewPassword)
     if (newPassword !== confirmNewPassword) {
       enabledSubmitButton();
       return setErrors({ confirmNewPassword: "Confirm Password field must be the same as the Password field" });

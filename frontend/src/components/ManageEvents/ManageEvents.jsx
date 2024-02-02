@@ -20,7 +20,7 @@ function ManageEvents() {
     const loadEvents = async () => {
       const events = await dispatch(eventActions.loadCurrentUserEvents());
       if (events?.errors?.message) {
-        setModalContent(<h1 className="heading modal-errors">{events.errors.message}</h1>)
+        setModalContent(<h2 className="subheading modal-errors">{events.errors.message}</h2>)
         navigate("/", { replace: true });
       }
 

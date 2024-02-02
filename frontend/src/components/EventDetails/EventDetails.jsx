@@ -32,9 +32,9 @@ function EventDetails() {
   if (!event) return;
 
   const isPublic = !event.Group.private;
-  const isHost = event.Group.organizerId === user.id;
-  const isCohost = event.Group.members.find(m => m.id === user.id && m.Membership.status === 'co-host');
-  const isAttendee = event.attendees.find(attendee => attendee.id === user.id);
+  const isHost = user && event.Group.organizerId === user.id;
+  const isCohost = user && event.Group.members.find(m => m.id === user.id && m.Membership.status === 'co-host');
+  const isAttendee = user && event.attendees.find(attendee => attendee.id === user.id);
 
   return (
     <div id="lists-container">
@@ -54,8 +54,8 @@ function EventDetails() {
           userEvents={userEvents}
           // only show event images if group is public, or user is host/co-host, or user is an attendee (not pending or waitlist)
           showSlider={isPublic || (user && (isHost || isCohost || isAttendee))}
-          allowedPost={user && (isHost || isCohost || isAttendee)}
-          allowedDelete={user && (isHost || isCohost)}
+          allowedPost={isHost || isCohost || isAttendee}
+          allowedDelete={isHost || isCohost}
         />
         <div id="event-details-wrapper">
           <h2 className="subheading">Details</h2>

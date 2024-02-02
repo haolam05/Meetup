@@ -321,10 +321,10 @@ export const loadGroupImages = groupId => async (dispatch, getState) => {
   if (getState().group.groupDetails[groupId]) return;
 
   const response = await csrfFetch(`/api/groups/${groupId}/images`);
-  if (response.ok) {
-    const images = await response.json();
-    dispatch(getGroupImages(groupId, images.Images));
-  }
+  const images = await response.json();
+
+  if (!response.ok) return images.errors ? images : { errors: images };
+  dispatch(getGroupImages(groupId, images.Images));
 };
 
 export const loadGroupImage = payload => async dispatch => {

@@ -54,7 +54,6 @@ function GroupForm({ group = {}, title }) {
       imageId: group?.previewImageId
     }
 
-    console.log(payload);
     let groupData;
     if (title === 'Update Group') {
       groupData = await dispatch(groupActions.updateGroup(payload, group.id));
