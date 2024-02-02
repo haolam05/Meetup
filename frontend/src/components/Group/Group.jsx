@@ -21,9 +21,9 @@ function Group({ group, user = false, description = true, organizer = false, use
   const [createEventBtn, setCreateEventBtn] = useState(false);
   const [viewGalleryBtn, setViewGalleryBtn] = useState(false);
 
-  const removeMember = async e => {
+  const removeMember = status => async e => {
     e.preventDefault();
-    await dispatch(groupActions.deleteMember(group.id, user.id));
+    await dispatch(groupActions.deleteMember(group.id, user.id, status));
     setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
     navigate(`/groups`, { replace: true });
   }
@@ -32,7 +32,7 @@ function Group({ group, user = false, description = true, organizer = false, use
     const user = userGroups.find(userGroup => userGroup.id === group.id);
     if (!user) return <JoinGroupBtn />
     if (user.Membership.status === "pending") return <PendingBtn />
-    if (['member', 'co-host'].includes(user.Membership.status)) return <UnjoinGroupBtn removeMember={removeMember} />;
+    if (['member', 'co-host'].includes(user.Membership.status)) return <UnjoinGroupBtn removeMember={removeMember(user.Membership.status)} />;
   }
 
   function OwnerButtons() {

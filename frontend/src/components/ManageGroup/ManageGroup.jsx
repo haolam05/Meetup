@@ -33,9 +33,9 @@ function ManageGroup({ group, user }) {
     loadInfo();
   }, [dispatch, user])
 
-  const removeMember = async e => {
+  const removeMember = status => async e => {
     e.preventDefault();
-    await dispatch(groupActions.deleteMember(group.id, user.id));
+    await dispatch(groupActions.deleteMember(group.id, user.id, status));
     setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
     navigate(`/groups`, { replace: true });
   }
@@ -43,7 +43,7 @@ function ManageGroup({ group, user }) {
   function RegularButtons() {
     const user = userGroups.find(userGroup => userGroup.id === group.id);
     if (user.Membership.status === "pending") return <PendingBtn />
-    return <UnjoinGroupBtn removeMember={removeMember} />;
+    return <UnjoinGroupBtn removeMember={removeMember(user.Membership.status)} />;
   }
 
   function OwnerButtons() {

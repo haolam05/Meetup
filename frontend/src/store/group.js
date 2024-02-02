@@ -20,6 +20,7 @@ const RESET = '/groups/RESET';
 const RESET_GROUP_DETAILS = '/groups/RESET_GROUP_DETAILS';
 const RESET_USER_GROUPS = '/groups/RESET_USER_GROUPS';
 const RESET_GROUPS = '/groups/RESET_GROUPS';
+const RESET_MEMBERS = '/groups/RESET_MEMBERS';
 
 // POJO action creators
 const getUserGroups = groups => ({
@@ -109,6 +110,10 @@ const resetGroups = () => ({
 
 const resetGroupDetails = () => ({
   type: RESET_GROUP_DETAILS
+});
+
+const resetMembers = () => ({
+  type: RESET_MEMBERS
 });
 
 // Thunk action creators
@@ -382,14 +387,14 @@ export const loadGroupMembers = groupId => async (dispatch, getState) => {
   }
 };
 
-export const deleteMember = (groupId, memberId) => async dispatch => {
+export const deleteMember = (groupId, memberId, status) => async dispatch => {
   const response = await csrfFetch(`/api/groups/${groupId}/membership/${memberId}`, {
     method: 'DELETE'
   });
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(removeMember(groupId, memberId));
+    status === "co-host" ? dispatch(resetMembers()) : dispatch(removeMember(groupId, memberId));
     dispatch(resetGroupDetails());
     dispatch(resetUserGroups());
     dispatch(eventActions.resetEventDetails());
@@ -600,6 +605,11 @@ function groupReducer(state = initialState, action) {
       return {
         ...state,
         groupDetails: {}
+      }
+    case RESET_MEMBERS:
+      return {
+        ...state,
+        groupMembers: {}
       }
     default:
       return state;
