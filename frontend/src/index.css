@@ -26,6 +26,13 @@ html {
   scroll-behavior: smooth;
 }
 
+p {
+  text-shadow: none;
+  color: var(--gray);
+  font-style: italic;
+  letter-spacing: 0.6px;
+}
+
 .heading {
   font-size: 25pt;
   font-weight: bold;

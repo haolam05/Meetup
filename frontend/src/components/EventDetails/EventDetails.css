@@ -7,7 +7,6 @@
 }
 
 #event-details-wrapper p {
-  text-shadow: var(--light-yellow) 1px 0 10px;
   word-break: break-word;
   text-align: justify;
 }
