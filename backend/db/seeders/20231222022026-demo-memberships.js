@@ -86,13 +86,33 @@ const memberships = [
   },
   {
     userEmail: userEmails[3],
+    groupName: groupNames[4],
+    status: status[1]
+  },
+  {
+    userEmail: userEmails[3],
+    groupName: groupNames[0],
+    status: status[1]
+  },
+  {
+    userEmail: userEmails[3],
     groupName: groupNames[11],
-    status: status[0]
+    status: status[1]
   },
   {
     userEmail: userEmails[4],
     groupName: groupNames[5],
     status: status[1]
+  },
+  {
+    userEmail: userEmails[4],
+    groupName: groupNames[0],
+    status: status[2]
+  },
+  {
+    userEmail: userEmails[4],
+    groupName: groupNames[4],
+    status: status[2]
   },
   {
     userEmail: userEmails[4],
@@ -105,14 +125,34 @@ const memberships = [
     status: status[1]
   },
   {
+    userEmail: userEmails[4],
+    groupName: groupNames[8],
+    status: status[1]
+  },
+  {
+    userEmail: userEmails[4],
+    groupName: groupNames[9],
+    status: status[1]
+  },
+  {
     userEmail: userEmails[5],
     groupName: groupNames[4],
     status: status[0]
   },
   {
     userEmail: userEmails[5],
+    groupName: groupNames[0],
+    status: status[2]
+  },
+  {
+    userEmail: userEmails[5],
     groupName: groupNames[5],
     status: status[2]
+  },
+  {
+    userEmail: userEmails[5],
+    groupName: groupNames[7],
+    status: status[1]
   },
   {
     userEmail: userEmails[5],
@@ -123,6 +163,21 @@ const memberships = [
     userEmail: userEmails[6],
     groupName: groupNames[1],
     status: status[0]
+  },
+  {
+    userEmail: userEmails[6],
+    groupName: groupNames[0],
+    status: status[2]
+  },
+  {
+    userEmail: userEmails[6],
+    groupName: groupNames[5],
+    status: status[2]
+  },
+  {
+    userEmail: userEmails[6],
+    groupName: groupNames[6],
+    status: status[1]
   }
 ];
 

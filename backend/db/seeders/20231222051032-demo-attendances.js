@@ -89,12 +89,12 @@ const attendances = [
   },
   {
     eventName: eventNames[2],
-    userEmail: userEmails[2],
+    userEmail: userEmails[0],
     status: status[1]
   },
   {
     eventName: eventNames[2],
-    userEmail: userEmails[0],
+    userEmail: userEmails[4],
     status: status[0]
   },
   {
@@ -154,14 +154,200 @@ const attendances = [
   },
   {
     eventName: eventNames[12],
-    userEmail: userEmails[5],
+    userEmail: userEmails[3],
     status: status[2]
   },
   {
     eventName: eventNames[13],
+    userEmail: userEmails[3],
+    status: status[2]
+  },
+
+
+  {
+    eventName: eventNames[14],
+    userEmail: userEmails[0],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[14],
+    userEmail: userEmails[1],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[14],
+    userEmail: userEmails[3],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[14],
+    userEmail: userEmails[4],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[14],
+    userEmail: userEmails[5],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[14],
     userEmail: userEmails[6],
     status: status[2]
   },
+  {
+    eventName: eventNames[15],
+    userEmail: userEmails[0],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[15],
+    userEmail: userEmails[1],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[15],
+    userEmail: userEmails[3],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[15],
+    userEmail: userEmails[4],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[15],
+    userEmail: userEmails[5],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[15],
+    userEmail: userEmails[6],
+    status: status[0]
+  },
+
+  {
+    eventName: eventNames[16],
+    userEmail: userEmails[0],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[16],
+    userEmail: userEmails[1],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[16],
+    userEmail: userEmails[3],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[16],
+    userEmail: userEmails[4],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[16],
+    userEmail: userEmails[5],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[16],
+    userEmail: userEmails[6],
+    status: status[2]
+  },
+
+  {
+    eventName: eventNames[17],
+    userEmail: userEmails[0],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[17],
+    userEmail: userEmails[1],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[17],
+    userEmail: userEmails[3],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[17],
+    userEmail: userEmails[4],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[17],
+    userEmail: userEmails[5],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[17],
+    userEmail: userEmails[6],
+    status: status[2]
+  },
+
+  {
+    eventName: eventNames[18],
+    userEmail: userEmails[0],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[18],
+    userEmail: userEmails[1],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[18],
+    userEmail: userEmails[3],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[18],
+    userEmail: userEmails[4],
+    status: status[2]
+  },
+  {
+    eventName: eventNames[18],
+    userEmail: userEmails[5],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[18],
+    userEmail: userEmails[6],
+    status: status[2]
+  },
+
+  {
+    eventName: eventNames[19],
+    userEmail: userEmails[0],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[19],
+    userEmail: userEmails[1],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[19],
+    userEmail: userEmails[3],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[19],
+    userEmail: userEmails[4],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[19],
+    userEmail: userEmails[5],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[19],
+    userEmail: userEmails[6],
+    status: status[0]
+  }
 ];
 
 /** @type {import('sequelize-cli').Migration} */

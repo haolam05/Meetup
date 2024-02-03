@@ -17,7 +17,11 @@ function JoinEventBtn({ eventId, status }) {
 
     if (data?.errors) {
       enabledSubmitButton();
-      setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>);
+      if (data.errors.message === "Forbidden") {
+        setModalContent(<h2 className="subheading modal-errors">You are not a member of this group!</h2>);
+      } else {
+        setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>);
+      }
     } else {
       setModalContent(<h2 className="subheading alert-success">Successully Sent Request!</h2>);
       navigate(`/events`, { replace: true });

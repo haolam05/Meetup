@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-const { Membership, Group, User } = require('../db/models');
+const { Membership, Attendance, Event, Group, User } = require('../db/models');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const { Op } = require('sequelize');
 const checkUserRole = require('../utils/userRoleAuthorization');
@@ -151,6 +151,20 @@ async function deleteMember(req, res, next) {
   if (group.organizerId !== req.user.id && req.user.id !== user.id) {
     const err = forbiddenError();
     return next(err);
+  }
+
+  const events = await Event.findAll({ where: { groupId: group.id } });
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    const attendance = await Attendance.findOne({
+      where: {
+        [Op.and]: [
+          { eventId: event.id },
+          { userId: user.id }
+        ]
+      }
+    });
+    if (attendance) await attendance.destroy();
   }
 
   await membership.destroy();

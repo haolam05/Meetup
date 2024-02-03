@@ -410,10 +410,8 @@ export const deleteMember = (groupId, memberId, status) => async dispatch => {
   if (status) { // if status, member unjoined, if no status, owner removes member
     dispatch(resetGroupDetails());
     dispatch(resetUserGroups());
-    if (status === "co-host") {
-      dispatch(resetMembers()); // to hide pending members
-      dispatch(eventActions.resetEventDetails()); // change co-host logo on eventDetail page
-    }
+    dispatch(eventActions.reset()); // change co-host logo on eventDetail page & all events should be deleted when a user is delted from a group
+    if (status === "co-host") dispatch(resetMembers()); // to hide pending members
   }
   return data;
 };

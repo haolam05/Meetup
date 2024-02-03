@@ -1936,6 +1936,7 @@ Delete a membership to a group specified by id.
 * Require Authentication: true
 * Require proper authorization: Current User must be the host of the group, or
   the user whose membership is being deleted
+* If the user attends any event that belongs to the group, delete all attendance.
 * Request
   * Method: DELETE
   * URL: /api/groups/:groupId/membership/:memberId
