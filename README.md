@@ -16,6 +16,12 @@
 ### Signup
 ![alt text](signup.gif)
 
+### Update Password
+![alt text](<update password.gif>)
+
+### Update User Profile
+![alt text](<update user profile.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
