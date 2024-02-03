@@ -429,7 +429,7 @@ Returns all the groups.
     }
     ```
 
-### Get all Groups joined or organized by the Current User
+### Get all Groups joined or organized by the Current User, and the groups where user has requested memberships.
 
 Returns all the groups.
 
@@ -1108,7 +1108,7 @@ Returns all the events.
       ]
     }
     ```
-### Get all Events attended or hosted by the Current User
+### Get all Events attended or hosted by the Current User, and the events where user has requested attendance.
 
 Returns all the events.
 
