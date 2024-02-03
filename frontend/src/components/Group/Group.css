@@ -29,7 +29,7 @@
   margin-top: 10px;
 }
 
-#group-join-btn:hover {
+#group-join-btn.group-join-btn:hover {
   border: 1px solid var(--red);
   color: var(--red);
   background-color: transparent;

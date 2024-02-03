@@ -24,7 +24,7 @@ function JoinGroupBtn({ groupId }) {
     }
   }
 
-  return <button type="submit" id="group-join-btn" className="btn-primary" onClick={requestMembership}>Join this group</button>;
+  return <button type="submit" id="group-join-btn" className="btn-primary group-join-btn" onClick={requestMembership}>Join this group</button>;
 }
 
 export default JoinGroupBtn;
