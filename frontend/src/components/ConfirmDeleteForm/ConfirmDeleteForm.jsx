@@ -1,18 +1,19 @@
 import "./ConfirmDeleteForm.css";
 
-function ConfirmDeleteForm({ text, deleteCb, cancelDeleteCb, title, unjoinGroup }) {
+function ConfirmDeleteForm({ text, deleteCb, cancelDeleteCb, title, unjoinGroup, unattendEvent }) {
   function Question() {
     if (unjoinGroup) return <p>Are you sure you want to unjoin this group?</p>;
+    if (unattendEvent) return <p>Are you sure you want to unattend this event?</p>;
     return <p>Are you sure you want to remove this {title ? title.toLowerCase() : text.toLowerCase()}?</p>;
   }
 
   function YesReponse() {
-    if (unjoinGroup) return <span className="sub-text">(Leave)</span>;
+    if (unjoinGroup || unattendEvent) return <span className="sub-text">(Leave)</span>;
     return <span className="sub-text">(Delete {title ? title : text})</span>
   }
 
   function NoReponse() {
-    if (unjoinGroup) return <span className="sub-text">(Stay)</span>;
+    if (unjoinGroup || unattendEvent) return <span className="sub-text">(Stay)</span>;
     return <span className="sub-text">(Keep {title ? title : text})</span>
   }
 

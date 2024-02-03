@@ -9,7 +9,7 @@ async function getCurrentUserEvents(req, res) {
   const groupsCreatedByUser = (await req.user.getGroups()).map(group => group.id);
   let eventsHostedByUser = await Event.findAll({ where: { groupId: groupsCreatedByUser } });
   eventsHostedByUser = eventsHostedByUser.map(event => ({ ...event.toJSON(), hostId: req.user.id }));
-  const eventsAttendedByUser = (await req.user.getEvents()).filter(event => event.Attendance.status === "attending");
+  const eventsAttendedByUser = await req.user.getEvents();
 
   res.json({
     Events: [

@@ -7,3 +7,7 @@
   color: var(--gray);
   border: 1px solid var(--gray);
 }
+
+#manage-event button.btn-accent {
+  border: none;
+}

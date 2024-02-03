@@ -1,12 +1,12 @@
 import { useModal } from "../../context/Modal";
 import { capitalize } from "../../utils/capitalize";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
 import MembershipStatusForm from "../MembershipStatusForm";
 import OpenModalButton from "../OpenModalButton";
 import * as groupActions from "../../store/group";
 import "./Member.css";
-import { useNavigate } from "react-router-dom";
 
 function Member({ member, status, memberType, groupId }) {
   const dispatch = useDispatch();

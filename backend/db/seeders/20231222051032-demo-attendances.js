@@ -59,8 +59,23 @@ const attendances = [
   },
   {
     eventName: eventNames[0],
-    userEmail: userEmails[2],
+    userEmail: userEmails[3],
+    status: status[0]
+  },
+  {
+    eventName: eventNames[0],
+    userEmail: userEmails[4],
     status: status[1]
+  },
+  {
+    eventName: eventNames[0],
+    userEmail: userEmails[5],
+    status: status[1]
+  },
+  {
+    eventName: eventNames[0],
+    userEmail: userEmails[6],
+    status: status[2]
   },
   {
     eventName: eventNames[1],

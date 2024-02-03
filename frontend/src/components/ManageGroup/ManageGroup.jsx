@@ -29,7 +29,7 @@ function ManageGroup({ group, user }) {
       setIsLoaded(true);
     }
     loadInfo();
-  }, [dispatch, user])
+  }, [dispatch, user]);
 
   function RegularButtons() {
     const userGroup = userGroups.find(userGroup => userGroup.id === group.id);

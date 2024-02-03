@@ -16,7 +16,6 @@ function GroupMembers() {
   const members = useSelector(groupActions.getGroupMembers(groupId));
   const [isLoaded, setIsLoaded] = useState(false);
 
-
   const getStatus = () => {
     if (user) {
       if (group.organizerId === user.id) return "owner";

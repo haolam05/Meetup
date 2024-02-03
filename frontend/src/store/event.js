@@ -5,12 +5,15 @@ import * as groupActions from './group';
 const LOAD_USER_EVENTS = '/events/LOAD_USER_EVENTS';
 const LOAD_EVENTS = '/events/LOAD_EVENTS';
 const LOAD_EVENT_IMAGES = '/events/LOAD_EVENT_IMAGES';
+const LOAD_EVENT_ATTENDEES = '/events/LOAD_EVENT_ATTENDEES';
 const ADD_EVENT_DETAILS = '/events/ADD_EVENT_DETAILS';
 const ADD_EVENT = '/events/ADD_EVENT';
 const ADD_USER_EVENT = '/events/ADD_USER_EVENT';
 const ADD_EVENT_IMAGE = '/events/ADD_EVENT_IMAGE';
+const UPDATE_ATTENDEE = '/events/UPDATE_ATTENDEE';
 const REMOVE_EVENT_DETAILS = '/events/REMOVE_EVENT_DETAILS';
 const REMOVE_EVENT_IMAGE = '/events/REMOVE_EVENT_IMAGE';
+const REMOVE_ATTENDEE = '/events/REMOVE_ATTENDEE';
 const SET_PAGINATION = '/events/SET_PAGINATION';
 const RESET = '/events/RESET';
 const RESET_USER_EVENTS = '/events/RESET_USER_EVENTS';
@@ -26,6 +29,12 @@ const getUserEvents = events => ({
 const getAllEvents = events => ({
   type: LOAD_EVENTS,
   events
+});
+
+const getAllEventAttendees = (eventId, attendees) => ({
+  type: LOAD_EVENT_ATTENDEES,
+  eventId,
+  attendees
 });
 
 const getAllEventDetails = event => ({
@@ -47,6 +56,19 @@ const addEventImage = (eventId, image) => ({
   type: ADD_EVENT_IMAGE,
   eventId,
   image
+});
+
+const editAttendee = (eventId, attendeeId, status) => ({
+  type: UPDATE_ATTENDEE,
+  eventId,
+  attendeeId,
+  status
+});
+
+const removeAttendee = (eventId, attendeeId) => ({
+  type: REMOVE_ATTENDEE,
+  eventId,
+  attendeeId
 });
 
 const resetEvents = () => ({
@@ -88,6 +110,7 @@ export const resetEventDetails = () => ({
   type: RESET_EVENT_DETAILS
 });
 
+// Thunk action creators
 export const loadCurrentUserEvents = () => async (dispatch, getState) => {
   if (Object.values(getState().event.userEvents).length) return;
 
@@ -331,7 +354,63 @@ export const deleteEventImage = (eventId, imageId) => async dispatch => {
   }
 };
 
+export const loadEventAttendees = eventId => async (dispatch, getState) => {
+  if (getState().event.eventAttendees[eventId]) return;
+  const response = await csrfFetch(`/api/events/${eventId}/attendees`);
+
+  if (response.ok) {
+    const attendees = await response.json();
+    dispatch(getAllEventAttendees(eventId, attendees.Attendees));
+  }
+};
+
+export const loadEventAttendee = eventId => async dispatch => {
+  const response = await csrfFetch(`/api/events/${eventId}/attendance`, {
+    method: "POST"
+  });
+
+  const attendee = await response.json();
+  if (!response.ok) return attendee.errors ? attendee : { errors: attendee };
+  dispatch(resetUserEvents());  // to show new event in "Your events"
+  dispatch(resetEventDetails());  // to update "Join" to "Pending" to "Wait" button
+};
+
+export const deleteAttendee = (eventId, attendeeId, status) => async dispatch => {
+  const response = await csrfFetch(`/api/events/${eventId}/attendance/${attendeeId}`, {
+    method: 'DELETE'
+  });
+
+  const data = await response.json();
+  if (!response.ok) return data.errors ? data : { errors: data };
+
+  dispatch(removeAttendee(eventId, attendeeId));
+  if (status) { // if status, attendee unattend, if no status, owner removes attendee
+    // event if co-host unattends, still the co-host of the group -> still can see pending attendees
+    dispatch(resetEventDetails());
+    dispatch(resetUserEvents());
+  }
+  return data;
+};
+
+export const updateAttendee = (eventId, payload) => async dispatch => {
+  const response = await csrfFetch(`/api/events/${eventId}/attendance`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      ...payload
+    })
+  });
+
+  const attendance = await response.json();
+  if (!response.ok) return attendance.errors ? attendance : { errors: attendance };
+  dispatch(editAttendee(eventId, attendance.userId, attendance.status));
+};
+
 // Custom selectors
+export const getEventAttendees = eventId => createSelector(
+  state => state.event.eventAttendees,
+  attendees => attendees[eventId] ? Object.values(attendees[eventId]) : []
+);
+
 export const getCurrentEventImages = eventId => createSelector(
   state => state.event.eventDetails,
   event => event[eventId]?.EventImages
@@ -387,7 +466,7 @@ export const getEventSize = createSelector(
 );
 
 // Reducer
-const initialState = { userEvents: {}, events: {}, eventDetails: {}, page: 0, size: 0 };
+const initialState = { userEvents: {}, events: {}, eventDetails: {}, eventAttendees: {}, page: 0, size: 0 };
 
 function eventReducer(state = initialState, action) {
   switch (action.type) {
@@ -407,6 +486,16 @@ function eventReducer(state = initialState, action) {
           ...action.events
         }
       };
+    case LOAD_EVENT_ATTENDEES:
+      return {
+        ...state,
+        eventAttendees: {
+          ...state.eventAttendees,
+          [action.eventId]: {
+            ...action.attendees.reduce((state, attendee) => (state[attendee.id] = attendee) && state, {})
+          }
+        }
+      }
     case LOAD_EVENT_IMAGES:
       return {
         ...state,
@@ -418,6 +507,7 @@ function eventReducer(state = initialState, action) {
           }
         }
       }
+
     case ADD_EVENT_DETAILS:
       return {
         ...state,
@@ -459,6 +549,22 @@ function eventReducer(state = initialState, action) {
           }
         }
       }
+    case UPDATE_ATTENDEE:
+      return {
+        ...state,
+        eventAttendees: {
+          ...state.eventAttendees,
+          [action.eventId]: {
+            ...state.eventAttendees[action.eventId],
+            [action.attendeeId]: {
+              ...state.eventAttendees[action.eventId][action.attendeeId],
+              Attendance: {
+                status: action.status
+              }
+            }
+          }
+        }
+      }
     case REMOVE_EVENT_DETAILS: {
       const newState = { ...state };
       delete newState.eventDetails[action.eventId];
@@ -468,6 +574,12 @@ function eventReducer(state = initialState, action) {
       const newState = { ...state };
       const images = newState.eventDetails[action.eventId].EventImages;
       newState.eventDetails[action.eventId].EventImages = images.filter(image => image.id !== action.imageId);
+      return newState;
+    }
+    case REMOVE_ATTENDEE: {
+      const newState = { ...state };
+      const event = newState.eventAttendees[action.eventId]
+      if (event) delete event[action.attendeeId];
       return newState;
     }
     case SET_PAGINATION:

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import "./MembershipStatusModal.css";
-function MembershipStatusModal({ groupId }) {
 
+function MembershipStatusModal({ groupId }) {
   const navigate = useNavigate();
   const { closeModal } = useModal();
 

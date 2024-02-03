@@ -11,12 +11,10 @@ const ADD_GROUP_DETAILS = '/groups/ADD_GROUP_DETAILS';
 const ADD_GROUP = '/groups/ADD_GROUP';
 const ADD_USER_GROUP = '/groups/ADD_USER_GROUP';
 const ADD_GROUP_IMAGE = '/groups/ADD_GROUP_IMAGE';
-const ADD_MEMBER = '/groups/ADD_MEMBER';
 const UPDATE_MEMBER = '/groups/UPDATE_MEMBER';
 const REMOVE_GROUP_DETAILS = '/groups/REMOVE_GROUP_DETAILS';
 const REMOVE_GROUP_IMAGE = '/groups/REMOVE_GROUP_IMAGE';
 const REMOVE_MEMBER = '/groups/REMOVE_MEMBER';
-const REMOVE_GROUP_MEMBERS = '/groups/REMOVE_GROUP_MEMBERS';
 const SET_PAGINATION = '/groups/SET_PAGINATION';
 const RESET = '/groups/RESET';
 const RESET_GROUP_DETAILS = '/groups/RESET_GROUP_DETAILS';
@@ -62,12 +60,6 @@ const addGroupImage = (groupId, image) => ({
   image
 });
 
-const addMember = (groupId, member) => ({
-  type: ADD_MEMBER,
-  groupId,
-  member
-});
-
 const editMember = (groupId, memberId, status) => ({
   type: UPDATE_MEMBER,
   groupId,
@@ -79,11 +71,6 @@ const removeMember = (groupId, memberId) => ({
   type: REMOVE_MEMBER,
   groupId,
   memberId
-});
-
-const removeGroupMembers = groupId => ({
-  type: REMOVE_GROUP_MEMBERS,
-  groupId
 });
 
 export const removeGroupDetails = groupId => ({
@@ -407,8 +394,6 @@ export const loadGroupMember = groupId => async dispatch => {
 
   const member = await response.json();
   if (!response.ok) return member.errors ? member : { errors: member };
-  dispatch(addMember(groupId, member));
-  dispatch(removeGroupMembers(groupId));  // force reload to show update in case groupMembers already exist
   dispatch(resetUserGroups());  // to show new group in "Your groups"
   dispatch(resetGroupDetails());  // to update "Join" to "Pending" button
 };
@@ -581,17 +566,6 @@ function groupReducer(state = initialState, action) {
           }
         }
       }
-    case ADD_MEMBER:
-      return {
-        ...state,
-        groupMembers: {
-          ...state.groupMembers,
-          [action.groupId]: {
-            ...state.groupMembers[action.groupId],
-            [action.groupId]: action.member
-          }
-        }
-      }
     case UPDATE_MEMBER:
       return {
         ...state,
@@ -623,11 +597,6 @@ function groupReducer(state = initialState, action) {
       const newState = { ...state };
       const group = newState.groupMembers[action.groupId]
       if (group) delete group[action.memberId];
-      return newState;
-    }
-    case REMOVE_GROUP_MEMBERS: {
-      const newState = { ...state };
-      delete newState.groupMembers[action.groupId];
       return newState;
     }
     case SET_PAGINATION:

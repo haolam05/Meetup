@@ -7,6 +7,10 @@ import OpenModalButton from '../OpenModalButton';
 import DeleteEvent from '../DeleteEvent';
 import ImageSlider from '../ImageSlider';
 import ImageFormModal from '../ImageFormModal';
+import PendingBtn from '../PendingBtn';
+import WaitListBtn from '../WaitListBtn';
+import UnjoinEventBtn from '../UnjoinEventBtn';
+import JoinEventBtn from '../JoinEventBtn';
 import "./Event.css";
 
 function Event({ event, user = false, details = false, userEvents = [], showSlider = false, allowedPost = false, allowedDelete = false }) {
@@ -16,6 +20,27 @@ function Event({ event, user = false, details = false, userEvents = [], showSlid
   function EventGalleryBtn() {
     if (allowedDelete && allowedPost) return <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/images`, { replace: true })}>Gallery</button>;
     else if (allowedPost) return <button id="group-join-btn" className="btn-accent" onClick={() => setModalContent(<ImageFormModal eventId={event.id} />)}>Post Image</button>;
+  }
+
+  function OwnerButtons() {
+    return <>
+      <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/edit`)}>Update</button>
+      <OpenModalButton modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />} buttonText="Delete" />
+    </>;
+  }
+
+  function RegularButtons() {
+    const userEvent = userEvents.find(userEvent => userEvent.id === event.id);
+    if (!userEvent) return <JoinEventBtn eventId={event.id} />
+    if (userEvent.Attendance.status === "pending") return <PendingBtn />
+    if (userEvent.Attendance.status === "waitlist") return <WaitListBtn />
+    if (userEvent.Attendance.status === 'attending') {
+      return <UnjoinEventBtn
+        event={event}
+        user={user}
+        status={userEvent.Attendance.status}
+      />
+    }
   }
 
   if (!details) return (
@@ -107,30 +132,10 @@ function Event({ event, user = false, details = false, userEvents = [], showSlid
             <p>{`${event.description.slice(0, 50)}...`}</p>
           </div>
         </div>
-        {user && (
-          user.id === event.Group.Organizer.id ? (
-            <>
-              <div id="event-line-break"></div>
-              <div id="event-btns">
-                <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/edit`)}>Update</button>
-                <OpenModalButton modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />} buttonText="Delete" />
-                <EventGalleryBtn />
-              </div>
-            </>
-          ) : (
-            userEvents.find(userEvent => userEvent.id === event.id) ? (
-              <div id="event-btns">
-                <button id="group-join-btn" className="btn-accent" onClick={() => alert(`Feature coming soon`)}>Unattend this event</button>
-                <EventGalleryBtn />
-              </div>
-            ) : (
-              <div id="event-btns">
-                <button id="group-join-btn" className="btn-primary" onClick={() => alert(`Feature coming soon`)}>Attend this event</button>
-                <EventGalleryBtn />
-              </div>
-            )
-          )
-        )}
+        <div id="event-btns">
+          {user && (user.id === event.Group.Organizer.id ? <OwnerButtons /> : <RegularButtons />)}
+          <EventGalleryBtn />
+        </div>
       </div>
     </div >
   );

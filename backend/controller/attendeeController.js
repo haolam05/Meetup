@@ -13,17 +13,17 @@ async function getEventAttendees(req, res, next) {
     return next(err);
   }
 
-  let events = await event.getUsers();
-  events = events.map(e => ({ id: e.id, firstName: e.firstName, lastName: e.lastName, Attendance: { status: e.Attendance.status } }));
+  let attendees = await event.getUsers();
+  attendees = attendees.map(a => ({ id: a.id, firstName: a.firstName, lastName: a.lastName, profileImageUrl: a.profileImageUrl, Attendance: { status: a.Attendance.status } }));
   if (req.user) {
     const group = await Group.findByPk(event.groupId);
     const notAuthorized = await checkUserRole(group, req.user.id);
-    if (notAuthorized) events = events.filter(event => event.Attendance.status != 'pending');
+    if (notAuthorized) attendees = attendees.filter(event => event.Attendance.status != 'pending');
   } else {
-    events = events.filter(event => event.Attendance.status != 'pending');
+    attendees = attendees.filter(event => event.Attendance.status != 'pending');
   }
 
-  res.json({ Attendees: events });
+  res.json({ Attendees: attendees });
 }
 
 async function createEventAttendance(req, res, next) {
