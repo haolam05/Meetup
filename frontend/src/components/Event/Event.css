@@ -9,7 +9,7 @@
 }
 
 #event.event {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 5fr 6fr;
 }
 
 #event-image img {
