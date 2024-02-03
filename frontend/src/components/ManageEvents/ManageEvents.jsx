@@ -7,7 +7,7 @@ import NoResultsFound from '../NoResultsFound';
 import ManageEvent from '../ManageEvent/ManageEvent';
 import * as sessionActions from '../../store/session';
 import * as eventActions from '../../store/event';
-import { sortAsc, sortDesc } from '../../utils/dateConverter';
+import { sortDesc } from '../../utils/dateConverter';
 
 function ManageEvents() {
   const { setModalContent } = useModal();
