@@ -1,12 +1,245 @@
 # Meetup Clone
 
+## https://meetup-tzx9.onrender.com/
+
 ## Database Schema Design
 
 ![meetup-database-schema]
 
-<!-- [meetup-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png -->
 [meetup-database-schema]: https://meetup2024.s3.us-west-2.amazonaws.com/public/meetup-database-schema.png
 [meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
+
+## Techologies
+* PERN Stack
+  * Postgres (Sqlite in development)
+  * Express
+  * React (Redux for state management)
+  * Node
+* Sequelize
+  * ORM for easier CRUD operations on the database
+* Dyanmic seedings
+  * A variety of seeds are dynamically created for testing and demo purposes without hard-coding
+* AWS
+  * Cloud hosting service for image(s) uploading
+* Multer
+  * Middleware to handle multipart/form-data
+* Redux State Hydration
+  * Avoid unecessary fetches from the database, speed up application, and increase users' experience while ensuring data integrity across pages
+* React Routers
+  * Easy navigating between pages within the application
+* React Context
+  * Avoid props threading, used to store small-size global data
+* Vite
+  * Used for React project templates
+* CSRF Protection
+  * By exchanging tokens for non-GET requests
+* Prevent SQL injections
+  * By sanitize queries input
+* Prevent Rainbow Table attacks (bcrypt)
+  * By salt and hash passwords before storing in the database
+* Prevent XSS attacks
+  * Force all inputs to be text
+  * Also applied csrf practice mentioned above for extra layer of protection
+* CORS
+  * Enabled during development
+* DBDiagram
+  * Used for design and sketch database schema, assign associations amongst tables
+* Eslint
+  * Used for consistent styling
+* Data Racing
+  * Avoid false positive due to fast button clicks
+  * Avoid multiple CUD records being sent to the database by ensuring CUD signals are only processed once
+
+## Design Principles and Techniques
+* Simple
+  * Compact
+    * Only necessary information is displayed
+  * Intuitive navigating
+    * Logo on the left
+    * User menu on the right
+    * Red color for error messages
+    * Green color for successful messages
+  * Flexible
+    * Easy to input dates
+    * Form input tolerance
+      * ex: "City, State" or "City State" or "City,State"
+* Clear
+  * Disabled buttons/links are signaled via visual cues such as
+    * using not-allow cursor-pointer
+    * hightlight with a darker color
+    * disallowed hovering effects
+* White space
+  * Respect user's white space
+  * Only horizontal lines are used for spacing
+  * Items are displayed proportionally and spaced accordingly in a way that
+    * is easy to read
+    * is comfortable to look at
+* Colors
+  * Maximum 3 main colors per page
+  * Ensure color on text is easy to read
+  * Avoid high contrast colors that are hard to read
+* Accessible and Convinient
+  * An action can be done by the user on many pages
+  * All images come with an "alt" tag for description
+
+## Features
+* User authentication
+  * Signup
+    * Anyone is allowed to sign up
+    * "username" and "email" must be unique
+    * Allows user to upload an avatar (optional)
+      * If no avatar is provided, a default avatar will be used
+  * Login
+    * Create session
+    * Set CSRF token
+  * Logout
+    * Delete session
+    * Remove CSRF token
+  * Update Password
+    * Allows user to update password after signed up
+    * Password is required
+  * Forgot Password
+    * (coming soon)
+* User authorization
+  * Ensure protection on protected routes
+* Roles
+  * Display data based on the current user's role (more on Memberships and Attendances)
+* Global Messages
+  * Display friendly messages to user via modals
+  * Message content can varied based on different scenarios
+* Glbal Error Handling
+  * Avoid invalid routes
+  * Display helpful messages when route is not found
+  * Prevent user to abuse the system by navigating via the URL
+* Searchbox
+  * Search for groups/events with real-time response
+  * Search for provided substring
+  * Only search for results that are already loaded from the database
+    * If user views the first "n pages" from the group overiew pages, then ONLY the first "n pages" are included in the search
+    * If the user had loaded all pages and are currently on any random page, all pages are included in the search
+  * Only highlight results on "current page"
+  * When the first letter is entered
+    * Highlight results are on current page
+    * Results before the first highlight are from previous page
+    * Results after the last highlight are from next page
+  * From the second letter
+    * All matched results are highlighted since they are now on "current page"
+* Simple Image Upload
+  * Allow users to quickly upload event images, group images, avatar, etc
+  * Choose a file, no URL needed
+* Pagination
+  * Allow users can choose number of results to be returned
+  * Allow users can go to an atritrary page from any pages
+* Sorting
+  * Upcoming events are display first, ordered by most upcoming events
+  * Past events are display last, ordred by events that are closer to the current date
+* Groups overview
+  * Display a list of all groups, can applied pagination and searchbox
+* Events overview
+  * Display a list of all events, can applied pagination and searchbox
+* Your Profile
+  * Display an overview page that is customized for the currently logged in user
+  * Displays helpful statistics to the user including
+    * list of groups joined/owned
+    * list of events hosted/attended
+    * number of groups joined/owned
+    * number of gevents hosted/attended
+  * Links to each section mentioned above are also provided
+    * when a link to a section is clicked, a user will be scrolled to that section
+  * Events are sorted as mentioned above
+* Update User Profile
+  * Allows user to change firstNam, lastName, or avatar after signed up
+  * "username" and "email" are not allowed to change
+  * Password is required
+* Your Groups
+  * Display a list of all groups that are owned, joined(or requested to join) by the current user
+  * Display each group status with regard to the user (joined, pending, etc)
+* Your Events
+  * Display a list of all events that are hosted, attended(or requested to attend) by the current user
+  * Display each event status with regard to the user (attended, pending, waitlist, etc)
+* Group Details
+  * Display all information regarding the group, including a list of events belonged to that group, organizer, group's type, descrtiption, etc
+* Event Details
+  * Display all information regarding the event, including event's price, capacity, host, etc
+  * Display Venue information, including map and directions for in-person event (coming soon)
+* Group Gallery
+  * Display group images
+  * Everyone can see public group's images
+  * Only members are allowed to see private group's images
+  * All members are allowed to upload group images
+  * Only organizer is allowed to update and delete images
+* Event Gallery
+  * Display event images
+  * Everyone can see public event's images
+  * Only attendees are allowed to see private event's images
+  * All attendees are allowed to upload event images
+  * Only host is allowed to update and delete images
+* Memberships Overview
+  * Display a list of all members belonged to the group
+  * Everyone can see members
+  * Only owner/co-hosts can see pending members
+* Request Group Membership
+  * Allows user to request membership to the group on the group details page
+  * User's status changed to pending when the request is sent
+* Update Group Membership
+  * Owner and co-hosts are allowed to accept new members(pending -> member)
+  * Only owner is allowed to change member's status (pending -> member <-> co-host)
+  * Owner can change member status directly from pending to co-host, or from co-host back to member
+  * User's status updates accordingly to after user is accepted into a group
+* Remove Group Membership
+  * Group membership can be canceled when
+    * A member unjoins a group
+    * Owner removes member
+  * When user leaves, all of the events belonged to the group that attended(or request to attend) by the user will also be removed
+  * Data is updated accordingly on the group details page and "Your groups" page to reflect this change
+  * If co-host unjoins a group
+    * The Membership page is also updated to hide pending members
+    * Event details pages that belong to that group are also updated to reflect user's status changes
+* Attendances Overview
+  * Display a list of all attendees belonged to the event
+  * Everyone can see attendees and people who are in the waitlist
+  * Only host/co-hosts can see pending attendees
+* Request Event Attendance
+  * Allows user to request attendance to the event on the event details page
+    * User can only request attendance to events that belonged to a group that the user is a member of
+  * User's status changed to pending when the request is sent
+  * User's status changed to waitlist if being accepted by host/co-host (can attend if there is space left)
+* Update Event Attendance
+  * Co-hosts are allowed to accept new attendees to waitlist(pending -> waitlist)
+  * Co-hosts are NOT allowed to accept themselves to the waitlist
+  * Only host is allowed to change anttendee's status (pending -> waitlist <-> attending)
+  * Host can change attendee's status directly from pending to attending, or from attending to waitlist
+  * User's status updates accordingly to after user is accepted into an event
+* Remove Event Attendance
+  * Event Attendance can be canceled when
+    * A user unattends an event
+    * Host removes attendee
+  * Data is updated accordingly on the event details page and "Your events" page to reflect this change
+* Start a new Group
+  * User can only start a new group after logged in
+  * User can optionally update a group image, if no image is provided, a default image will be used
+  * Hanlde errors in the frontend before sending it to the database to improve user experience, and boosting app's speed
+  * When submitted, if there is error, user will be scrolled to the section with that error
+* Start a new Event
+  * User can only start a new event after logged in and is the owner of the group
+  * User can optionally update an event image, if no image is provided, a default image will be used
+  * Hanlde errors in the frontend before sending it to the database to improve user experience, and boosting app's speed
+  * When submitted, if there is error, user will be scrolled to the section with that error
+* Update a Group
+  * Only owner can update the group
+  * Pre-filled with existing group's data
+  * User can also update the group's image
+  * If no image is provided, the previous state of the image remains unchanged
+* Update an Event
+  * Only host can update the event
+  * Pre-filled with existing event's data
+  * User can also update the event's image
+  * If no image is provided, the previous state of the image remains unchanged
+* Delete a Group
+  * Only owner can delete the group
+  * When the group is deleted, all events associated with the group will also be deleted
+* Delete an Event
+  * Only host can delete the event
 
 ## API Documentation
 
