@@ -9,6 +9,13 @@
 [meetup-database-schema]: https://meetup2024.s3.us-west-2.amazonaws.com/public/meetup-database-schema.png
 [meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
 
+## Demo
+### Login - Logout
+![alt text](<login logout.gif>)
+
+### Signup
+![alt text](signup.gif)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
