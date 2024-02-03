@@ -243,7 +243,7 @@ const events = [
     capacity: 23,
     price: 23.32,
     startDate: '2026-09-30',
-    endDate: '206-11-31'
+    endDate: '2026-11-31'
   },
   {
     groupName: groupNames[0],

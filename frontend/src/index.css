@@ -195,3 +195,16 @@ a:hover {
   cursor: pointer;
   font-size: xx-large;
 }
+
+.expired-event {
+  border: none;
+  background-color: var(--yellow);
+  color: var(--white);
+}
+
+#button.expired-event:hover {
+  cursor: not-allowed;
+  background-color: var(--yellow);
+  color: var(--white);
+  border: none;
+}

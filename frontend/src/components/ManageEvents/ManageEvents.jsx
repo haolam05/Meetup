@@ -7,6 +7,7 @@ import NoResultsFound from '../NoResultsFound';
 import ManageEvent from '../ManageEvent/ManageEvent';
 import * as sessionActions from '../../store/session';
 import * as eventActions from '../../store/event';
+import { sortAsc, sortDesc } from '../../utils/dateConverter';
 
 function ManageEvents() {
   const { setModalContent } = useModal();
@@ -33,7 +34,7 @@ function ManageEvents() {
   if (!isLoaded) return <Loading />;
   if (!events.length) return <div className="no-results-wrapper"><NoResultsFound /></div>;
 
-  return <li>{events.map(event => <ManageEvent key={event.id} event={event} user={user} />)}</li>;
+  return <li>{sortDesc(events).map(event => <ManageEvent key={event.id} event={event} user={user} />)}</li>;
 }
 
 export default ManageEvents;

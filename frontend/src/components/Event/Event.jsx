@@ -24,12 +24,14 @@ function Event({ event, user = false, details = false, userEvents = [], showSlid
 
   function OwnerButtons() {
     return <>
+      {new Date(event.startDate).getTime() <= Date.now() && <button disabled id="button" className="expired-event">Expired</button>}
       <button className="btn-accent" onClick={() => navigate(`/events/${event.id}/edit`)}>Update</button>
       <OpenModalButton modalComponent={<DeleteEvent groupId={event.Group.id} eventId={event.id} />} buttonText="Delete" />
     </>;
   }
 
   function RegularButtons() {
+    if (new Date(event.startDate).getTime() <= Date.now()) return <button disabled id="button" className="expired-event">Expired</button>;
     const userEvent = userEvents.find(userEvent => userEvent.id === event.id);
     if (!userEvent) return <JoinEventBtn eventId={event.id} status={isCohost ? 'co-host' : ''} />
     if (userEvent.Attendance.status === "pending") return <PendingBtn />

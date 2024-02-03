@@ -1,8 +1,8 @@
-const sortAsc = dates => {
+export const sortAsc = dates => {
   return dates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 }
 
-const sortDesc = dates => {
+export const sortDesc = dates => {
   return dates.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 }
 

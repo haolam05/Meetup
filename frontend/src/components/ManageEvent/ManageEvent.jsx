@@ -35,6 +35,7 @@ function ManageEvent({ event, user }) {
   function OwnerButtons() {
     return (
       <div id="event-btns">
+        {new Date(event.startDate).getTime() <= Date.now() && <button disabled id="button" className="expired-event">Expired</button>}
         <button
           className="btn-accent"
           onClick={() => navigate(`/events/${event.id}/edit`)}
@@ -50,6 +51,7 @@ function ManageEvent({ event, user }) {
   }
 
   function RegularButtons() {
+    if (new Date(event.startDate).getTime() <= Date.now()) return <button disabled id="button" className="expired-event">Expired</button>;
     const userEvent = userEvents.find(userEvent => userEvent.id === event.id);
     if (userEvent.Attendance.status === "pending") return <PendingBtn />
     if (userEvent.Attendance.status === "waitlist") return <WaitListBtn />
