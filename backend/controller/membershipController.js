@@ -33,7 +33,15 @@ async function createMember(req, res, next) {
     return next(err);
   }
 
-  const member = await Membership.findOne({ where: { userId: req.user.id } });
+  const member = await Membership.findOne({
+    where: {
+      [Op.and]: [
+        { userId: req.user.id },
+        { groupId: group.id }
+      ]
+    }
+  });
+
   if (member) {
     const err = new Error();
     err.status = 400;

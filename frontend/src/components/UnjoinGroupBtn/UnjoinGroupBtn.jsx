@@ -12,9 +12,13 @@ function UnjoinGroupBtn({ group, user, status }) {
 
   const removeMember = async e => {
     e.preventDefault();
-    await dispatch(groupActions.deleteMember(group.id, user.id, status));
-    setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
-    navigate(`/groups`, { replace: true });
+    const data = await dispatch(groupActions.deleteMember(group.id, user.id, status));
+    if (data?.errors) {
+      setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>);
+    } else {
+      setModalContent(<h2 className="subheading alert-success">Successully Deleted!</h2>);
+      navigate(`/groups`, { replace: true });
+    }
   }
 
   return <OpenModalButton

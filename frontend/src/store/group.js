@@ -409,15 +409,14 @@ export const deleteMember = (groupId, memberId, status) => async dispatch => {
     method: 'DELETE'
   });
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(removeMember(groupId, memberId));
-    if (status === "co-host") dispatch(resetMembers());
-    dispatch(resetGroupDetails());
-    dispatch(resetUserGroups());
-    dispatch(eventActions.resetEventDetails());
-    return data;
-  }
+  const data = await response.json();
+  if (!response.ok) return data.errors ? data : { errors: data };
+  dispatch(removeMember(groupId, memberId));
+  if (status === "co-host") dispatch(resetMembers());
+  dispatch(resetGroupDetails());
+  dispatch(resetUserGroups());
+  dispatch(eventActions.resetEventDetails());
+  return data;
 };
 
 export const updateMember = (groupId, payload) => async dispatch => {
