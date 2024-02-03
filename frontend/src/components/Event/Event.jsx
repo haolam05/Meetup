@@ -13,7 +13,7 @@ import UnjoinEventBtn from '../UnjoinEventBtn';
 import JoinEventBtn from '../JoinEventBtn';
 import "./Event.css";
 
-function Event({ event, user = false, details = false, userEvents = [], showSlider = false, allowedPost = false, allowedDelete = false }) {
+function Event({ event, user = false, details = false, userEvents = [], showSlider = false, allowedPost = false, allowedDelete = false, isCohost = false }) {
   const navigate = useNavigate();
   const { setModalContent } = useModal();
 
@@ -31,7 +31,7 @@ function Event({ event, user = false, details = false, userEvents = [], showSlid
 
   function RegularButtons() {
     const userEvent = userEvents.find(userEvent => userEvent.id === event.id);
-    if (!userEvent) return <JoinEventBtn eventId={event.id} />
+    if (!userEvent) return <JoinEventBtn eventId={event.id} status={isCohost ? 'co-host' : ''} />
     if (userEvent.Attendance.status === "pending") return <PendingBtn />
     if (userEvent.Attendance.status === "waitlist") return <WaitListBtn />
     if (userEvent.Attendance.status === 'attending') {

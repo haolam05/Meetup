@@ -52,6 +52,7 @@ function EventDetails() {
           user={user}
           details={true}
           userEvents={userEvents}
+          isCohost={isCohost}
           // only show event images if group is public, or user is host/co-host, or user is an attendee (not pending or waitlist)
           showSlider={isPublic || (user && (isHost || isCohost || isAttendee))}
           allowedPost={isHost || isCohost || isAttendee}

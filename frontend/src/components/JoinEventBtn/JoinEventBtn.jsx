@@ -4,7 +4,7 @@ import { disabledSubmitButton, enabledSubmitButton } from "../../utils/dom";
 import { useNavigate } from "react-router-dom";
 import * as eventActions from "../../store/event";
 
-function JoinEventBtn({ eventId }) {
+function JoinEventBtn({ eventId, status }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModalContent } = useModal();
@@ -13,7 +13,7 @@ function JoinEventBtn({ eventId }) {
     e.preventDefault();
     disabledSubmitButton();
 
-    const data = await dispatch(eventActions.loadEventAttendee(eventId));
+    const data = await dispatch(eventActions.loadEventAttendee(eventId, status));
 
     if (data?.errors) {
       enabledSubmitButton();

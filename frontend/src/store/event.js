@@ -19,6 +19,7 @@ const RESET = '/events/RESET';
 const RESET_USER_EVENTS = '/events/RESET_USER_EVENTS';
 const RESET_EVENTS = '/events/RESET_EVENTS';
 const RESET_EVENT_DETAILS = '/events/RESET_EVENT_DETAILS';
+const RESET_EVENT_ATTENDEES = 'events/RESET_EVENT_ATTENDEES';
 
 // POJO action creators
 const getUserEvents = events => ({
@@ -108,6 +109,10 @@ export const resetUserEvents = () => ({
 
 export const resetEventDetails = () => ({
   type: RESET_EVENT_DETAILS
+});
+
+const resetEventAttendees = () => ({
+  type: RESET_EVENT_ATTENDEES
 });
 
 // Thunk action creators
@@ -364,13 +369,13 @@ export const loadEventAttendees = eventId => async (dispatch, getState) => {
   }
 };
 
-export const loadEventAttendee = eventId => async dispatch => {
+export const loadEventAttendee = (eventId, status) => async dispatch => {
   const response = await csrfFetch(`/api/events/${eventId}/attendance`, {
     method: "POST"
   });
-
   const attendee = await response.json();
   if (!response.ok) return attendee.errors ? attendee : { errors: attendee };
+  if (status === "co-host") dispatch(resetEventAttendees()); // co-host request to join an event, and co-host able to see pending --> needs to update
   dispatch(resetUserEvents());  // to show new event in "Your events"
   dispatch(resetEventDetails());  // to update "Join" to "Pending" to "Wait" button
 };
@@ -604,6 +609,11 @@ function eventReducer(state = initialState, action) {
       return {
         ...state,
         eventDetails: {}
+      }
+    case RESET_EVENT_ATTENDEES:
+      return {
+        ...state,
+        eventAttendees: {}
       }
     default:
       return state;
