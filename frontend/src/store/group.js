@@ -568,7 +568,7 @@ function groupReducer(state = initialState, action) {
           }
         }
       }
-    case ADD_GROUP_IMAGE:
+    case ADD_MEMBER:
       return {
         ...state,
         groupMembers: {
