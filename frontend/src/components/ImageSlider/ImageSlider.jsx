@@ -23,7 +23,7 @@ function ImageSlider({ images }) {
 
   return (
     <img
-      src={images.length ? images[slide].url : '/images/no-preview-available.jpg'}
+      src={images.length && images[slide].url ? images[slide].url : '/images/no-preview-available.jpg'}
       alt="image"
       onClick={handleClick}
     />

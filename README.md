@@ -220,26 +220,32 @@
   * User can optionally update a group image, if no image is provided, a default image will be used
   * Hanlde errors in the frontend before sending it to the database to improve user experience, and boosting app's speed
   * When submitted, if there is error, user will be scrolled to the section with that error
+  * Data is updated accordingly in "Your Groups" and "Your Profile" pages
 * Start a new Event
   * User can only start a new event after logged in and is the owner of the group
   * User can optionally update an event image, if no image is provided, a default image will be used
   * Hanlde errors in the frontend before sending it to the database to improve user experience, and boosting app's speed
   * When submitted, if there is error, user will be scrolled to the section with that error
+  * Data is updated accordingly in "Your Events", "Your Profile", and "Group Details" pages
 * Update a Group
   * Only owner can update the group
   * Pre-filled with existing group's data
   * User can also update the group's image
   * If no image is provided, the previous state of the image remains unchanged
+  * Data is updated accordingly in "Groups Overiew", "Group Details", "Your Groups" and "Your Profile" pages
 * Update an Event
   * Only host can update the event
   * Pre-filled with existing event's data
   * User can also update the event's image
   * If no image is provided, the previous state of the image remains unchanged
+  * Data is updated accordingly in "Events Overiew", "Event Details", "Group Details", "Your Events" and "Your Profile" pages
 * Delete a Group
   * Only owner can delete the group
   * When the group is deleted, all events associated with the group will also be deleted
+  * Data is updated accordingly in "Groups Overiew", "Your Groups" and "Your Profile" pages
 * Delete an Event
   * Only host can delete the event
+  * Data is updated accordingly in "Events Overiew", "Group Details", "Your Events" and "Your Profile" pages
 
 ## API Documentation
 
