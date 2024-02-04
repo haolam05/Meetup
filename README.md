@@ -56,7 +56,25 @@
 ![alt text](<request to join group.gif>)
 
 ### Request to Attend Event
+![alt text](<request to attend event.gif>)
 
+### Membership Roles
+![alt text](<membership roles.gif>)
+
+### Update Membership
+![alt text](<update membership.gif>)
+
+### Remove Membership
+![alt text](<remove membership.gif>)
+
+### Attendance Roles
+![alt text](<attendance roles.gif>)
+
+### Update Attendance
+![alt text](<update attendance.gif>)
+
+### Remove Attendance
+![alt text](<remove attendance.gif>)
 
 ## Techologies
 * PERN Stack
