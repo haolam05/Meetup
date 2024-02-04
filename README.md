@@ -76,6 +76,33 @@
 ### Remove Attendance
 ![alt text](<remove attendance.gif>)
 
+### Event Sorting
+![alt text](<events sorting.gif>)
+
+### Error Handling
+![alt text](<error handling.gif>)
+
+### Gallery View
+![alt text](<gallery view.gif>)
+
+### View Memberships
+![alt text](<view memberships.gif>)
+
+### View Attendances
+![alt text](<view attendances.gif>)
+
+### Delete Event
+![alt text](<remove event.gif>)
+
+### Delete Group
+![alt text](<remove group.gif>)
+
+### Delete Group cascades Events
+![alt text](<remove group cascade events.gif>)
+
+### Delete Account
+![alt text](<remove account.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
@@ -165,6 +192,8 @@
   * Update Password
     * Allows user to update password after signed up
     * Password is required
+  * Delete account
+    * All groups/events/memberships/attendances that associated of the user are also removed
   * Forgot Password
     * (coming soon)
 * User authorization
