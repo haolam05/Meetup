@@ -22,6 +22,42 @@
 ### Update User Profile
 ![alt text](<update user profile.gif>)
 
+### Create group
+![alt text](<create group.gif>)
+
+### Create event
+![alt text](<create event.gif>)
+
+### Update event
+![alt text](<update event.gif>)
+
+### Update group
+![alt text](<update group.gif>)
+
+### Pagination
+![alt text](pagination.gif)
+
+### Searchbox
+![alt text](searchbox.gif)
+
+### Upload Event Image
+![alt text](<create event image.gif>)
+
+### Delete Event Image
+![alt text](<delete event image.gif>)
+
+### Upload Group Image
+![alt text](<upload group image.gif>)
+
+### Delete Group Image
+![alt text](<delete group image.gif>)
+
+### Request to Join Group
+![alt text](<request to join group.gif>)
+
+### Request to Attend Event
+
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
