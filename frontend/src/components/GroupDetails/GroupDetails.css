@@ -43,3 +43,28 @@
 #group-num-events {
   color: var(--dark-gray);
 }
+
+span.subheading {
+  text-decoration: underline;
+}
+
+.venues {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  gap: 10px;
+  color: var(--dark-gray);
+}
+
+.venues h2 {
+  text-decoration: underline;
+}
+
+.venues i {
+  font-size: x-large;
+  cursor: pointer;
+}
+
+.venues i:hover {
+  font-size: xx-large;
+}

@@ -72,19 +72,6 @@ function Group({ group, user = false, description = true, organizer = false, use
     );
   }
 
-  function OrganizerInfo() {
-    if (organizer) {
-      return (
-        <div id="group-organizer" className="group-avatar-container">
-          <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
-          <div className="group-organizer-avatar user-avatar" onClick={() => setModalContent(<UserInfoModal user={group.Organizer} />)}>
-            <img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" />
-          </div>
-        </div>
-      );
-    }
-  }
-
   useEffect(() => {
     if (updateGroupBtn) {
       navigate(`/groups/${group.id}/edit`, { replace: true });
@@ -123,7 +110,14 @@ function Group({ group, user = false, description = true, organizer = false, use
           <GroupLocation />
           <GroupDescription />
           <GroupInfo />
-          <OrganizerInfo />
+          {organizer && (
+            <div id="group-organizer" className="group-avatar-container">
+              <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
+              <div className="group-organizer-avatar user-avatar" onClick={() => setModalContent(<UserInfoModal user={group.Organizer} />)}>
+                <img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" />
+              </div>
+            </div>
+          )}
         </div>
         <div id="event-btns">
           {user && (user.id !== group.organizerId ? <RegularButtons /> : <OwnerButtons />)}

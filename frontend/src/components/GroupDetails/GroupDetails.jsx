@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useModal } from '../../context/Modal';
 import Loading from '../Loading';
 import Group from '../Group';
 import Event from '../Event';
@@ -12,6 +13,7 @@ import './GroupDetails.css';
 function GroupDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { setModalContent } = useModal();
   const { groupId } = useParams();
   const [isLoaded, setIsLoaded] = useState(false);
   const group = useSelector(groupActions.getGroupById(groupId));
@@ -60,6 +62,30 @@ function GroupDetails() {
     );
   }
 
+  const showVenues = () => {  // Online groups also have Venues, in case switching to in-person group
+    // must have at least 1 venue for in-person group when group is created
+    if (group.private && group.organizerId !== user.id && !group.members.find(m => m.id === user.id)) {
+      return setModalContent(<h2 className="subheading modal-errors">You are not a member of this private group!</h2>);
+    }
+
+    if (group.Venues?.length <= 0) {
+      return setModalContent(<h2 className="subheading modal-errors">No venues found for this group!</h2>);
+    }
+
+    return setModalContent(
+      <div className="venues-container">
+        <h2 className="subheading">Venues</h2>
+
+      </div>
+    );
+  }
+  function Venues() {
+    return <div className="venues">
+      <h2 className="subheading">Venues</h2>
+      <i className="fa-solid fa-square-arrow-up-right" onClick={showVenues}></i>
+    </div>;
+  }
+
   if (!isLoaded) return <Loading />;
   if (!group) return;
 
@@ -84,12 +110,13 @@ function GroupDetails() {
             <h2 className="subheading">Organizer</h2>
             <span>{group?.Organizer.firstName}, {group?.Organizer.lastName}</span>
           </div>
+          <Venues />
           <div id="group-details-about">
             <h2 className="subheading">What we&apos;re about</h2>
             <p>{group.about}</p>
           </div>
           <div id="events">
-            <h2 id="group-num-events" className="subheading">Events ({group.numEvents})</h2>
+            <h2 id="group-num-events" className="subheading"><span className="subheading">Events</span> ({group.numEvents})</h2>
             <UpcomingEventsHeader />
             <UpcomingEvents />
             <PastEventsHeader />
