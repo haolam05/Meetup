@@ -5,7 +5,6 @@ import Loading from '../Loading';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
 
-
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(sessionActions.sessionUser);
 
