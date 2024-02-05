@@ -14,7 +14,7 @@
 ![alt text](<demo/login logout.gif>)
 
 ### Signup
-![alt text](sdemo/ignup.gif)
+![alt text](demo/signup.gif)
 
 ### Update Password
 ![alt text](<demo/update password.gif>)
