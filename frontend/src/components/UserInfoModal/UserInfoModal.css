@@ -1,0 +1,39 @@
+.user-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-info-wrapper h2 {
+  text-align: center;
+}
+
+.user-info-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.user-info-wrapper img {
+  width: 100%;
+}
+
+.user-info {
+  color: var(--gray);
+  display: flex;
+  gap: 40px;
+}
+
+.user-info-title {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -56,9 +56,7 @@ button {
 
 button.disabled:hover {
   opacity: .5;
-  background-color: var(--white);
-  color: var(--red);
-  border: 1px solid var(--red);
+  background-color: var(--red);
   cursor: not-allowed;
 }
 
@@ -214,4 +212,8 @@ a:hover {
   background-color: var(--yellow);
   color: var(--white);
   border: none;
+}
+
+.user-avatar:hover {
+  cursor: pointer;
 }

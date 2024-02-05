@@ -2,10 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getProfileImageUrl } from '../../utils/images';
+import { useModal } from '../../context/Modal';
 import Loading from '../Loading';
 import Event from '../Event';
 import BackButton from '../BackButton';
 import AttendanceStatus from '../AttendanceStatus';
+import UserInfoModal from '../UserInfoModal';
 import * as sessionActions from '../../store/session';
 import * as eventActions from '../../store/event';
 import './EventDetails.css';
@@ -13,6 +15,7 @@ import './EventDetails.css';
 function EventDetails() {
   const dispatch = useDispatch();
   const { eventId } = useParams();
+  const { setModalContent } = useModal();
   const [isLoaded, setIsLoaded] = useState(false);
   const userEvents = useSelector(eventActions.getCurrentUserEvents);
   const event = useSelector(eventActions.getEventById(eventId));
@@ -44,7 +47,9 @@ function EventDetails() {
           <h1 className="heading">{event.name} {<AttendanceStatus user={user} event={event} />}</h1>
           <div className="event-avatar-container">
             <span>Hosted by {event.Group.Organizer.firstName} {event.Group.Organizer.lastName}</span>
-            <div className="event-host-avatar"><img src={getProfileImageUrl(event.Group.Organizer.profileImageUrl)} alt="avatar" /></div>
+            <div className="event-host-avatar user-avatar" onClick={() => setModalContent(<UserInfoModal user={event.Group.Organizer} />)}>
+              <img src={getProfileImageUrl(event.Group.Organizer.profileImageUrl)} alt="avatar" />
+            </div>
           </div>
         </div>
         <Event

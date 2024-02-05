@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPreviewImageUrl, getProfileImageUrl } from '../../utils/images';
+import { useModal } from '../../context/Modal';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroup from '../DeleteGroup';
 import ImageSlider from '../ImageSlider';
@@ -8,10 +9,12 @@ import MembershipStatus from '../MembershipStatus';
 import UnjoinGroupBtn from '../UnjoinGroupBtn';
 import PendingBtn from '../PendingBtn';
 import JoinGroupBtn from '../JoinGroupBtn';
+import UserInfoModal from '../UserInfoModal';
 import "./Group.css";
 
 function Group({ group, user = false, description = true, organizer = false, userGroups = [], showSlider = false }) {
   const navigate = useNavigate();
+  const { setModalContent } = useModal();
   const [updateGroupBtn, setUpdateGroupBtn] = useState(false);
   const [createEventBtn, setCreateEventBtn] = useState(false);
   const [viewGalleryBtn, setViewGalleryBtn] = useState(false);
@@ -38,7 +41,6 @@ function Group({ group, user = false, description = true, organizer = false, use
       </>
     );
   }
-
   useEffect(() => {
     if (updateGroupBtn) {
       navigate(`/groups/${group.id}/edit`, { replace: true });
@@ -91,7 +93,9 @@ function Group({ group, user = false, description = true, organizer = false, use
           {organizer && (
             <div id="group-organizer" className="group-avatar-container">
               <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
-              <div className="group-organizer-avatar" ><img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" /></div>
+              <div className="group-organizer-avatar user-avatar" onClick={() => setModalContent(<UserInfoModal user={group.Organizer} />)}>
+                <img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" />
+              </div>
             </div>
           )}
         </div>

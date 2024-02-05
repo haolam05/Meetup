@@ -13,7 +13,7 @@ async function getGroup(req, res, next) {
       {
         model: User,
         as: 'Organizer',
-        attributes: ['id', 'firstName', 'lastName', 'profileImageUrl']
+        attributes: ['id', 'firstName', 'lastName', 'email', 'profileImageUrl']
       },
       {
         model: Venue
