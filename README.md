@@ -11,97 +11,97 @@
 
 ## Demo
 ### Login - Logout
-![alt text](<login logout.gif>)
+![alt text](<demo/login logout.gif>)
 
 ### Signup
-![alt text](signup.gif)
+![alt text](sdemo/ignup.gif)
 
 ### Update Password
-![alt text](<update password.gif>)
+![alt text](<demo/update password.gif>)
 
 ### Update User Profile
-![alt text](<update user profile.gif>)
+![alt text](<demo/update user profile.gif>)
 
 ### Create group
-![alt text](<create group.gif>)
+![alt text](<demo/create group.gif>)
 
 ### Create event
-![alt text](<create event.gif>)
+![alt text](<demo/create event.gif>)
 
 ### Update event
-![alt text](<update event.gif>)
+![alt text](<demo/update event.gif>)
 
 ### Update group
-![alt text](<update group.gif>)
+![alt text](<demo/update group.gif>)
 
 ### Pagination
-![alt text](pagination.gif)
+![alt text](demo/pagination.gif)
 
 ### Searchbox
-![alt text](searchbox.gif)
+![alt text](demo/searchbox.gif)
 
 ### Upload Event Image
-![alt text](<create event image.gif>)
+![alt text](<demo/create event image.gif>)
 
 ### Delete Event Image
-![alt text](<delete event image.gif>)
+![alt text](<demo/delete event image.gif>)
 
 ### Upload Group Image
-![alt text](<upload group image.gif>)
+![alt text](<demo/upload group image.gif>)
 
 ### Delete Group Image
-![alt text](<delete group image.gif>)
+![alt text](<demo/delete group image.gif>)
 
 ### Request to Join Group
-![alt text](<request to join group.gif>)
+![alt text](<demo/request to join group.gif>)
 
 ### Request to Attend Event
-![alt text](<request to attend event.gif>)
+![alt text](<demo/request to attend event.gif>)
 
 ### Membership Roles
-![alt text](<membership roles.gif>)
+![alt text](<demo/membership roles.gif>)
 
 ### Update Membership
-![alt text](<update membership.gif>)
+![alt text](<demo/update membership.gif>)
 
 ### Remove Membership
-![alt text](<remove membership.gif>)
+![alt text](<demo/remove membership.gif>)
 
 ### Attendance Roles
-![alt text](<attendance roles.gif>)
+![alt text](<demo/attendance roles.gif>)
 
 ### Update Attendance
-![alt text](<update attendance.gif>)
+![alt text](<demo/update attendance.gif>)
 
 ### Remove Attendance
-![alt text](<remove attendance.gif>)
+![alt text](<demo/remove attendance.gif>)
 
 ### Event Sorting
-![alt text](<events sorting.gif>)
+![alt text](<demo/events sorting.gif>)
 
 ### Error Handling
-![alt text](<error handling.gif>)
+![alt text](<demo/error handling.gif>)
 
 ### Gallery View
-![alt text](<gallery view.gif>)
+![alt text](<demo/gallery view.gif>)
 
 ### View Memberships
-![alt text](<view memberships.gif>)
+![alt text](<demo/view memberships.gif>)
 
 ### View Attendances
-![alt text](<view attendances.gif>)
+![alt text](<demo/view attendances.gif>)
 
 ### Delete Event
-![alt text](<remove event.gif>)
+![alt text](<demo/remove event.gif>)
 
 ### Delete Group
-![alt text](<remove group.gif>)
+![alt text](<demo/remove group.gif>)
 
 ### Delete Group cascades Events
-![alt text](<remove group cascade events.gif>)
+![alt text](<demo/remove group cascade events.gif>)
 
 ### Delete Account
-![alt text](<remove account.gif>)
+![alt text](<demo/remove account.gif>)
 
 ## Techologies
 * PERN Stack
