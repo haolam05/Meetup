@@ -41,6 +41,50 @@ function Group({ group, user = false, description = true, organizer = false, use
       </>
     );
   }
+
+  function GroupName() {
+    if (organizer) {
+      return <h1 className="group-name heading">{group.name} {<MembershipStatus user={user} group={group} />}</h1>;
+    } else {
+      return <h2 className="group-name subheading">{group.name}</h2>;
+    }
+  }
+
+  function GroupDescription() {
+    if (description) {
+      return <div className="group-description">{group.about.slice(0, 50)}...</div>;
+    }
+  }
+
+  function GroupLocation() {
+    return <div className="group-location">{group.city}, {group.state}</div>;
+  }
+
+  function GroupInfo() {
+    return (
+      <div className="group-info">
+        <span className="group-num-events">{group.numEvents} event{group.numEvents > 1 ? 's' : ''}</span>
+        <span className="group-dot">.</span>
+        <span className="group-status">{group.private ? "Private" : "Public"}</span>
+        <span className="group-dot">.</span>
+        <span>{group.type}</span>
+      </div>
+    );
+  }
+
+  function OrganizerInfo() {
+    if (organizer) {
+      return (
+        <div id="group-organizer" className="group-avatar-container">
+          <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
+          <div className="group-organizer-avatar user-avatar" onClick={() => setModalContent(<UserInfoModal user={group.Organizer} />)}>
+            <img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" />
+          </div>
+        </div>
+      );
+    }
+  }
+
   useEffect(() => {
     if (updateGroupBtn) {
       navigate(`/groups/${group.id}/edit`, { replace: true });
@@ -75,29 +119,11 @@ function Group({ group, user = false, description = true, organizer = false, use
       </div>
       <div id="group-text-wrapper">
         <div className="group-text">
-          {organizer ?
-            <h1 className="group-name heading">{group.name} {<MembershipStatus user={user} group={group} />}</h1> :
-            <h2 className="group-name subheading">{group.name}</h2>
-          }
-          <div className="group-location">{group.city}, {group.state}</div>
-          {description && (
-            <div className="group-description">{group.about.slice(0, 50)}...</div>
-          )}
-          <div className="group-info">
-            <span className="group-num-events">{group.numEvents} event{group.numEvents > 1 ? 's' : ''}</span>
-            <span className="group-dot">.</span>
-            <span className="group-status">{group.private ? "Private" : "Public"}</span>
-            <span className="group-dot">.</span>
-            <span>{group.type}</span>
-          </div>
-          {organizer && (
-            <div id="group-organizer" className="group-avatar-container">
-              <div>Organized by: {group?.Organizer.firstName}, {group?.Organizer.lastName}</div>
-              <div className="group-organizer-avatar user-avatar" onClick={() => setModalContent(<UserInfoModal user={group.Organizer} />)}>
-                <img src={getProfileImageUrl(group?.Organizer.profileImageUrl)} alt="avatar" />
-              </div>
-            </div>
-          )}
+          <GroupName />
+          <GroupLocation />
+          <GroupDescription />
+          <GroupInfo />
+          <OrganizerInfo />
         </div>
         <div id="event-btns">
           {user && (user.id !== group.organizerId ? <RegularButtons /> : <OwnerButtons />)}

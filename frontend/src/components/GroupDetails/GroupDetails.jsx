@@ -28,6 +28,38 @@ function GroupDetails() {
     loadGroupDetails();
   }, [dispatch, groupId, user]);
 
+  function UpcomingEventsHeader() {
+    if (group.upcomingEvents.length > 0) {
+      return <h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>;
+    }
+  }
+
+  function PastEventsHeader() {
+    if (group.pastEvents.length > 0) {
+      return <h2 className="subheading">Past Events ({group.pastEvents.length})</h2>;
+    }
+  }
+
+  function UpcomingEvents() {
+    return (
+      group.upcomingEvents.map(event => (
+        <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
+          <Event event={event} />
+        </div>
+      ))
+    );
+  }
+
+  function PastEvents() {
+    return (
+      group.pastEvents.map(event => (
+        <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
+          <Event event={event} />
+        </div>
+      ))
+    );
+  }
+
   if (!isLoaded) return <Loading />;
   if (!group) return;
 
@@ -58,22 +90,10 @@ function GroupDetails() {
           </div>
           <div id="events">
             <h2 id="group-num-events" className="subheading">Events ({group.numEvents})</h2>
-            {group.upcomingEvents.length > 0 && (
-              <h2 className="subheading">Upcoming Events ({group.upcomingEvents.length})</h2>
-            )}
-            {group.upcomingEvents.map(event => (
-              <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
-                <Event event={event} />
-              </div>
-            ))}
-            {group.pastEvents.length > 0 && (
-              <h2 className="subheading">Past Events ({group.pastEvents.length})</h2>
-            )}
-            {group.pastEvents.map(event => (
-              <div key={event.id} onClick={() => navigate(`/events/${event.id}`, { replace: true })}>
-                <Event event={event} />
-              </div>
-            ))}
+            <UpcomingEventsHeader />
+            <UpcomingEvents />
+            <PastEventsHeader />
+            <PastEvents />
           </div>
         </div>
       </div>
