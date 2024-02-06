@@ -8,5 +8,6 @@ module.exports = {
   },
   aws: {
     NAME_OF_BUCKET: process.env.AWS_BUCKET_NAME
-  }
+  },
+  googleMapsAPIKey: process.env.MAPS_API_KEY,
 };

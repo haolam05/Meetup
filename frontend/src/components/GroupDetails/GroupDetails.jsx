@@ -6,8 +6,10 @@ import Loading from '../Loading';
 import Group from '../Group';
 import Event from '../Event';
 import BackButton from '../BackButton';
+import Maps from '../Maps';
 import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
+import * as mapsActions from '../../store/maps';
 import './GroupDetails.css';
 
 function GroupDetails() {
@@ -19,6 +21,11 @@ function GroupDetails() {
   const group = useSelector(groupActions.getGroupById(groupId));
   const userGroups = useSelector(groupActions.getCurrentUserGroups);
   const user = useSelector(sessionActions.sessionUser);
+  const key = useSelector(mapsActions.getMapKey);
+
+  useEffect(() => {
+    if (!key) dispatch(mapsActions.getKey());
+  }, [dispatch, key]);
 
   useEffect(() => {
     const loadGroupDetails = async () => {
@@ -75,7 +82,7 @@ function GroupDetails() {
     return setModalContent(
       <div className="venues-container">
         <h2 className="subheading">Venues</h2>
-
+        <Maps apiKey={key} />
       </div>
     );
   }
