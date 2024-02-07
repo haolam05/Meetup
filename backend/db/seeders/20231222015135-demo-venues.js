@@ -10,6 +10,15 @@ const { Group, Venue } = require('../models');
 const groupNames = [
   'Trending Animes',
   'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
+  'Trending Animes',
   'Creative Board Game',
   'Creative Board Game',
   'Video Games By Choice',
@@ -27,6 +36,15 @@ const groupNames = [
 const addresses = [
   'Tennessee Performing Arts Center (TPAC), 505 Deaderick Street, Nashville-Davidson, TN 37219, United States of America',
   'Grand Ole Opry House, 2804 Opryland Drive, Nashville-Davidson, TN 37214, United States of America',
+  'York St & E 17th Ave, York Street, Denver, CO 80206, United States of America',
+  'Florida Ave, Valparaiso, FL, United States of America',
+  '5656 East Silver Springs Boulevard, Silver Springs, Ocala, FL 34488, United States of America',
+  'Park Road 71, Mineral Wells, TX 76067, United States of America',
+  'Cedar Hill, Texas, United States of America',
+  '4712 West Ohio Street, Chicago, IL 60644, United States of America',
+  '29100 Lakeland Blvd, Wickliffe, OH 44092',
+  '1790 Hanging Rock Park Rd, Danbury, NC 27016',
+  '4500 Lake Washington Blvd S, Seattle, WA 98118',
   '234 George Street',  // private address for private group
   '345 Bob Street',     // private address for private group
   '456 Sara Street',    // private address for private group
@@ -53,6 +71,60 @@ const venues = [
     state: 'Tennessee',
     lat: '35.1140981',
     lng: '-89.9080743'
+  },
+  {
+    city: 'Denver',
+    state: 'Colorado',
+    lat: '39.742628',
+    lng: '-104.9598638'
+  },
+  {
+    city: 'Valparaiso',
+    state: 'Florida',
+    lat: '30.496686',
+    lng: '-86.488622'
+  },
+  {
+    city: 'Ocala',
+    state: 'Florida',
+    lat: '29.2178579',
+    lng: '-82.0553756'
+  },
+  {
+    city: 'Mineral Wells',
+    state: 'Texas',
+    lat: '32.8105987',
+    lng: '-98.0441124'
+  },
+  {
+    city: 'Cedar Hill',
+    state: 'Texas',
+    lat: '32.580181',
+    lng: '-96.964675'
+  },
+  {
+    city: 'Chicago',
+    state: 'Illinois',
+    lat: '41.8914913',
+    lng: '-87.743719'
+  },
+  {
+    city: 'Wickliffe',
+    state: 'Ohio',
+    lat: '41.6091597',
+    lng: '-81.4847467'
+  },
+  {
+    city: 'Danbury',
+    state: 'North Carolina',
+    lat: '36.41535',
+    lng: '-80.243213'
+  },
+  {
+    city: 'Seattle',
+    state: 'Washington',
+    lat: '47.5629709',
+    lng: '-122.266665'
   },
   {
     city: 'Los Angeles',

@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { googleMapsAPIKey } = require('../../config');
-console.log(googleMapsAPIKey);
+const mapsController = require('../../controller/mapsController');
+const { requireAuth } = require('../../controller/authController');
 
-router.post('/key', (_req, res) => {
-  res.json({ googleMapsAPIKey });
-});
+router.post('/key', requireAuth, mapsController.getMapsAPIKey);
 
 module.exports = router;

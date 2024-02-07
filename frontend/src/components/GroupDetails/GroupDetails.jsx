@@ -24,7 +24,10 @@ function GroupDetails() {
   const key = useSelector(mapsActions.getMapKey);
 
   useEffect(() => {
-    if (!key) dispatch(mapsActions.getKey());
+    const loadKey = async () => {
+      await dispatch(mapsActions.getKey());
+    }
+    loadKey();
   }, [dispatch, key]);
 
   useEffect(() => {
@@ -71,6 +74,10 @@ function GroupDetails() {
 
   const showVenues = () => {  // Online groups also have Venues, in case switching to in-person group
     // must have at least 1 venue for in-person group when group is created
+    if (!user) {
+      return setModalContent(<h2 className="subheading modal-errors">Authentication required</h2>);
+    }
+
     if (group.private && group.organizerId !== user.id && !group.members.find(m => m.id === user.id)) {
       return setModalContent(<h2 className="subheading modal-errors">You are not a member of this private group!</h2>);
     }
@@ -82,7 +89,7 @@ function GroupDetails() {
     return setModalContent(
       <div className="venues-container">
         <h2 className="subheading">Venues</h2>
-        <Maps apiKey={key} />
+        <Maps apiKey={key} locations={group.Venues} />
       </div>
     );
   }

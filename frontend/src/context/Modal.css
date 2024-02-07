@@ -29,6 +29,8 @@
   align-items: center;
   padding: 20px;
   border-radius: 10px;
+  min-width: 540px;
+  width: fit-content;
 }
 
 .modal-errors {
