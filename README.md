@@ -82,8 +82,11 @@
 ### Error Handling
 ![alt text](<demo/error handling.gif>)
 
-### Gallery View
-![alt text](<demo/gallery view.gif>)
+### Event Gallery View
+![alt text](<demo/event gallery view.gif>)
+
+### Group Gallery View
+![alt text](<demo/group gallery view.gif>)
 
 ### View Memberships
 ![alt text](<demo/view memberships.gif>)
@@ -103,6 +106,9 @@
 ### Delete Account
 ![alt text](<demo/remove account.gif>)
 
+### View Group Venues
+![alt text](<demo/venues view.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
@@ -113,6 +119,8 @@
   * ORM for easier CRUD operations on the database
 * Dyanmic seedings
   * A variety of seeds are dynamically created for testing and demo purposes without hard-coding
+* Google Map API
+  * Integrated Google Map API into the application to allow real-time interaction with 3D map
 * AWS
   * Cloud hosting service for image(s) uploading
 * Multer
@@ -342,6 +350,17 @@
 * Delete an Event
   * Only host can delete the event
   * Data is updated accordingly in "Events Overiew", "Group Details", "Your Events" and "Your Profile" pages
+* View Group Venues
+  * View venues that belongs to a group in the group details page
+  * User must be signed in to view public groups' venues
+  * Only members can view private groups' venues
+* Create Group Venue
+  * (coming soon)
+* Delete Group Venue
+  * (coming soon)
+* Create In-person events
+  * In person events must have a venue, if group has no venue, then a new venue must be created first
+  * (coming soon)
 
 ## API Documentation
 
