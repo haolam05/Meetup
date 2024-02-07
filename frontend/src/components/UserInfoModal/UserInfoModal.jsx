@@ -1,7 +1,6 @@
 import "./UserInfoModal.css";
 
 function UserInfoModal({ user }) {
-  console.log(user)
   return (
     <div className="user-info-wrapper">
       <h2 className="subheading">User Information</h2>

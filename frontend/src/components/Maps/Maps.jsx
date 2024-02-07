@@ -20,7 +20,7 @@ const containerStyle = {
 const Maps = ({ apiKey, locations }) => {
   const [center, setCenter] = useState(null);
   const [zoom, setZoom] = useState(3);
-  const refs = useRef(locations.map((_, i) => i));
+  const refs = useRef(locations);
 
   const centerLocation = ({ latLng }) => {  // domEvent, latLng
     setCenter({ lat: latLng.lat(), lng: latLng.lng() })
@@ -43,7 +43,7 @@ const Maps = ({ apiKey, locations }) => {
         position={{ lat: location.lat, lng: location.lng }}
         label={{ text: `${i + 1}`, color: 'white', className: 'marker-label' }}
         icon={customMarker}
-        ref={refs.current[i]}
+        ref={refs?.current[i]}
         onClick={centerLocation}
       />)}
     </GoogleMap>
