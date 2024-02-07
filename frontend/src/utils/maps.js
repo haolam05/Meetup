@@ -4,8 +4,9 @@ export const getAverageLocation = locations => {
     acc.lng += location.lng;
     return acc;
   }, { lat: 0, lng: 0 });
-  averageLocation.lat /= locations.length;
-  averageLocation.lng /= locations.length;
+  averageLocation.lat = parseFloat(averageLocation.lat / locations.length);
+  averageLocation.lng = parseFloat(averageLocation.lng / locations.length);
+  console.log(averageLocation);
   return averageLocation;
 }
 
