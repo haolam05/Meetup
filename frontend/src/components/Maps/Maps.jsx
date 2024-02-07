@@ -23,7 +23,7 @@ const Maps = ({ apiKey, locations }) => {
   const refs = useRef(locations);
 
   const centerLocation = ({ latLng }) => {  // domEvent, latLng
-    setCenter({ lat: latLng.lat(), lng: latLng.lng() })
+    setCenter({ lat: parseFloat(latLng.lat()), lng: parseFloat(latLng.lng()) })
     setZoom(5);
   }
 
@@ -31,7 +31,7 @@ const Maps = ({ apiKey, locations }) => {
     id: 'google-map-script',
     googleMapsApiKey: apiKey,
   });
-  console.log('🐼🐼🐼', locations, getAverageLocation(locations), center)
+
   return isLoaded && <div className="maps-container">
     <GoogleMap
       mapContainerStyle={containerStyle}
@@ -40,7 +40,7 @@ const Maps = ({ apiKey, locations }) => {
     >
       {locations.map((location, i) => <Marker
         key={location.id}
-        position={{ lat: location.lat, lng: location.lng }}
+        position={{ lat: parseFloat(location.lat), lng: parseFloat(location.lng) }}
         label={{ text: `${i + 1}`, color: 'white', className: 'marker-label' }}
         icon={customMarker}
         onClick={centerLocation}
@@ -53,7 +53,7 @@ const Maps = ({ apiKey, locations }) => {
         className="location"
         onClick={() => {
           const position = refs.current[i];
-          setCenter({ lat: position.lat, lng: position.lng });
+          setCenter({ lat: parseFloat(position.lat), lng: parseFloat(position.lng) });
           setZoom(5)
         }}
       >
