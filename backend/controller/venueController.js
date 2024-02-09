@@ -43,17 +43,26 @@ async function createGroupVenue(req, res, next) {
   const err = await checkUserRole(group, req.user.id);
 
   if (err) return next(err);
-  const newVenue = await group.createVenue(req.body);
+  try {
+    const newVenue = await group.createVenue(req.body);
 
-  res.json({
-    id: newVenue.id,
-    groupId: newVenue.groupId,
-    address: newVenue.address,
-    city: newVenue.city,
-    state: newVenue.state,
-    lat: newVenue.lat,
-    lng: newVenue.lng
-  });
+    res.json({
+      id: newVenue.id,
+      groupId: newVenue.groupId,
+      address: newVenue.address,
+      city: newVenue.city,
+      state: newVenue.state,
+      lat: newVenue.lat,
+      lng: newVenue.lng
+    });
+  } catch (e) {
+    if (e.name === "SequelizeUniqueConstraintError") {
+      const err = new Error("Address already exist!")
+      return next(err)
+    }
+    const errors = e.errors.reduce((acc, err) => (acc.errors[err.path] = err.message) && acc, { errors: {} });
+    return next(errors);
+  }
 }
 
 async function editVenue(req, res, next) {

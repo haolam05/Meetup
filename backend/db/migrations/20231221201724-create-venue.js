@@ -50,9 +50,14 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
+    options.type = 'UNIQUE';
+    options.fields = ['lat', 'lng'];
+    options.name = "unqiue_lat_lng";
+    await queryInterface.addConstraint("Venues", options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = 'Venues';
+    await queryInterface.removeConstraint("Venues", "unqiue_lat_lng");
     await queryInterface.dropTable(options);
   }
 };
