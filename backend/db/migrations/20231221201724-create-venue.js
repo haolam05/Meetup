@@ -52,12 +52,16 @@ module.exports = {
     }, options);
     options.type = 'UNIQUE';
     options.fields = ['lat', 'lng'];
-    options.name = "unqiue_lat_lng";
-    await queryInterface.addConstraint("Venues", options);
+    options.name = "unqiue_lat_lng"
+    let tableName = "Venues";
+    if (options.schema) tableName = `"${options.schema}"."${tableName}"`
+    await queryInterface.addConstraint(tableName, options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = 'Venues';
-    await queryInterface.removeConstraint("Venues", "unqiue_lat_lng");
+    let tableName = "Venues";
+    if (options.schema) tableName = `"${options.schema}"."${tableName}"`
+    await queryInterface.removeConstraint(tableName, "unqiue_lat_lng");
     await queryInterface.dropTable(options);
   }
 };

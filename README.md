@@ -119,8 +119,11 @@
   * ORM for easier CRUD operations on the database
 * Dyanmic seedings
   * A variety of seeds are dynamically created for testing and demo purposes without hard-coding
-* Google Map API
+* Google Maps Javascript API
   * Integrated Google Map API into the application to allow real-time interaction with 3D map
+* Google Geocoding API
+  * Converting addresses into geographic coordinates
+  * Improve user's experience by not having to enter specific latitude and longitude
 * AWS
   * Cloud hosting service for image(s) uploading
 * Multer
