@@ -87,7 +87,10 @@ function GroupDetails() {
 
     return setModalContent(
       <div className="venues-container">
-        <h2 className="subheading">Venues</h2>
+        <div className="venue-header">
+          <h2 className="subheading">Venues</h2>
+          <i className="fa-solid fa-square-plus"></i>
+        </div>
         <Maps apiKey={key} locations={group.Venues} />
       </div>
     );

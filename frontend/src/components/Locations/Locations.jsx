@@ -33,17 +33,18 @@ function Locations({ refs, setCenter, setZoom, locations }) {
     if (data.errors) {
       return setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>);
     }
-    window.location.reload();
+    setModalContent(<h2 className="subheading alert-success">Successfully deleted!</h2>)
+    setTimeout(() => window.location.reload(), 2000);
   }
 
   const handleDeleteLocation = e => {
     e.stopPropagation();
     const locationIdx = +e.target.closest(".location-btns").id;
     const location = locations[locationIdx];
-    setModalContent(<ConfirmDeleteForm text="Venue" cancelDeleteCb={closeModal} deleteCb={e => deleteVenue(e, location) && closeModal()} />);
+    setModalContent(<ConfirmDeleteForm text="Venue" cancelDeleteCb={closeModal} deleteCb={e => deleteVenue(e, location)} />);
   }
 
-  return (
+  return (<>
     <div className="locations">
       {locations.map((location, i) => <div
         key={location.id}
@@ -75,8 +76,8 @@ function Locations({ refs, setCenter, setZoom, locations }) {
       </div>
       )
       }
-    </div >
-  );
+    </div>
+  </>);
 }
 
 export default Locations;

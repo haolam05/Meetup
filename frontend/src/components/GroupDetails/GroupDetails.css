@@ -73,3 +73,30 @@ span.subheading {
   text-align: center;
   margin-bottom: 20px;
 }
+
+.fa-square-plus {
+  color: var(--dark-gray);
+  cursor: pointer;
+  font-size: large;
+}
+
+.fa-square-plus:hover {
+  font-size: x-large;
+}
+
+.venue-header {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.venue-header i {
+  margin-bottom: 22px;
+  font-size: x-large;
+}
+
+.venue-header i:hover {
+  font-size: xx-large;
+}

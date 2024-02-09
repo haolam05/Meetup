@@ -26,7 +26,7 @@ const Maps = ({ apiKey, locations }) => {
   useEffect(() => {
     const modalContent = document.querySelector('#modal-content');
     const cb = e => {
-      if (e.target.id === "modal-content" || e.target.classList.contains("maps-container")) {
+      if (e.target.id === "modal-content" || e.target.classList.contains("maps-container") || e.target.classList.contains("locations")) {
         document.querySelectorAll(".location-btns").forEach(el => el.classList.add("hidden"));
       }
     }
