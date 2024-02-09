@@ -73,7 +73,6 @@ function GroupDetails() {
   }
 
   const showVenues = () => {  // Online groups also have Venues, in case switching to in-person group
-    // must have at least 1 venue for in-person group when group is created
     if (!user) {
       return setModalContent(<h2 className="subheading modal-errors">Authentication required</h2>);
     }

@@ -4,47 +4,10 @@
   border-radius: 5px;
 }
 
-.locations {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 400px;
-  overflow-y: visible;
-  overflow-x: hidden;
-}
-
-.location {
-  font-style: italic;
-  width: 850px;
-  color: var(--gray);
-  border: none;
-  cursor: pointer;
-}
-
 .maps-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
   justify-content: center;
-}
-
-#location-id {
-  background-color: var(--teal);
-  margin: 10px 0;
-  padding: 5px 10px;
-  border-radius: 50%;
-  color: var(--white);
-  text-decoration: none;
-}
-
-#location-wrapper {
-  border-top: 1px solid var(--light-gray);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#location-address:hover {
-  text-shadow: var(--light-yellow) 1px 0 10px;
 }

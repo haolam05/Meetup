@@ -1,6 +1,7 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { getAverageLocation } from '../../utils/maps';
 import React, { useRef, useState } from 'react';
+import Locations from '../Locations';
 import "./Maps.css";
 
 const customMarker = {
@@ -46,25 +47,7 @@ const Maps = ({ apiKey, locations }) => {
         onClick={centerLocation}
       />)}
     </GoogleMap>
-    <div className="locations">
-      {locations.map((location, i) => <div
-        id={i}
-        key={location.id}
-        className="location"
-        onClick={() => {
-          const position = refs.current[i];
-          setCenter({ lat: parseFloat(position.lat), lng: parseFloat(position.lng) });
-          setZoom(5)
-        }}
-      >
-        <div id="location-wrapper">
-          <span id="location-id">{i + 1}</span>
-          <span id="location-address">{location.address}</span>
-        </div>
-        <div id="location-line-break"></div>
-      </div>
-      )}
-    </div>
+    <Locations refs={refs} setCenter={setCenter} setZoom={setZoom} locations={locations} />
   </div>;
 };
 
