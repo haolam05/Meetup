@@ -88,7 +88,7 @@ function GroupDetails() {
           <h2 className="subheading">Venues</h2>
           {group.organizerId === user.id && <i className="fa-solid fa-square-plus" onClick={() => setModalContent(<CreateVenue apiKey={key} groupId={group.id} />)}></i>}
         </div>
-        <Maps apiKey={key} locations={group.Venues} />
+        <Maps apiKey={key} locations={group.Venues} groupId={groupId} />
       </div>
     );
   }

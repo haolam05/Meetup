@@ -1,10 +1,11 @@
 import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
+import EditVenue from "../EditVenue";
 import * as groupActions from "../../store/group";
 import "./Locations.css";
 
-function Locations({ refs, setCenter, setZoom, locations }) {
+function Locations({ refs, setCenter, setZoom, apiKey, locations, groupId }) {
   const dispatch = useDispatch();
   const { setModalContent, closeModal } = useModal();
 
@@ -25,6 +26,9 @@ function Locations({ refs, setCenter, setZoom, locations }) {
 
   const handleUpdateLocation = e => {
     e.stopPropagation();
+    const locationIdx = +e.target.closest(".location-btns").id;
+    const location = locations[locationIdx];
+    setModalContent(<EditVenue apiKey={apiKey} venue={location} groupId={groupId} />);
   }
 
   const deleteVenue = async (e, location) => {

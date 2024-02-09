@@ -2,16 +2,15 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { disabledSubmitButton, enabledSubmitButton } from "../../utils/dom";
-import { csrfFetch } from "../../store/csrf";
 import * as groupActions from "../../store/group";
 import "./VenueFormModal.css";
 
 function VenueFormModal({ venue, groupId, apiKey }) {
   const dispatch = useDispatch();
   const { setModalContent } = useModal();
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [address, setAddress] = useState(venue?.address || "");
+  const [city, setCity] = useState(venue?.city || "");
+  const [state, setState] = useState(venue?.state || "");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async e => {
@@ -25,7 +24,13 @@ function VenueFormModal({ venue, groupId, apiKey }) {
       state
     }
 
-    const data = await dispatch(groupActions.createVenue(groupId, apiKey, payload));
+    let data;
+    if (venue) {
+      data = await dispatch(groupActions.updateVenue(groupId, apiKey, payload, venue.id));
+    } else {
+      data = await dispatch(groupActions.createVenue(groupId, apiKey, payload));
+    }
+
     if (data?.errors) {
       enabledSubmitButton();
       if (data.errors?.message) return setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>)
@@ -59,7 +64,7 @@ function VenueFormModal({ venue, groupId, apiKey }) {
         className={`btn-primary ${inputIsInValid() ? 'disabled' : 'enabled'}`}
         disabled={inputIsInValid()}
       >
-        Create Venue
+        {venue ? "Update" : "Create"}
       </button>
     </form>
   );

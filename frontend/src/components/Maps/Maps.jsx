@@ -18,7 +18,7 @@ const containerStyle = {
   height: '400px',
 };
 
-const Maps = ({ apiKey, locations }) => {
+const Maps = ({ apiKey, locations, groupId }) => {
   const [center, setCenter] = useState(null);
   const [zoom, setZoom] = useState(3);
   const refs = useRef(locations);
@@ -58,7 +58,7 @@ const Maps = ({ apiKey, locations }) => {
         onClick={centerLocation}
       />)}
     </GoogleMap>
-    <Locations refs={refs} setCenter={setCenter} setZoom={setZoom} locations={locations} />
+    <Locations refs={refs} setCenter={setCenter} setZoom={setZoom} apiKey={apiKey} locations={locations} groupId={groupId} />
   </div>;
 };
 

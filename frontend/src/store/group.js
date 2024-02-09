@@ -430,6 +430,14 @@ export const updateMember = (groupId, payload) => async dispatch => {
 };
 
 export const createVenue = (groupId, apiKey, payload) => async dispatch => {
+  return venueHelper(dispatch, groupId, apiKey, payload);
+};
+
+export const updateVenue = (groupId, apiKey, payload, venueId) => async dispatch => {
+  return venueHelper(dispatch, groupId, apiKey, payload, venueId);
+};
+
+const venueHelper = async (dispatch, groupId, apiKey, payload, venueId) => {
   const { address, city, state } = payload;
   const query = new URLSearchParams({ address, city, state, key: apiKey });
   const url = `https://maps.googleapis.com/maps/api/geocode/json?${encodeURI(query)}`;
@@ -439,8 +447,10 @@ export const createVenue = (groupId, apiKey, payload) => async dispatch => {
   if (!response.ok || data.status === "ZERO_RESULTS") return { errors: { address: "Invalid Address" } };
 
   const { geometry: { location: { lat, lng } }, formatted_address } = data.results[0];
-  const response2 = await csrfFetch(`/api/groups/${groupId}/venues`, {
-    method: 'POST',
+  const url2 = venueId ? `/api/venues/${venueId}` : `/api/groups/${groupId}/venues`;
+  const method = venueId ? 'PUT' : 'POST';
+  const response2 = await csrfFetch(url2, {
+    method,
     body: JSON.stringify({
       address: formatted_address,
       city,
@@ -452,7 +462,8 @@ export const createVenue = (groupId, apiKey, payload) => async dispatch => {
   const data2 = await response2.json();
   if (!response2.ok) return data2.errors ? data2 : { errors: data2 };
   dispatch(removeGroupDetails(groupId));
-};
+  return data2;
+}
 
 export const deleteVenue = (groupId, venueId) => async dispatch => {
   const response = await csrfFetch(`/api/venues/${venueId}`, {
