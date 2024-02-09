@@ -51,7 +51,7 @@ function Locations({ refs, setCenter, setZoom, locations }) {
         onClick={() => {
           const position = refs.current[i];
           setCenter({ lat: parseFloat(position.lat), lng: parseFloat(position.lng) });
-          setZoom(5)
+          setZoom(5);
         }}
       >
         <div id="location-wrapper">

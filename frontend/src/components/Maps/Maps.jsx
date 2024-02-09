@@ -1,6 +1,6 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { getAverageLocation } from '../../utils/maps';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Locations from '../Locations';
 import "./Maps.css";
 
@@ -22,6 +22,17 @@ const Maps = ({ apiKey, locations }) => {
   const [center, setCenter] = useState(null);
   const [zoom, setZoom] = useState(3);
   const refs = useRef(locations);
+
+  useEffect(() => {
+    const modalContent = document.querySelector('#modal-content');
+    const cb = e => {
+      if (e.target.id === "modal-content" || e.target.classList.contains("maps-container")) {
+        document.querySelectorAll(".location-btns").forEach(el => el.classList.add("hidden"));
+      }
+    }
+    modalContent.addEventListener('click', cb);
+    return () => modalContent.removeEventListener('click', cb);
+  }, []);
 
   const centerLocation = ({ latLng }) => {  // domEvent, latLng
     setCenter({ lat: parseFloat(latLng.lat()), lng: parseFloat(latLng.lng()) })
