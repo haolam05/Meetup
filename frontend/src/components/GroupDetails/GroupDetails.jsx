@@ -7,6 +7,7 @@ import Group from '../Group';
 import Event from '../Event';
 import BackButton from '../BackButton';
 import Maps from '../Maps';
+import CreateVenue from '../CreateVenue';
 import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
 import * as mapsActions from '../../store/maps';
@@ -81,15 +82,11 @@ function GroupDetails() {
       return setModalContent(<h2 className="subheading modal-errors">You are not a member of this private group!</h2>);
     }
 
-    if (group.Venues?.length <= 0) {
-      return setModalContent(<h2 className="subheading modal-errors">No venues found for this group!</h2>);
-    }
-
     return setModalContent(
       <div className="venues-container">
         <div className="venue-header">
           <h2 className="subheading">Venues</h2>
-          <i className="fa-solid fa-square-plus"></i>
+          {group.organizerId === user.id && <i className="fa-solid fa-square-plus" onClick={() => setModalContent(<CreateVenue apiKey={key} groupId={group.id} />)}></i>}
         </div>
         <Maps apiKey={key} locations={group.Venues} />
       </div>

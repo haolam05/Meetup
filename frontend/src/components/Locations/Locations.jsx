@@ -34,7 +34,7 @@ function Locations({ refs, setCenter, setZoom, locations }) {
       return setModalContent(<h2 className="subheading modal-errors">{data.errors.message}</h2>);
     }
     setModalContent(<h2 className="subheading alert-success">Successfully deleted!</h2>)
-    setTimeout(() => window.location.reload(), 2000);
+    setTimeout(() => window.location.reload(), 1000);
   }
 
   const handleDeleteLocation = e => {

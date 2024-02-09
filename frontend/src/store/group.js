@@ -429,6 +429,31 @@ export const updateMember = (groupId, payload) => async dispatch => {
   dispatch(editMember(groupId, membership.memberId, membership.status));
 };
 
+export const createVenue = (groupId, apiKey, payload) => async dispatch => {
+  const { address, city, state } = payload;
+  const query = new URLSearchParams({ address, city, state, key: apiKey });
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?${encodeURI(query)}`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if (!response.ok || data.status === "ZERO_RESULTS") return { errors: { address: "Invalid Address" } };
+
+  const { geometry: { location: { lat, lng } }, formatted_address } = data.results[0];
+  const response2 = await csrfFetch(`/api/groups/${groupId}/venues`, {
+    method: 'POST',
+    body: JSON.stringify({
+      address: formatted_address,
+      city,
+      state,
+      lat, lng
+    })
+  });
+
+  const data2 = await response2.json();
+  if (!response2.ok) return data2.errors ? data2 : { errors: data2 };
+  dispatch(removeGroupDetails(groupId));
+};
+
 export const deleteVenue = (groupId, venueId) => async dispatch => {
   const response = await csrfFetch(`/api/venues/${venueId}`, {
     method: 'DELETE'
