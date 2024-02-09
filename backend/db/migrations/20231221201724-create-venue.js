@@ -59,9 +59,9 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     options.tableName = 'Venues';
-    let tableName = "Venues";
-    if (options.schema) tableName = `"${options.schema}"."${tableName}"`
-    await queryInterface.removeConstraint(tableName, "unqiue_lat_lng");
+    // let tableName = "Venues";
+    // if (options.schema) tableName = `"${options.schema}"."${tableName}"`
+    // await queryInterface.removeConstraint(tableName, "unqiue_lat_lng");
     await queryInterface.dropTable(options);
   }
 };
