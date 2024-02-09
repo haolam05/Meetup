@@ -19,6 +19,13 @@
   border-top: 1px solid var(--light-gray);
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#location-container {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
@@ -30,7 +37,26 @@
   background-color: var(--teal);
   margin: 10px 0;
   padding: 5px 10px;
-  border-radius: 50%;
+  border-radius: 5px;
   color: var(--white);
   text-decoration: none;
+  width: 20px;
+  text-align: center;
+}
+
+.location-btns {
+  display: flex;
+  gap: 5px;
+}
+
+.location-btn-update,
+.location-btn-delete {
+  border: none;
+}
+
+.location-btn-update:hover,
+.location-btn-delete:hover {
+  background-color: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray);
 }

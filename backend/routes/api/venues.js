@@ -3,7 +3,10 @@ const router = express.Router({ mergeParams: true });
 const venueController = require('../../controller/venueController');
 const { requireAuth } = require('../../controller/authController');
 
-router.put('/:venueId', requireAuth, venueController.validateCreateVenue(), venueController.editVenue);
+router
+  .route('/:venueId')
+  .put(requireAuth, venueController.validateCreateVenue(), venueController.editVenue)
+  .delete(requireAuth, venueController.deleteVenue);
 
 router
   .route('/')

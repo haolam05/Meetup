@@ -1,5 +1,5 @@
 const { Venue, Group } = require('../db/models');
-const { notFoundError } = require('../utils/makeError');
+const { notFoundError, forbiddenError } = require('../utils/makeError');
 const { check } = require('express-validator');
 const handleValidationErrors = require('../utils/validation');
 const checkUserRole = require('../utils/userRoleAuthorization');
@@ -81,9 +81,28 @@ async function editVenue(req, res, next) {
   });
 }
 
+async function deleteVenue(req, res, next) {
+  const venue = await Venue.findByPk(req.params.venueId);
+
+  if (!venue) {
+    const err = notFoundError("Venue couldn't be found");
+    return next(err);
+  }
+
+  const group = await venue.getGroupOwner();
+  if (group.organizerId !== req.user.id) {
+    const err = forbiddenError();
+    return next(err);
+  }
+
+  await venue.destroy();
+  res.json({ message: 'Sucessfully deleted' });
+}
+
 module.exports = {
   getGroupVenues,
   validateCreateVenue,
   createGroupVenue,
-  editVenue
+  editVenue,
+  deleteVenue
 }

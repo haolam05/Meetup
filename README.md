@@ -1398,6 +1398,41 @@ Edit a new venue specified by its id
     }
     ```
 
+### Delete a Venue specified by its id
+
+Delete a venue specified by its id
+
+* Require Authentication: true
+* Require Authorization: Current User must be the organizer of the group
+* Request
+  * Method: DELETE
+  * URL: /api/venues/:venueId
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Successfully deleted"
+    }
+    ```
+
+* Error response: Couldn't find a Venue with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Venue couldn't be found"
+    }
+    ```
+
 ## EVENTS
 
 ### Get all Events

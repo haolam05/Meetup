@@ -429,6 +429,17 @@ export const updateMember = (groupId, payload) => async dispatch => {
   dispatch(editMember(groupId, membership.memberId, membership.status));
 };
 
+export const deleteVenue = (groupId, venueId) => async dispatch => {
+  const response = await csrfFetch(`/api/venues/${venueId}`, {
+    method: 'DELETE'
+  });
+
+  const data = await response.json();
+  if (!response.ok) return data.errors ? data : { errors: data };
+  dispatch(removeGroupDetails(groupId));
+  return data;
+};
+
 // Custom selectors
 export const getGroupMembers = groupId => createSelector(
   state => state.group.groupMembers,
