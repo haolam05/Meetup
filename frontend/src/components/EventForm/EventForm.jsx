@@ -9,19 +9,20 @@ import { disabledSubmitButton, enabledSubmitButton } from '../../utils/dom';
 import { updateFile } from '../../utils/images';
 import * as eventActions from '../../store/event';
 
-function EventForm({ groupId, title, event = {}, organizerId }) {
+function EventForm({ groupId, title, event = {}, organizerId, venues }) {
   const [ref1, ref2, ref3, ref4] = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const { setModalContent, setOnModalClose } = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState(event?.name || "");
-  const [type, setType] = useState(event?.type || "In person");
+  const [type, setType] = useState(event?.type || "Online");
   const [price, setPrice] = useState(event?.price || 0);
   const [startDate, setStartDate] = useState(dateToFormat(event?.startDate) || "");
   const [endDate, setEndDate] = useState(dateToFormat(event?.endDate) || "");
   const [description, setDescription] = useState(event?.description || "");
   const [capacity, setCapacity] = useState(event?.capacity || 1);
   const [image, setImage] = useState(event?.previewImage || "");
+  const [venueId, setVenueId] = useState(event?.Venue?.id || "");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async e => {
@@ -42,8 +43,10 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
     if (hasError(setErrors, price < 0, "price", "Price must be at lest 0", ref4.current)) return;
     if (inValidImage(setErrors, image)) return;
 
+    if (hasError(setErrors, type === "In person" && venueId === "", "venue", "In person events must have a venue", ref4.current)) return;
+    console.log(venueId, type, '🐼🐼🐼')
     const payload = {
-      venueId: type === "Onine" ? null : 1,   // to be implemented later
+      venueId: type === "Online" ? null : venueId,
       name,
       type,
       capacity,
@@ -160,6 +163,14 @@ function EventForm({ groupId, title, event = {}, organizerId }) {
             <option value="Online">Online</option>
           </select>
           {errors.type && <p className="error-message">{errors.type}</p>}
+        </div>
+        <div>
+          <label htmlFor="venues">Which group venues would you like to use to host this event? Remember that &quot;In-person&quot; events must have a venue. If your group has no venues, please go the the group details page to create one.</label>
+          <select name="venues" disabled={type === "Online"} value={venueId} onChange={e => setVenueId(+e.target.value)}>
+            <option disabled value="">Please choose a venue</option>
+            {venues.map(venue => <option key={venue.id} value={venue.id}>{venue.address}</option>)}
+          </select>
+          {errors.venue && <p className="error-message">{errors.venue}</p>}
         </div>
         <div>
           <label htmlFor="event-capacity">What is the capacity of your event?</label>

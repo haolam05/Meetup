@@ -166,8 +166,10 @@ async function createEvent(req, res, next) {
   }
 
   if (!venue) {
-    const err = notFoundError("Venue couldn't be found");
-    return next(err);
+    if (req.body.type !== "Online") {  // online events do not neet venues
+      const err = notFoundError("Venue couldn't be found");
+      return next(err);
+    }
   }
 
   const err = await checkUserRole(group, req.user.id);
@@ -194,8 +196,10 @@ async function editEvent(req, res, next) {
   const venue = await Venue.findByPk(req.body.venueId);
 
   if (!venue) {
-    const err = notFoundError("Venue couldn't be found");
-    return next(err);
+    if (req.body.type !== "Online") {  // online events do not neet venues
+      const err = notFoundError("Venue couldn't be found");
+      return next(err);
+    }
   }
 
   if (!event) {

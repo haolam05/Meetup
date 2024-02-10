@@ -1787,7 +1787,7 @@ Creates and returns a new event for a group specified by its id
     }
     ```
 
-* Error response: Couldn't find a Venue with the specified id
+* Error response: Couldn't find a Venue with the specified id (In person events)
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -2016,7 +2016,7 @@ Edit and returns an event specified by its id
     }
     ```
 
-* Error response: Couldn't find a Venue with the specified id
+* Error response: Couldn't find a Venue with the specified id (In person events)
   * Status Code: 404
   * Headers:
     * Content-Type: application/json

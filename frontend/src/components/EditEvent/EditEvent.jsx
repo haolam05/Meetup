@@ -40,7 +40,7 @@ function EditEvent() {
     <div id="lists-container">
       <div id="lists">
         <h1 id="list-headers" className="heading new-group">Update Your Event</h1>
-        <EventForm title="Update Event" event={event} />
+        <EventForm title="Update Event" event={event} venues={event.Group.Venues} />
       </div>
     </div>
   );
