@@ -165,7 +165,7 @@ function EventForm({ groupId, title, event = {}, organizerId, venues }) {
           {errors.type && <p className="error-message">{errors.type}</p>}
         </div>
         <div>
-          <label htmlFor="venues">Which group venues would you like to use to host this event? Remember that &quot;In-person&quot; events must have a venue. If your group has no venues, please go the the group details page to create one.</label>
+          <label htmlFor="venues">Which venues would you like to use to host this event? Remember that &quot;In-person&quot; events must have a venue. If your group has no venues, please navigate to the group details page to create one.</label>
           <select name="venues" disabled={type === "Online"} value={venueId} onChange={e => setVenueId(+e.target.value)}>
             <option disabled value="">Please choose a venue</option>
             {venues.map(venue => <option key={venue.id} value={venue.id}>{venue.address}</option>)}
