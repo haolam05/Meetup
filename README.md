@@ -118,6 +118,12 @@
 ### Delete Group Venues
 ![alt text](<demo/delete group venue.gif>)
 
+### Create In-person events
+![alt text](<demo/create in-person events.gif>)
+
+### Update In-person events
+![alt text](<demo/update in-person events.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
