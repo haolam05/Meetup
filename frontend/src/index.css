@@ -54,11 +54,16 @@ button {
   border-radius: 5px;
 }
 
+select[disabled]:hover {
+  cursor: not-allowed;
+}
+
 button.disabled:hover {
   opacity: .5;
   background-color: var(--red);
   cursor: not-allowed;
 }
+
 
 .btn-accent {
   background-color: var(--dark-gray);

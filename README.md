@@ -109,6 +109,15 @@
 ### View Group Venues
 ![alt text](<demo/venues view.gif>)
 
+### Create Group Venues
+![alt text](<demo/create group venue.gif>)
+
+### Update Group Venues
+![alt text](<demo/update group venue.gif>)
+
+### Delete Group Venues
+![alt text](<demo/delete group venue.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
