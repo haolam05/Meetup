@@ -67,6 +67,12 @@ function EventDetails() {
           <h2 className="subheading">Details</h2>
           <p>{event.description}</p>
         </div>
+        {event.type === "In person" && (isPublic || (user && (isHost || isCohost || isAttendee))) && (
+          <div id="event-details-wrapper">
+            <h2 className="subheading">Venue</h2>
+            <p>{event.Venue.address}</p>
+          </div>
+        )}
       </div>
     </div >
   );

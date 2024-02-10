@@ -73,9 +73,12 @@
 #event-description {
   display: flex;
   color: var(--gray);
-  gap: 20px;
   font-style: italic;
   word-break: break-word;
+}
+
+#event-description>div {
+  width: 100px;
 }
 
 #event-info-wrapper {

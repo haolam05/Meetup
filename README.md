@@ -358,12 +358,19 @@
   * User must be signed in to view public groups' venues
   * Only members can view private groups' venues
 * Create Group Venue
-  * (coming soon)
+  * Only owner and co-host can create group venues
+  * Only address is required, the geographic location will be filled in automatically behind the scene
+* Edit Group Venue
+  * Only owner and co-host can edit group venues
+  * Only address is required, the geographic location will be filled in automatically behind the scene
 * Delete Group Venue
-  * (coming soon)
+  * Only owner can delete group venues
 * Create In-person events
   * In person events must have a venue, if group has no venue, then a new venue must be created first
-  * (coming soon)
+  * Venue's input will be disabled and ignored for online events
+  * User can easliy select available group's venues from dropdown
+* Edit In-person events
+  * Event's type can be changed from 1 type to another and venue will be updated accordingly
 
 ## API Documentation
 
