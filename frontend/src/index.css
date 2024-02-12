@@ -183,7 +183,11 @@ a:hover {
 }
 
 .alert-success {
-  color: teal;
+  color: var(--teal);
+}
+
+.alert-warning {
+  color: var(--yellow);
 }
 
 .clickable {

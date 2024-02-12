@@ -45,7 +45,9 @@ async function createGroupVenue(req, res, next) {
   if (err) return next(err);
   try {
     const newVenue = await group.createVenue(req.body);
+    const memberIds = (await group.getMembers()).map(user => user.id);
 
+    req.app.io.emit('membership', { msg: `A new venue is added to "${group.name}" group! Please refresh!`, userIds: memberIds });
     res.json({
       id: newVenue.id,
       groupId: newVenue.groupId,
@@ -78,7 +80,9 @@ async function editVenue(req, res, next) {
   if (err) return next(err);
 
   const updatedVenue = await venue.update(req.body);
+  const memberIds = (await group.getMembers()).map(user => user.id);
 
+  req.app.io.emit('membership', { msg: `A venue of "${group.name}" group is updated! Please refresh!`, userIds: memberIds });
   res.json({
     id: updatedVenue.id,
     groupId: updatedVenue.groupId,
@@ -105,6 +109,9 @@ async function deleteVenue(req, res, next) {
   }
 
   await venue.destroy();
+  const memberIds = (await group.getMembers()).map(user => user.id);
+
+  req.app.io.emit('membership', { msg: `A venue of "${group.name}" group is deleted! Please refresh!`, userIds: memberIds });
   res.json({ message: 'Sucessfully deleted' });
 }
 

@@ -1,3 +1,4 @@
+import { getProfileImageUrl } from "../../utils/images";
 import "./UserInfoModal.css";
 
 function UserInfoModal({ user }) {
@@ -6,7 +7,7 @@ function UserInfoModal({ user }) {
       <h2 className="subheading">User Information</h2>
       <div className="user-info-details">
         <div>
-          <img src={user.profileImageUrl} alt="avatar" />
+          <img src={getProfileImageUrl(user.profileImageUrl)} alt="avatar" />
         </div>
         <div>
           <div className="user-info">

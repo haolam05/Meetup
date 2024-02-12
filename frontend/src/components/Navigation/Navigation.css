@@ -107,3 +107,36 @@
   background-color: var(--teal);
   border: none;
 }
+
+#notification {
+  align-self: center;
+  padding: 10px;
+  background-color: var(--teal);
+  border-radius: 10px;
+  font-style: italic;
+  color: var(--white);
+  text-shadow: var(--light-teal) 1px 0 10px;
+  text-align: center;
+  animation: linear infinite;
+  animation-name: slide;
+  animation-duration: 10s;
+  position: absolute;
+}
+
+#notification:hover {
+  cursor: pointer;
+}
+
+@keyframes slide {
+  0% {
+    left: 0;
+  }
+
+  50% {
+    left: 75%;
+  }
+
+  100% {
+    left: 0;
+  }
+}

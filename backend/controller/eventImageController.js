@@ -31,6 +31,9 @@ async function createEventImage(req, res, next) {
   const { preview } = req.body;
   const url = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
   const newEventImage = await event.createEventImage({ url, preview });
+  const attendeeIds = (await Attendance.findAll({ where: { eventId: event.id } })).map(user => user.id);
+  const cohostIds = (await group.getMembers()).filter(member => member.Membership.status === 'co-host').map(user => user.id);
+  req.app.io.emit('membership', { msg: `A new image has been added to "${event.name}" event! Please refresh!`, userIds: [group.organizerId, ...cohostIds, ...attendeeIds] });
 
   res.json({
     id: newEventImage.id,
@@ -77,6 +80,9 @@ async function deleteEventImage(req, res, next) {
   if (err) return next(err);
 
   await eventImage.destroy();
+  const attendeeIds = (await Attendance.findAll({ where: { eventId: event.id } })).map(user => user.id);
+  const cohostIds = (await group.getMembers()).filter(member => member.Membership.status === 'co-host').map(user => user.id);
+  req.app.io.emit('membership', { msg: `A new image in "${event.name}" event was deleted! Please refresh!`, userIds: [group.organizerId, ...cohostIds, ...attendeeIds] });
   res.json({ message: 'Successfully deleted' });
 }
 

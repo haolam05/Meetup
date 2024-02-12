@@ -44,7 +44,7 @@ function EventForm({ groupId, title, event = {}, organizerId, venues }) {
     if (inValidImage(setErrors, image)) return;
 
     if (hasError(setErrors, type === "In person" && venueId === "", "venue", "In person events must have a venue", ref4.current)) return;
-    console.log(venueId, type, '🐼🐼🐼')
+
     const payload = {
       venueId: type === "Online" ? null : venueId,
       name,

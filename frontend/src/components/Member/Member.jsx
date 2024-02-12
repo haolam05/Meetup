@@ -2,6 +2,7 @@ import { useModal } from "../../context/Modal";
 import { capitalize } from "../../utils/capitalize";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getProfileImageUrl } from "../../utils/images";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
 import MembershipStatusForm from "../MembershipStatusForm";
 import OpenModalButton from "../OpenModalButton";
@@ -23,7 +24,7 @@ function Member({ member, status, memberType, groupId }) {
   return (
     <div className="member-wrapper" key={member.id}>
       <div className="member-avatar">
-        <img src={member.profileImageUrl} alt="avatar" />
+        <img src={getProfileImageUrl(member.profileImageUrl)} alt="avatar" />
       </div>
       <div className="member-info-wrapper">
         <h2 className="subheading">Member Information</h2>

@@ -1,9 +1,11 @@
 // Import environment variables
 require('dotenv').config();
 
+const { Server } = require('socket.io');
 const { port } = require('../config');
 const app = require('../app');
 const db = require('../db/models');
+const http = require('http');
 
 // Check the database connection before starting the app
 db.sequelize
@@ -12,7 +14,16 @@ db.sequelize
     console.log('Database connection success! Sequelize is ready to use...');
 
     // Start listening for connections
-    app.listen(port, () => console.log(`Listening on port ${port}...`));
+    const server = http.createServer(app);
+    io = new Server(server, {
+      cors: {
+        origin: process.env.environment === 'production' ? ['https://meetup-tzx9.onrender.com'] : [`http://localhost:5173`, `http://127.0.0.1:5173`]
+      }
+    });
+    io.on('connection', socket => console.log('Socket is connected!', socket.id));
+    io.on('disconnect', reason => console.log(reason));
+    app.io = io;
+    server.listen(port, () => console.log(`Listening on port ${port}...`));
   })
   .catch((err) => {
     console.log('Database connection failure.');

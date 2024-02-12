@@ -2,6 +2,7 @@ import { useModal } from '../../context/Modal';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
+import { getProfileImageUrl } from '../../utils/images';
 import * as sessionActions from '../../store/session';
 import * as groupActions from '../../store/group';
 import * as eventActions from '../../store/event';
@@ -50,9 +51,9 @@ function ProfileButton({ user }) {
 
   return (
     <div id="profile-btns">
-      {user && user.profileImageUrl ? (
+      {user ? (
         <div id="userMenu" className="avatar" onClick={toggleMenu}>
-          <img src={user.profileImageUrl} alt="avatar" />
+          <img src={getProfileImageUrl(user.profileImageUrl)} alt="avatar" />
         </div>
       ) : (
         <button id="userMenu" onClick={toggleMenu}>

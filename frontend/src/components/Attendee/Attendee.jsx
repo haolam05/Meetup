@@ -2,6 +2,7 @@ import { useModal } from "../../context/Modal";
 import { capitalize } from "../../utils/capitalize";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getProfileImageUrl } from "../../utils/images";
 import ConfirmDeleteForm from "../ConfirmDeleteForm";
 import AttendanceStatusForm from "../AttendeeStatusForm";
 import OpenModalButton from "../OpenModalButton";
@@ -22,7 +23,7 @@ function Attendee({ userId, attendee, status, attendeeType, eventId }) {
   return (
     <div className="member-wrapper" key={attendee.id}>
       <div className="member-avatar">
-        <img src={attendee.profileImageUrl} alt="avatar" />
+        <img src={getProfileImageUrl(attendee.profileImageUrl)} alt="avatar" />
       </div>
       <div className="member-info-wrapper">
         <h2 className="subheading">Attendee Information</h2>

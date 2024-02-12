@@ -63,7 +63,10 @@ async function createEventAttendance(req, res, next) {
   }
 
   const newAttendee = await Attendance.create({ eventId: event.id, userId: req.user.id, status: 'pending' });
+  const group = await Group.findByPk(event.groupId);
+  const cohostIds = (await group.getMembers()).filter(member => member.Membership.status === 'co-host').map(user => user.id);
 
+  req.app.io.emit('membership', { msg: `"${req.user.firstName}" has requested to attend "${event.name}" event! Please refresh!`, userIds: [group.organizerId, ...cohostIds] });
   res.json({
     userId: newAttendee.userId,
     status: newAttendee.status
@@ -115,6 +118,13 @@ async function updateEventAttendance(req, res, next) {
   if (err) return next(err);
 
   const updatedAttendance = await attendance.update({ status: req.body.status });
+
+  if (updatedAttendance.status === 'attending') {
+    req.app.io.emit('membership', { msg: `Congratulations! You are now an attendee of "${event.name}" event! Please refresh!`, userIds: [user.id] });
+  } else if (updatedAttendance.status === 'waitlist') {
+    req.app.io.emit('membership', { msg: `Congratulations! You are now on the waitlist of "${event.name}" event! Please refresh!`, userIds: [user.id] });
+  }
+
   res.json({
     id: updatedAttendance.id,
     eventId: updatedAttendance.eventId,
@@ -156,6 +166,11 @@ async function deleteAttendance(req, res, next) {
   }
 
   await attendance.destroy();
+  if (req.user.id === user.id) {
+    req.app.io.emit('membership', { msg: `You have successfully unattend "${event.name}" event!`, userIds: [user.id] });
+  } else if (group.organizerId === req.user.id) {
+    req.app.io.emit('membership', { msg: `Sorry! You have been removed from "${event.name}" event! Please refresh!`, userIds: [user.id] });
+  }
   res.json({ message: 'Successfully deleted attendance from event' });
 }
 

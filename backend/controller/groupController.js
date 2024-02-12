@@ -1,4 +1,4 @@
-const { Group, GroupImage, Venue, User, Membership } = require('../db/models');
+const { Group, GroupImage, Venue, User } = require('../db/models');
 const { check, query } = require('express-validator');
 const { notFoundError, forbiddenError } = require('../utils/makeError');
 const { Op } = require('sequelize');
@@ -122,8 +122,8 @@ function createGroupValidation() {
 
 async function createGroup(req, res) {
   const newGroup = await req.user.createGroup(req.body);
-  res.status(201);
-  res.json(newGroup);
+  req.app.io.emit('data_change', { msg: `Group "${newGroup.name}" is created! Please refresh!`, userId: req.user.id });
+  res.status(201).json(newGroup);
 }
 
 async function editGroup(req, res, next) {
@@ -140,6 +140,7 @@ async function editGroup(req, res, next) {
   }
 
   const updatedGroup = await group.update(req.body);
+  req.app.io.emit('data_change', { msg: `Group "${updatedGroup.name}" is updated! Please refresh!`, userId: req.user.id });
   res.json(updatedGroup);
 }
 
@@ -157,6 +158,7 @@ async function deleteGroup(req, res, next) {
   }
 
   await group.destroy();
+  req.app.io.emit('data_change', { msg: `Group "${group.name}" is deleted! Please refresh!`, userId: req.user.id });
   res.json({ message: 'Successfully deleted' });
 }
 
