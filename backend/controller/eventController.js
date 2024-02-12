@@ -177,7 +177,7 @@ async function createEvent(req, res, next) {
 
   const newEvent = await Event.create({ ...req.body, groupId: req.params.groupId });
 
-  req.app.io.emit('data_change', { msg: `Event "${newEvent.name}" is created! Please refresh!`, userId: req.user.id });
+  req.app.io.emit('data_change', { msg: `Event "${newEvent.name}" is created!`, userId: req.user.id });
   res.json({
     id: newEvent.id,
     groupId: newEvent.groupId,
@@ -214,7 +214,7 @@ async function editEvent(req, res, next) {
 
   const updatedEvent = await event.update(req.body);
 
-  req.app.io.emit('data_change', { msg: `Event "${updatedEvent.name}" is updateed! Please refresh!`, userId: req.user.id });
+  req.app.io.emit('data_change', { msg: `Event "${updatedEvent.name}" is updateed!`, userId: req.user.id });
   res.json({
     id: updatedEvent.id,
     groupId: updatedEvent.groupId,
@@ -242,7 +242,7 @@ async function deleteEvent(req, res, next) {
   if (err) return next(err);
 
   await event.destroy();
-  req.app.io.emit('data_change', { msg: `Event "${event.name}" is deleted! Please refresh!`, userId: req.user.id });
+  req.app.io.emit('data_change', { msg: `Event "${event.name}" is deleted!`, userId: req.user.id });
   res.json({ message: 'Sucessfully deleted' });
 }
 

@@ -16,7 +16,7 @@ async function deleteGroupImage(req, res, next) {
   await groupImage.destroy();
   const group = await Group.findByPk(groupImage.Group.id);
   const memberIds = (await group.getMembers()).map(user => user.id);
-  req.app.io.emit('membership', { msg: `An image in "${group.name}" group was deleted! Please refresh!`, userIds: memberIds });
+  req.app.io.emit('membership', { msg: `An image in "${group.name}" group was deleted!`, userIds: memberIds });
   res.json({ message: 'Successfully deleted' });
 }
 
@@ -38,7 +38,7 @@ async function createGroupImage(req, res, next) {
   const newImage = await group.createGroupImage({ url, preview });
 
   const memberIds = (await group.getMembers()).map(user => user.id);
-  req.app.io.emit('membership', { msg: `A new image has been added to "${group.name}" group! Please refresh!`, userIds: memberIds });
+  req.app.io.emit('membership', { msg: `A new image has been added to "${group.name}" group!`, userIds: memberIds });
 
   res.json({
     id: newImage.id,

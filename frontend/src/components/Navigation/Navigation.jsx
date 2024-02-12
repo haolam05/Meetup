@@ -9,7 +9,6 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(sessionActions.sessionUser);
-  console.log(import.meta.env.MODE === 'development')
 
   useEffect(() => {
     const setNotification = (notification, msg) => {

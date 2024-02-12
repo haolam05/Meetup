@@ -52,7 +52,7 @@ async function createMember(req, res, next) {
   const newMember = await Membership.create({ userId: req.user.id, groupId: group.id, status: 'pending' });
   const cohostIds = (await group.getMembers()).filter(member => member.Membership.status === 'co-host').map(user => user.id);
 
-  req.app.io.emit('membership', { msg: `"${req.user.firstName}" has requested to join "${group.name}" group! Please refresh!`, userIds: [group.organizerId, ...cohostIds] });
+  req.app.io.emit('membership', { msg: `"${req.user.firstName}" has requested to join "${group.name}" group!`, userIds: [group.organizerId, ...cohostIds] });
   res.json({
     memberId: newMember.userId,
     status: newMember.status
@@ -118,9 +118,9 @@ async function updateMember(req, res, next) {
   }
 
   if (updatedMembership.status === 'member') {
-    req.app.io.emit('membership', { msg: `Congratulations! You are now a member of "${group.name}" group! Please refresh!`, userIds: [user.id] });
+    req.app.io.emit('membership', { msg: `Congratulations! You are now a member of "${group.name}" group!`, userIds: [user.id] });
   } else if (updatedMembership.status === 'co-host') {
-    req.app.io.emit('membership', { msg: `Congratulations! You are now a co-host of "${group.name}" group! Please refresh!`, userIds: [user.id] });
+    req.app.io.emit('membership', { msg: `Congratulations! You are now a co-host of "${group.name}" group!`, userIds: [user.id] });
   }
   res.json({
     id: updatedMembership.id,
@@ -177,9 +177,10 @@ async function deleteMember(req, res, next) {
 
   await membership.destroy();
   if (group.organizerId === req.user.id) {
-    req.app.io.emit('membership', { msg: `Sorry! You have been removed from "${group.name}" group! Please refresh!`, userIds: [user.id] });
+    req.app.io.emit('membership', { msg: `Sorry! You have been removed from "${group.name}" group!`, userIds: [user.id] });
   } else if (req.user.id == user.id) {
     req.app.io.emit('membership', { msg: `You have succesfully unjoin "${group.name}" group!`, userIds: [user.id] });
+    req.app.io.emit('membership', { msg: `${user.firstName} have left "${group.name}" group!`, userIds: [group.organizerId] });
   }
   res.json({ message: 'Successfully deleted membership from the group' });
 }

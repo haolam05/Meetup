@@ -122,7 +122,7 @@ function createGroupValidation() {
 
 async function createGroup(req, res) {
   const newGroup = await req.user.createGroup(req.body);
-  req.app.io.emit('data_change', { msg: `Group "${newGroup.name}" is created! Please refresh!`, userId: req.user.id });
+  req.app.io.emit('data_change', { msg: `Group "${newGroup.name}" is created!`, userId: req.user.id });
   res.status(201).json(newGroup);
 }
 
@@ -140,7 +140,7 @@ async function editGroup(req, res, next) {
   }
 
   const updatedGroup = await group.update(req.body);
-  req.app.io.emit('data_change', { msg: `Group "${updatedGroup.name}" is updated! Please refresh!`, userId: req.user.id });
+  req.app.io.emit('data_change', { msg: `Group "${updatedGroup.name}" is updated!`, userId: req.user.id });
   res.json(updatedGroup);
 }
 
@@ -158,7 +158,7 @@ async function deleteGroup(req, res, next) {
   }
 
   await group.destroy();
-  req.app.io.emit('data_change', { msg: `Group "${group.name}" is deleted! Please refresh!`, userId: req.user.id });
+  req.app.io.emit('data_change', { msg: `Group "${group.name}" is deleted!`, userId: req.user.id });
   res.json({ message: 'Successfully deleted' });
 }
 

@@ -121,7 +121,8 @@
   animation-name: slide;
   animation-duration: 10s;
   position: absolute;
-  right: 0;
+  left: 25px;
+  margin-right: 25px;
 }
 
 #notification:hover {
@@ -130,14 +131,14 @@
 
 @keyframes slide {
   0% {
-    left: 0;
+    right: 0;
   }
 
   50% {
-    left: 35%;
+    right: 35%;
   }
 
   100% {
-    left: 0;
+    right: 0;
   }
 }
