@@ -1,14 +1,18 @@
 import { io } from 'socket.io-client'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { choosePort } from '../../utils/socket';
 import ProfileButton from './ProfileButton';
 import Loading from '../Loading';
+import ChatWindow from '../ChatWindow';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(sessionActions.sessionUser);
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState([]);
 
   useEffect(() => {
     const setNotification = (notification, msg) => {
@@ -23,11 +27,12 @@ function Navigation({ isLoaded }) {
 
     const notify = data => sessionUser && sessionUser.id !== data.userId && registerNotification(data);
     const notifyMembership = data => sessionUser && data.userIds.includes(sessionUser.id) && registerNotification(data);
-    const socket = io(import.meta.env.MODE === 'development' ? 'http://localhost:8000' : 'https://meetup-tzx9.onrender.com');
+    const socket = io(choosePort());
     socket.on('connect_error', () => setTimeout(() => socket.connect(), 5000));
     socket.on('data_change', notify);
     socket.on('membership', notifyMembership);
-  }, [sessionUser]);
+    socket.on('new_general_message', data => sessionUser && setMessages([...messages, data.message]));
+  }, [sessionUser, messages]);
 
   return (
     <ul id="header">
@@ -36,6 +41,7 @@ function Navigation({ isLoaded }) {
       </li>
       {!isLoaded && <li><Loading /></li>}
       <div id="notification" className="hidden" onClick={() => window.location.reload()}></div>
+      <ChatWindow user={sessionUser} messages={messages} setMessages={setMessages} messageInput={messageInput} setMessageInput={setMessageInput} />
       <li id="header-right-section">
         {isLoaded &&
           <>
