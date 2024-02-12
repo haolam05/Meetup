@@ -121,6 +121,7 @@
   animation-name: slide;
   animation-duration: 10s;
   position: absolute;
+  right: 0;
 }
 
 #notification:hover {
@@ -133,7 +134,7 @@
   }
 
   50% {
-    left: 75%;
+    left: 35%;
   }
 
   100% {

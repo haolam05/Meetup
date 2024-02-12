@@ -9,6 +9,7 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(sessionActions.sessionUser);
+  console.log(import.meta.env.MODE === 'development')
 
   useEffect(() => {
     const setNotification = (notification, msg) => {
@@ -23,8 +24,7 @@ function Navigation({ isLoaded }) {
 
     const notify = data => sessionUser && sessionUser.id !== data.userId && registerNotification(data);
     const notifyMembership = data => sessionUser && data.userIds.includes(sessionUser.id) && registerNotification(data);
-
-    const socket = io(`http://localhost:8000`)
+    const socket = io(import.meta.env.MODE === 'development' ? 'http://localhost:8000' : 'https://meetup-tzx9.onrender.com');
     socket.on('connect_error', () => setTimeout(() => socket.connect(), 5000));
     socket.on('data_change', notify);
     socket.on('membership', notifyMembership);
