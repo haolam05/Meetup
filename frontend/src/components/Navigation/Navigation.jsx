@@ -31,7 +31,7 @@ function Navigation({ isLoaded }) {
     socket.on('connect_error', () => setTimeout(() => socket.connect(), 5000));
     socket.on('data_change', notify);
     socket.on('membership', notifyMembership);
-    socket.on('new_general_message', data => sessionUser && setMessages([...messages, data.message]));
+    socket.on('new_general_message', data => sessionUser && setMessages([...messages, data]));
   }, [sessionUser, messages]);
 
   return (

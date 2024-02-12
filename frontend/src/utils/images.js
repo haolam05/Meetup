@@ -1,4 +1,5 @@
 export const getProfileImageUrl = url => {
+  console.log(url)
   return url ? url : "/images/default-avatar.png";
 }
 

@@ -13,6 +13,9 @@
   --blue: rgb(0, 150, 188);
   --brown: rgb(122, 43, 29);
   --dark-brown: rgb(110, 75, 75);
+  --chat-window-background: #4E4F50;
+  --my-message-background: #0084ff;
+  --other-message-background: #323436;
 }
 
 * {
