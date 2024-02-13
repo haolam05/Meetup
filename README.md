@@ -124,6 +124,12 @@
 ### Update In-person events
 ![alt text](<demo/update in-person events.gif>)
 
+### Global Notification system
+![alt text](<demo/global notification system.gif>)
+
+### General Live Chat
+![alt text](<demo/general live chat.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
