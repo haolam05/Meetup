@@ -56,10 +56,10 @@ function ChatWindow({ user, socket }) {
   function ChatWindowBody() {
     const avatarIndexes = new Set();
     let i = 0;
+    avatarIndexes.add(i);
     while (i < messages.length - 1) {
       let currSenderId = true;
       let nextSenderId = true;
-
       while (currSenderId == nextSenderId) {
         if (i + 1 >= messages.length) break;
         currSenderId = messages[i].sender.id;
