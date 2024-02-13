@@ -55,13 +55,11 @@ function ChatWindow({ user, socket }) {
 
   function ChatWindowBody() {
     const avatarIndexes = new Set();
-    console.log(messages);
     let i = 0;
     while (i < messages.length - 1) {
       let currSenderId = true;
       let nextSenderId = true;
 
-      avatarIndexes.add(i);
       while (currSenderId == nextSenderId) {
         if (i + 1 >= messages.length) break;
         currSenderId = messages[i].sender.id;
@@ -69,11 +67,9 @@ function ChatWindow({ user, socket }) {
         i++;
       }
       if (currSenderId !== nextSenderId) avatarIndexes.add(i);
-      console.log(i)
       i++;
     }
-    if (messages.length === 1 || (messages[i - 1]?.sender.id !== messages[i]?.sender.id)) avatarIndexes.add(i);
-    console.log(avatarIndexes)
+    if (messages[i - 1]?.sender.id !== messages[i]?.sender.id) avatarIndexes.add(i);
     return (
       <div id="chat-body">
         <ul>
