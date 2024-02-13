@@ -1,7 +1,7 @@
 #chat-window {
   position: fixed;
-  bottom: 0px;
-  right: 0px;
+  bottom: 25px;
+  right: 25px;
   width: 325px;
   height: 350px;
   background-color: var(--chat-window-background);
