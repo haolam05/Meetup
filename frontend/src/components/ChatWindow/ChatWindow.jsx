@@ -1,42 +1,36 @@
-import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { getProfileImageUrl } from "../../utils/images";
-import { choosePort, sendGeneralMsg } from "../../utils/socket";
+import { sendGeneralMsg } from "../../utils/socket";
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import "./ChatWindow.css"
 
-function ChatWindow({ user }) {
+function ChatWindow({ user, socket }) {
   const [windowOpen, setWindowOpen] = useState(false);
-  const [messageInput, setMessageInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setMessageInput("");
-    await sendGeneralMsg(messageInput);
+    const inputMessage = document.querySelector('.chat-input');
+    await sendGeneralMsg(inputMessage.value);
+    inputMessage.value = "";
   }
 
   useEffect(() => {
-    const MAX_MESSAGES = 10;
-    const socket = io(choosePort());
+    const cb = data => {
+      setMessages(prev => [...prev, data]);
+      setNewMsg(true);
+    }
+
     socket.on('connect_error', () => setTimeout(() => socket.connect(), 5000));
-    socket.on('new_general_message', data => {
-      if (user) {
-        if (messages.length + 1 > MAX_MESSAGES) {
-          setMessages([...messages.slice(1, MAX_MESSAGES), data]);
-        } else {
-          setMessages([...messages, data]);
-        }
-        setNewMsg(true);
-      }
-    });
-  }, [messages, user]);
+    socket.on('new_general_message', cb);
+    return () => socket.off('new_general_message', cb);
+  }, [socket]);
 
   useEffect(() => {
     const chatBody = document.querySelector("#chat-body");
     if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
-  }, [messages, messageInput]);
+  }, [messages]);
 
   function ChatWindowHeader() {
     return (
@@ -52,14 +46,41 @@ function ChatWindow({ user }) {
     );
   }
 
+  function Avatar({ url, indexes, index }) {
+    if (!indexes.has(index)) {
+      return <div><img className="hidden" /></div>;
+    }
+    return <div><img src={getProfileImageUrl(url)} alt="avatar" /></div>;
+  }
+
   function ChatWindowBody() {
+    const avatarIndexes = new Set();
+    console.log(messages);
+    let i = 0;
+    while (i < messages.length - 1) {
+      let currSenderId = true;
+      let nextSenderId = true;
+
+      avatarIndexes.add(i);
+      while (currSenderId == nextSenderId) {
+        if (i + 1 >= messages.length) break;
+        currSenderId = messages[i].sender.id;
+        nextSenderId = messages[i + 1].sender.id;
+        i++;
+      }
+      if (currSenderId !== nextSenderId) avatarIndexes.add(i);
+      console.log(i)
+      i++;
+    }
+    if (messages.length === 1 || (messages[i - 1]?.sender.id !== messages[i]?.sender.id)) avatarIndexes.add(i);
+    console.log(avatarIndexes)
     return (
       <div id="chat-body">
         <ul>
           {messages.map((m, i) => (
             <li key={i} className="chat-box">
               <div className={`chat-message ${user.id === m.sender.id ? "me" : ""}`}>
-                {user.id !== m.sender.id && <div><img src={getProfileImageUrl(m.sender.profileImageUrl)} alt="avatar" /></div>}
+                {user.id !== m.sender.id && <Avatar url={m.sender.profileImageUrl} indexes={avatarIndexes} index={i} />}
                 <div className="message-wrapper" onClick={e => e.target.children[1]?.classList.toggle("hidden")}>
                   <div onClick={e => e.target.parentElement.children[1]?.classList.toggle("hidden")}>{m.message}</div>
                   <div onClick={e => e.target.parentElement.children[1]?.classList.add("hidden")} className="message-time hidden">{formattedDate(m.at)} at {formattedTime(m.at)}</div>
@@ -80,7 +101,7 @@ function ChatWindow({ user }) {
         <ChatWindowBody />
         <div id="chat-footer">
           <form onSubmit={handleSubmit}>
-            <input placeholder="Aa" className="chat-input" value={messageInput} onChange={e => setMessageInput(e.target.value)} type="text" autoComplete='false' />
+            <input placeholder="Aa" className="chat-input" type="text" autoComplete='false' />
           </form>
         </div>
       </div>

@@ -65,6 +65,9 @@
   padding: 10px;
   border-radius: 10px;
   line-break: word-break;
+  word-break: break-all;
+  width: fit-content;
+  max-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
