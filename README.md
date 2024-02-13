@@ -141,6 +141,8 @@
   * Improve user's experience by not having to enter specific latitude and longitude
 * AWS
   * Cloud hosting service for image(s) uploading
+* Socket.io API
+  * Allows real-time notification system and live-chat
 * Multer
   * Middleware to handle multipart/form-data
 * Redux State Hydration
@@ -386,6 +388,32 @@
   * User can easliy select available group's venues from dropdown
 * Edit In-person events
   * Event's type can be changed from 1 type to another and venue will be updated accordingly
+* Global Notification System
+  * Notify the user whenever an event related to the user happens in real-time
+  * Only signed-in users can receive notification
+  * Events include:
+    * General
+      * A group is created - updated - deleted
+      * An event is created - updated - deleted
+    * Membership
+      * Owner/co-hosts are notified whenever a user request to join a group
+      * User gets notified when being accepted into a group, or promoted to co-host
+      * If a user unjoins a group, notify the user and the group owner
+      * If a user is being removed from a group, notify the user
+    * Attendance
+      * Host/co-hosts are notified whenever a user request to attend an event
+      * User gets notified when being accepted into an event's waitlist or accepted to attend the event
+      * If a user unattends an event, notify the user and the event host
+      * If a user is being removed from an event, notify the user
+    * GroupImages
+      * Group's members are notified when a new image is posted or when an image is deleted
+    * EventImages
+      * Event's attendees, host, and co-hosts are notified when a new image is added to an event, or when an image is deleted
+* General Live Chat
+  * Public chat available to all signed-in users
+  * Allows users to chat in real-time
+  * If new messages are received and the chat window is minimize, a signal will be shown to notify the user of new messages
+  * Each message's timestamp can be view by clicking into the message
 
 ## API Documentation
 
