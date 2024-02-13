@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { choosePort } from '../../utils/socket';
@@ -11,8 +11,6 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(sessionActions.sessionUser);
-  const [messages, setMessages] = useState([]);
-  const [messageInput, setMessageInput] = useState([]);
 
   useEffect(() => {
     const setNotification = (notification, msg) => {
@@ -31,8 +29,7 @@ function Navigation({ isLoaded }) {
     socket.on('connect_error', () => setTimeout(() => socket.connect(), 5000));
     socket.on('data_change', notify);
     socket.on('membership', notifyMembership);
-    socket.on('new_general_message', data => sessionUser && setMessages([...messages, data]));
-  }, [sessionUser, messages]);
+  }, [sessionUser]);
 
   return (
     <ul id="header">
@@ -41,7 +38,7 @@ function Navigation({ isLoaded }) {
       </li>
       {!isLoaded && <li><Loading /></li>}
       <div id="notification" className="hidden" onClick={() => window.location.reload()}></div>
-      <ChatWindow user={sessionUser} messages={messages} setMessages={setMessages} messageInput={messageInput} setMessageInput={setMessageInput} />
+      {sessionUser && <ChatWindow user={sessionUser} />}
       <li id="header-right-section">
         {isLoaded &&
           <>
