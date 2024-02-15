@@ -1,30 +1,56 @@
 import { useEffect, useState } from "react";
 import { getProfileImageUrl } from "../../utils/images";
-import { sendGeneralMsg } from "../../utils/socket";
+import { sendGeneralMsg, sendMessageReaction } from "../../utils/socket";
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
 import "./ChatWindow.css"
+import { getEmojis } from "../../utils/emoji";
 
 function ChatWindow({ user, socket }) {
   const [windowOpen, setWindowOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState(false);
+  const [emojis, setEmojis] = useState([]);
 
   const handleSubmit = async e => {
     e.preventDefault();
     const inputMessage = document.querySelector('.chat-input');
-    await sendGeneralMsg(inputMessage.value);
+    await sendGeneralMsg({ messages, new_message: inputMessage.value });
     inputMessage.value = "";
   }
 
+  const reactToMsg = async e => {
+    e.stopPropagation();
+    if (e.target.classList.contains("emoji")) {
+      const emoji = e.target.id;
+      const msgIdx = +e.target.parentElement.id;
+      await sendMessageReaction({ messages, msgIdx, emoji });
+    }
+  }
+
   useEffect(() => {
-    const cb = data => {
-      setMessages(prev => [...prev, data]);
+    const fetchEmojis = async () => {
+      const emojis = await getEmojis();
+      if (emojis) setEmojis(emojis);
+    }
+    fetchEmojis();
+
+    const handleNewMessage = data => {
+      setMessages(data);
+      setNewMsg(true);
+    }
+
+    const handleMessageReaction = data => {
+      setMessages(data);
       setNewMsg(true);
     }
 
     socket.on('connect_error', () => setTimeout(() => socket.connect(), 5000));
-    socket.on('new_general_message', cb);
-    return () => socket.off('new_general_message', cb);
+    socket.on('new_general_message', handleNewMessage);
+    socket.on('message_reaction', handleMessageReaction)
+    return () => {
+      socket.off('new_general_message', handleNewMessage);
+      socket.off('message_reaction', handleMessageReaction);
+    }
   }, [socket]);
 
   useEffect(() => {
@@ -70,6 +96,7 @@ function ChatWindow({ user, socket }) {
       i++;
     }
     if (messages[i - 1]?.sender.id !== messages[i]?.sender.id) avatarIndexes.add(i);
+
     return (
       <div id="chat-body">
         <ul>
@@ -79,7 +106,26 @@ function ChatWindow({ user, socket }) {
                 {user.id !== m.sender.id && <Avatar url={m.sender.profileImageUrl} indexes={avatarIndexes} index={i} />}
                 <div className="message-wrapper" onClick={e => e.target.children[1]?.classList.toggle("hidden")}>
                   <div onClick={e => e.target.parentElement.children[1]?.classList.toggle("hidden")}>{m.message}</div>
-                  <div onClick={e => e.target.parentElement.children[1]?.classList.add("hidden")} className="message-time hidden">{formattedDate(m.at)} at {formattedTime(m.at)}</div>
+                  <div
+                    onClick={e => e.target.parentElement.children[1]?.classList.add("hidden")}
+                    className="message-time hidden"
+                  >
+                    {formattedDate(m.at)} at {formattedTime(m.at)}
+                    <div className="reactions" onClick={reactToMsg} id={m.index}>
+                      {emojis.map(emoji => {
+                        const codePoint = "0x" + emoji.codePoint.split(" ")[0];
+                        return <div id={codePoint} className="emoji" key={emoji.slug}>{String.fromCodePoint(codePoint)}</div>;
+                      })}
+                    </div>
+                  </div>
+                  <div className="emojis-wrapper">{m.emoji &&
+                    <div className="current-reaction" onClick={async e => {
+                      e.stopPropagation();
+                      await sendMessageReaction({ messages, msgIdx: m.index, emoji: "" });
+                    }}
+                    >
+                      {String.fromCodePoint(m.emoji)}</div>}
+                  </div>
                 </div>
               </div>
             </li>

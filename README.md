@@ -1,4 +1,4 @@
-# Meetup Clone
+# Meetup
 
 ## https://meetup-tzx9.onrender.com/
 

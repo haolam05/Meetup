@@ -73,6 +73,7 @@
   align-items: flex-start;
   gap: 2px;
   cursor: pointer;
+  position: relative;
 }
 
 .chat-message div>img {
@@ -118,4 +119,33 @@
 
 .chat-red-circle>.fa-circle:before {
   color: var(--red);
+}
+
+.reactions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1px;
+  flex-wrap: wrap;
+}
+
+.reactions div {
+  font-size: 10pt;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reactions div:hover {
+  font-size: 12pt;
+}
+
+.current-reaction {
+  font-size: 10pt;
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
 }
