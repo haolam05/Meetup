@@ -130,6 +130,9 @@
 ### General Live Chat
 ![alt text](<demo/general live chat.gif>)
 
+### Messages Reaction
+![alt text](<demo/messages reaction.gif>)
+
 ## Techologies
 * PERN Stack
   * Postgres (Sqlite in development)
@@ -422,6 +425,9 @@
   * Allows users to chat in real-time
   * If new messages are received and the chat window is minimize, a signal will be shown to notify the user of new messages
   * Each message's timestamp can be view by clicking into the message
+* Messages Reaction
+  * Users can react to a message with available emojis
+  * Users can un-react by clicking on the reacted-emoji
 
 ## API Documentation
 
