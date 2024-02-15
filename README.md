@@ -149,6 +149,8 @@
   * Cloud hosting service for image(s) uploading
 * Socket.io API
   * Allows real-time notification system and live-chat
+* Open Emoji API
+  * Get a list of emojis to implement message reactions
 * Multer
   * Middleware to handle multipart/form-data
 * Redux State Hydration
