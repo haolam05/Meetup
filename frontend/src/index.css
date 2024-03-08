@@ -67,7 +67,6 @@ button.disabled:hover {
   cursor: not-allowed;
 }
 
-
 .btn-accent {
   background-color: var(--dark-gray);
   color: var(--white);

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { getProfileImageUrl } from "../../utils/images";
 import { sendGeneralMsg, sendMessageReaction } from "../../utils/socket";
 import { formattedDate, formattedTime } from "../../utils/dateFormatter";
-import "./ChatWindow.css"
 import { getEmojis } from "../../utils/emoji";
+import "./ChatWindow.css"
 
 function ChatWindow({ user, socket }) {
   const [windowOpen, setWindowOpen] = useState(false);
