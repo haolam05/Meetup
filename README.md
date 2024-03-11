@@ -2,6 +2,33 @@
 
 ## https://meetup-tzx9.onrender.com/
 
+## Contact Us
+  * https://www.linkedin.com/in/hao-lam-378065196/ (Hao Lam)
+
+### Install dependencies
+  * run `npm install` in the `backend` folder
+  * run `npm install` in the `frontend` folder
+
+### Create and ensure that the .env file has the following fields
+  * PORT
+  * DB_FILE
+  * AWS_ACCESS_KEY_ID
+  * AWS_BUCKET_NAME
+  * AWS_SECRET_ACCESS_KEY
+  * DATABASE_URL
+  * JWT_EXPIRES_IN
+  * JWT_SECRET
+  * MAPS_API_KEY
+  * SCHEMA
+  * OPEN_EMOJI_API_KEY
+
+### Migration & Seeding
+  * run `npm run dbreset` in the root project folder
+
+### Start up the servers
+  * run `npm run dev` in the `frontend` folder
+  * run `npm run dev` in the `backend` folder
+
 ## Database Schema Design
 
 ![meetup-database-schema]
