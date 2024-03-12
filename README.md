@@ -42,7 +42,9 @@
 ![Git](https://img.shields.io/badge/git-%23F05033.svg?logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?logo=github&logoColor=white)
 
+## Installation Guide
 
+### Clone the project
 
 ### Install dependencies
   * run `npm install` in the `backend` folder
