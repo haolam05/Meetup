@@ -1,4 +1,16 @@
-# Meetup
+# MiniMeetup
+
+  - Inspired by the success of Meetup, MiniMeetup aims to replicate its community-building capabilities while emphasizing on providing a simple interface that prioritize user experience and accessibility.
+
+  - MiniMeetup ensures that the users can easily navigate the platform, discover events, and connect with others in their local communities without encountering unnecessary complexities.
+
+  - Users can join groups to engage in events of interest with like-minded individuals. There are specific roles for users in each group and each event. For example, only the group owner and co-hosts can accept a stranger's request to join a group, and only the group owner can delete a group's image.
+
+  - Venues of in-person events are easily viewed via a Google Map interface.
+
+  - Members can post pictures within the groups that they joined or events that they attended. On the other hand, members within MiniMeetup can messaging each other, or advertising their events in the genernal real-time live chat.
+
+  - MiniMeetup's future plans include adding event reviews, group chat, and event-specific chat rooms. These features aim to enhance user engagement and interaction on the platform, fostering stronger connections within communities and during events.
 
 ## Hosted On
 [![Render](https://img.shields.io/badge/Render-%46E3B7.svg?logo=render&logoColor=white)](https://meetup-tzx9.onrender.com/)
